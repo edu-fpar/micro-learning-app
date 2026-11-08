@@ -37,8 +37,10 @@ Cliquez sur les points pour découvrir les bonnes pratiques.
     <p class="hs-hint"><i class="bi bi-cursor-fill"></i> {{t.explored}} <strong><span class="hs-count">0</span> / {{items.length}}</strong></p>
   </div>
   <div class="hs-stage mls-rise" style="animation-delay:.1s">
+    <div class="hs-canvas">
     {{#image}}<img class="hs-img" src="{{src}}" alt="{{alt}}">{{/image}}{{^image}}<div class="hs-img hs-placeholder"></div>{{/image}}
     {{#items}}<button type="button" class="hs-spot" data-i="{{index}}" data-pos="{{termText}}" aria-expanded="false"><span>{{number}}</span></button>{{/items}}
+    </div>
     <div class="hs-pop mls-card" hidden role="dialog" aria-modal="false">
       <button type="button" class="hs-close" aria-label="{{t.closePop}}"><i class="bi bi-x-lg"></i></button>
       <div class="hs-pop-body" data-mls-speak></div>
@@ -47,6 +49,7 @@ Cliquez sur les points pour découvrir les bonnes pratiques.
   <template class="hs-data">{{#items}}<div data-i="{{index}}"><h3>{{{def}}}</h3>{{{extra}}}{{{sub}}}</div>{{/items}}</template>
 </div>`,
   css: `:scope .hs-hint { color: var(--mls-muted); }
+:scope .hs-canvas { position: relative; }
 :scope .hs-stage { position: relative; border-radius: 22px; box-shadow: var(--mls-shadow); background: var(--mls-surface); }
 :scope .hs-img { display: block; width: 100%; border-radius: 22px; }
 :scope .hs-placeholder { aspect-ratio: 16 / 9; background: repeating-linear-gradient(45deg, var(--mls-soft) 0 20px, var(--mls-surface) 20px 40px); }
@@ -63,7 +66,8 @@ Cliquez sur les points pour découvrir les bonnes pratiques.
 @keyframes hs-pulse { 0% { transform: scale(.8); opacity: 1; } 100% { transform: scale(1.5); opacity: 0; } }
 @container slide (max-width: 640px) {
   :scope .hs-spot { width: 32px; height: 32px; font-size: .85rem; }
-  :scope .hs-pop { position: relative; left: auto !important; top: auto !important; width: auto; margin: .6rem; box-shadow: none; border: 2px solid var(--mls-soft); }
+  /* sur mobile, la bulle passe sous l'image : elle ne masque plus aucun point */
+  :scope .hs-pop { position: relative; left: auto !important; right: auto !important; top: auto !important; width: auto; margin: .6rem; box-shadow: none; border: 2px solid var(--mls-soft); }
 }`,
   js: `var stage = root.querySelector('.hs-stage');
 var spots = [].slice.call(root.querySelectorAll('.hs-spot'));
@@ -98,6 +102,7 @@ function open(i) {
   seen[i] = true;
   s.classList.add('is-seen');
   count.textContent = Object.keys(seen).length;
+  if (getComputedStyle(pop).position !== 'absolute') pop.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
   ctx.speakable(body);
   ctx.announce(body.textContent.trim());
   ctx.speak(body);

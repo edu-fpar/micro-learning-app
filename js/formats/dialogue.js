@@ -43,7 +43,7 @@ MLS.formats.register({
 :scope .dlg-who { display: flex; flex-direction: column; align-items: center; gap: .3rem; flex: none; width: 110px; }
 :scope .dlg-who .mls-avatar { width: 100px; height: 100px; }
 :scope .dlg-name { font-weight: 700; font-size: .85rem; text-align: center; }
-:scope .dlg-bubble { position: relative; background: var(--mls-surface); border-radius: 22px; padding: 1rem 1.25rem; box-shadow: var(--mls-shadow);
+:scope .dlg-bubble { position: relative; min-width: 0; overflow-wrap: anywhere; background: var(--mls-surface); border-radius: 22px; padding: 1rem 1.25rem; box-shadow: var(--mls-shadow);
   font-size: clamp(1.02rem, 1.9cqw, 1.22rem); line-height: 1.55; max-width: 70ch; }
 :scope .dlg-bubble p:last-child { margin-bottom: 0; }
 :scope .side-right .mls-speak-btn { background: transparent; color: #fff; border-color: rgba(255,255,255,.5); }
