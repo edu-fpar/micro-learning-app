@@ -27,6 +27,13 @@
     .doc-lang { display: flex; background: rgba(255,255,255,.08); border-radius: 10px; padding: 3px; margin-left: auto; }
     .doc-lang button { border: 0; background: none; color: rgba(255,255,255,.75); padding: .25rem .7rem; border-radius: 8px; font-weight: 700; font-size: .85rem; }
     .doc-lang button[aria-pressed="true"] { background: #fff; color: var(--st-nav); }
+    .docs-shot { margin: 1.25rem 0 0; }
+    .docs-shot img { display: block; max-width: 100%; height: auto; border-radius: 12px; box-shadow: 0 10px 30px rgba(30, 20, 80, .16); }
+    .docs-shot figcaption { font-size: .85rem; color: var(--bs-secondary-color); margin-top: .6rem; text-align: center; }
+    .docs-shots { display: flex; gap: 1rem; align-items: flex-start; }
+    .docs-shots .wide { flex: 3 1 0; min-width: 0; }
+    .docs-shots .phone { flex: 1 1 0; min-width: 0; }
+    @media (max-width: 575px) { .docs-shots { flex-direction: column; align-items: center; } .docs-shots .phone { max-width: 260px; } }
   </style>
 </head>
 <body class="docs">
@@ -50,6 +57,7 @@
     <p class="lead text-secondary">Sept formats qui transforment une liste en schéma à explorer : chaque partie se découvre au clic, et une synthèse n'apparaît qu'une fois tout exploré.</p>
     <div class="alert alert-warning small"><i class="bi bi-cone-striped"></i> <strong>Version bêta</strong> : ces formats sont en test. Leur syntaxe pourrait encore évoluer et l'affichage sur mobile est en cours d'amélioration (notamment la synthèse, qui s'affiche sous le schéma).</div>
     <p>Pour les voir en action : dans le Studio, <em>Fichier → Test : schémas interactifs (FR)</em> (ou EN).</p>
+    <figure class="docs-shot"><div class="docs-shots"><img class="wide" src="images/diagram-fr.webp" alt="Le cycle de Kolb : 3 étapes sur 4 explorées, le détail de l'étape choisie à droite" loading="lazy" width="1280" height="800"><img class="phone" src="images/mobile-diagram-fr.webp" alt="La pyramide de Bloom sur téléphone" loading="lazy" width="780" height="1410"></div><figcaption>Le cycle de Kolb sur ordinateur et la pyramide de Bloom sur téléphone.</figcaption></figure>
 
     <h2><i class="bi bi-markdown"></i> Une syntaxe commune</h2>
     <div class="docs-card">
@@ -99,6 +107,7 @@ Une phrase d'introduction (facultative).
     <p class="lead text-secondary">Seven formats that turn a list into a diagram to explore: each part is revealed on click, and a takeaway only appears once everything has been explored.</p>
     <div class="alert alert-warning small"><i class="bi bi-cone-striped"></i> <strong>Beta</strong>: these formats are being tested. Their syntax may still change and the mobile layout is being improved (especially the takeaway, shown below the diagram).</div>
     <p>To see them in action: in the Studio, <em>File → Test: interactive diagrams (EN)</em> (or FR).</p>
+    <figure class="docs-shot"><div class="docs-shots"><img class="wide" src="images/diagram-en.webp" alt="Kolb's learning cycle: 3 of 4 steps explored, the selected step's detail on the right" loading="lazy" width="1280" height="800"><img class="phone" src="images/mobile-diagram-en.webp" alt="Bloom's taxonomy pyramid on a phone" loading="lazy" width="780" height="1410"></div><figcaption>Kolb's cycle on a computer and Bloom's pyramid on a phone.</figcaption></figure>
 
     <h2><i class="bi bi-markdown"></i> A shared syntax</h2>
     <div class="docs-card">

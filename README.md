@@ -8,6 +8,8 @@ Turn a structured Markdown course into an **interactive, responsive slideshow** 
 
 **▶ Try it:** https://fxpar.github.io/micro-learning-app/ &nbsp;·&nbsp; [Documentation](https://fxpar.github.io/micro-learning-app/docs/?lang=en) &nbsp;·&nbsp; [AI skill page](docs/skill-en.md)
 
+![The Studio: Markdown on the left, live preview of the slide under the cursor on the right](docs/images/studio-en.webp)
+
 ---
 
 ## Features
@@ -32,6 +34,17 @@ Turn a structured Markdown course into an **interactive, responsive slideshow** 
 - Courses in several modules (course progress, next module) and chapters
 - Interface in **French and English** (driven by the course `lang`)
 - Accessibility-minded: keyboard navigation, ARIA, focus management, `prefers-reduced-motion`
+
+<p align="center">
+  <img src="docs/images/welcome-en.webp" alt="Welcome screen: the learner picks a character for each role and a voice" width="68%">
+  &nbsp;
+  <img src="docs/images/mobile-cards-en.webp" alt="Flip cards on a phone" width="24%">
+</p>
+<p align="center">
+  <img src="docs/images/diagram-en.webp" alt="Beta interactive diagram: Kolb's learning cycle, 3 of 4 steps explored" width="68%">
+  &nbsp;
+  <img src="docs/images/mobile-diagram-en.webp" alt="Beta interactive diagram on a phone: Bloom's taxonomy pyramid" width="24%">
+</p>
 
 ## Markdown syntax at a glance
 

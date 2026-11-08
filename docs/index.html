@@ -25,6 +25,13 @@
     .doc-lang { display: flex; background: rgba(255,255,255,.08); border-radius: 10px; padding: 3px; margin-left: auto; }
     .doc-lang button { border: 0; background: none; color: rgba(255,255,255,.75); padding: .25rem .7rem; border-radius: 8px; font-weight: 700; font-size: .85rem; }
     .doc-lang button[aria-pressed="true"] { background: #fff; color: var(--st-nav); }
+    .docs-shot { margin: 1.25rem 0 0; }
+    .docs-shot img { display: block; max-width: 100%; height: auto; border-radius: 12px; box-shadow: 0 10px 30px rgba(30, 20, 80, .16); }
+    .docs-shot figcaption { font-size: .85rem; color: var(--bs-secondary-color); margin-top: .6rem; text-align: center; }
+    .docs-shots { display: flex; gap: 1rem; align-items: flex-start; }
+    .docs-shots .wide { flex: 3 1 0; min-width: 0; }
+    .docs-shots .phone { flex: 1 1 0; min-width: 0; }
+    @media (max-width: 575px) { .docs-shots { flex-direction: column; align-items: center; } .docs-shots .phone { max-width: 260px; } }
   </style>
 </head>
 <body class="docs">
@@ -86,6 +93,7 @@
         <li class="mb-2"><strong>Vérifiez</strong> le rendu dans l'aperçu à droite. Basculez entre les vues <i class="bi bi-display"></i> bureau, <i class="bi bi-tablet"></i> tablette et <i class="bi bi-phone"></i> mobile. L'aperçu suit la slide où se trouve votre curseur. Le bouton <i class="bi bi-plus-square"></i> <em>Insérer une slide</em> ajoute un modèle prêt à remplir.</li>
         <li><strong>Exportez</strong> avec le bouton <i class="bi bi-box-arrow-down"></i> <em>Exporter</em> et partagez le module.</li>
       </ol>
+      <figure class="docs-shot"><img src="images/studio-fr.webp" alt="Le Studio : éditeur Markdown à gauche, aperçu de la slide à droite" loading="lazy" width="1440" height="900"><figcaption>Le Studio : le curseur est sur la slide de dialogue, l'aperçu l'affiche aussitôt.</figcaption></figure>
     </div>
 
     <h2 id="syntaxe"><i class="bi bi-markdown"></i> 3. La syntaxe en bref</h2>
@@ -141,6 +149,7 @@ Une phrase d'accroche.
         </table>
       </div>
       <p class="mt-3 mb-0"><span class="badge text-bg-warning">bêta</span> <strong>Nouveau :</strong> 7 schémas interactifs (puzzle, pyramide, entonnoir, cycle, processus, matrice, concept central). <a href="beta.html?lang=fr">Découvrir les formats bêta <i class="bi bi-arrow-right"></i></a></p>
+      <figure class="docs-shot"><div class="docs-shots"><img class="wide" src="images/quiz-fr.webp" alt="Un quiz sur ordinateur, avec la réponse et son explication" loading="lazy" width="1280" height="800"><img class="phone" src="images/mobile-cards-fr.webp" alt="Des cartes à retourner sur téléphone" loading="lazy" width="780" height="1410"></div><figcaption>Le même module sur ordinateur (quiz) et sur téléphone (cartes à retourner).</figcaption></figure>
     </div>
 
     <h2 id="personnages"><i class="bi bi-people"></i> 5. Les personnages</h2>
@@ -200,6 +209,7 @@ next:
     <h2 id="lab"><i class="bi bi-palette"></i> 10. Créer ses propres formats</h2>
     <div class="docs-card">
       <p class="mb-0">Le <a href="../lab.html">Format Lab</a> permet de modifier les formats existants ou d'en créer de nouveaux (gabarit HTML, CSS, script, textes FR/EN), avec un test en direct sur bureau et mobile et dans chaque langue. Les formats enregistrés apparaissent aussitôt dans le Studio et sont inclus dans les exports. L'onglet <em>Aide</em> du Lab détaille tout ce qui est disponible.</p>
+      <figure class="docs-shot"><img src="images/lab-fr.webp" alt="Le Format Lab : liste des formats, code du gabarit et test en direct" loading="lazy" width="1440" height="900"><figcaption>Le Format Lab : la liste des formats, le gabarit HTML du format « Couverture » et son test en direct.</figcaption></figure>
     </div>
   </main>
 
@@ -248,6 +258,7 @@ next:
         <li class="mb-2"><strong>Check</strong> the result in the preview on the right. Switch between <i class="bi bi-display"></i> desktop, <i class="bi bi-tablet"></i> tablet and <i class="bi bi-phone"></i> mobile views. The preview follows the slide where your cursor is. The <i class="bi bi-plus-square"></i> <em>Insert a slide</em> button adds a ready-to-fill template.</li>
         <li><strong>Export</strong> with the <i class="bi bi-box-arrow-down"></i> <em>Export</em> button and share the module.</li>
       </ol>
+      <figure class="docs-shot"><img src="images/studio-en.webp" alt="The Studio: Markdown editor on the left, slide preview on the right" loading="lazy" width="1440" height="900"><figcaption>The Studio: the cursor is on the dialogue slide, and the preview shows it straight away.</figcaption></figure>
     </div>
 
     <h2 id="syntax-en"><i class="bi bi-markdown"></i> 3. Syntax at a glance</h2>
@@ -303,6 +314,7 @@ A catchy sentence.
         </table>
       </div>
       <p class="mt-3 mb-0"><span class="badge text-bg-warning">beta</span> <strong>New:</strong> 7 interactive diagrams (puzzle, pyramid, funnel, cycle, process, matrix, central concept). <a href="beta.html?lang=en">Discover the beta formats <i class="bi bi-arrow-right"></i></a></p>
+      <figure class="docs-shot"><div class="docs-shots"><img class="wide" src="images/quiz-en.webp" alt="A quiz on a computer, with the answer and its explanation" loading="lazy" width="1280" height="800"><img class="phone" src="images/mobile-cards-en.webp" alt="Flip cards on a phone" loading="lazy" width="780" height="1410"></div><figcaption>The same module on a computer (quiz) and on a phone (flip cards).</figcaption></figure>
     </div>
 
     <h2 id="characters-en"><i class="bi bi-people"></i> 5. Characters</h2>
@@ -362,6 +374,7 @@ next:
     <h2 id="lab-en"><i class="bi bi-palette"></i> 10. Create your own formats</h2>
     <div class="docs-card">
       <p class="mb-0">The <a href="../lab.html">Format Lab</a> lets you edit the existing formats or create new ones (HTML template, CSS, script, FR/EN texts), with a live test on desktop and mobile and in each language. Saved formats appear straight away in the Studio and are included in exports. The Lab <em>Help</em> tab describes everything available.</p>
+      <figure class="docs-shot"><img src="images/lab-en.webp" alt="The Format Lab: format list, template code and live test" loading="lazy" width="1440" height="900"><figcaption>The Format Lab: the format list, the HTML template of the “Cover” format and its live test.</figcaption></figure>
     </div>
   </main>
 

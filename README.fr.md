@@ -8,6 +8,8 @@ Transformez un cours écrit en Markdown structuré en **slideshow interactif et 
 
 **▶ Essayer :** https://fxpar.github.io/micro-learning-app/ &nbsp;·&nbsp; [Documentation](https://fxpar.github.io/micro-learning-app/docs/?lang=fr) &nbsp;·&nbsp; [Page pour les IA](docs/skill.md)
 
+![Le Studio : le Markdown à gauche, l'aperçu en direct de la slide sous le curseur à droite](docs/images/studio-fr.webp)
+
 ---
 
 ## Fonctionnalités
@@ -32,6 +34,17 @@ Transformez un cours écrit en Markdown structuré en **slideshow interactif et 
 - Parcours en plusieurs modules (progression, module suivant) et chapitres
 - Interface en **français et en anglais** (selon le champ `lang` du cours)
 - Pensé pour l'accessibilité : navigation au clavier, ARIA, gestion du focus, `prefers-reduced-motion`
+
+<p align="center">
+  <img src="docs/images/welcome-fr.webp" alt="Écran d'accueil : l'apprenant choisit un personnage pour chaque rôle et une voix" width="68%">
+  &nbsp;
+  <img src="docs/images/mobile-cards-fr.webp" alt="Cartes à retourner sur téléphone" width="24%">
+</p>
+<p align="center">
+  <img src="docs/images/diagram-fr.webp" alt="Schéma interactif (bêta) : le cycle de Kolb, 3 étapes sur 4 explorées" width="68%">
+  &nbsp;
+  <img src="docs/images/mobile-diagram-fr.webp" alt="Schéma interactif (bêta) sur téléphone : la pyramide de Bloom" width="24%">
+</p>
 
 ## La syntaxe en bref
 
