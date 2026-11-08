@@ -13,6 +13,18 @@ MLS.formats.register({
 > Euh… non, jamais. C’est vraiment utile ?
 
 > @mentor(happy): Indispensable ! Beaucoup de personnes ne peuvent pas utiliser de souris.`,
+  i18n: {
+    "fr": {
+      "more": "Suite"
+    },
+    "en": {
+      "more": "Continue",
+      "$name": "Character dialogue",
+      "$category": "Characters",
+      "$description": "Speech bubbles between characters. Each \"> \" quote is a line; switch speaker with <!-- character-role: … --> or \"> @peer: …\". Lines appear one by one.",
+      "$sample": "<!-- character-role: mentor -->\n### An everyday situation\n> Hi! Have you ever tried browsing a website with the keyboard only?\n\n<!-- character-role: peer -->\n<!-- character-expression: surprised -->\n> Hmm… no, never. Is it really useful?\n\n> @mentor(happy): Essential! Many people cannot use a mouse."
+    }
+  },
   template: `<div class="dlg">
   {{#title}}<h2 class="mls-title">{{{titleHtml}}}</h2>{{/title}}
   {{#hasText}}<div class="mls-prose dlg-intro">{{{text}}}</div>{{/hasText}}
@@ -22,7 +34,7 @@ MLS.formats.register({
       <div class="dlg-bubble" data-mls-speak="always" data-mls-speak-role="{{role}}">{{#character}}<span class="dlg-role" data-mls-nospeak>{{label}}</span>{{/character}}{{{html}}}</div>
     </div>{{/lines}}
   </div>
-  {{#lines.1}}<div class="dlg-actions"><button class="mls-btn dlg-more" type="button"><i class="bi bi-chat-dots"></i> Suite</button></div>{{/lines.1}}
+  {{#lines.1}}<div class="dlg-actions"><button class="mls-btn dlg-more" type="button"><i class="bi bi-chat-dots"></i> {{t.more}}</button></div>{{/lines.1}}
 </div>`,
   css: `:scope .dlg-lines { display: flex; flex-direction: column; gap: 1.1rem; }
 :scope .dlg-line { display: flex; gap: 1rem; align-items: flex-end; animation: dlg-in .45s cubic-bezier(.2,.9,.3,1.2) both; }

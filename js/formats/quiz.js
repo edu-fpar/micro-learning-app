@@ -13,23 +13,49 @@ MLS.formats.register({
 - [ ] aria-hidden :: Au contraire, il masque l’élément !
 
 > Une image décorative doit avoir un alt vide : alt="".`,
+  i18n: {
+    "fr": {
+      "quiz": "Quiz",
+      "multiple": "plusieurs réponses possibles",
+      "choices": "Propositions de réponse",
+      "validate": "Valider",
+      "retry": "Réessayer",
+      "correct": "Bonne réponse !",
+      "wrong": "Pas tout à fait…",
+      "noCorrect": "Aucune bonne réponse : cochez-en au moins une avec « - [x] »."
+    },
+    "en": {
+      "quiz": "Quiz",
+      "multiple": "several answers possible",
+      "choices": "Answer options",
+      "validate": "Check",
+      "retry": "Try again",
+      "correct": "Correct!",
+      "wrong": "Not quite…",
+      "noCorrect": "No correct answer: tick at least one with \"- [x]\".",
+      "$name": "Interactive quiz",
+      "$category": "Assessment",
+      "$description": "Multiple choice: \"- [x]\" = correct, \"- [ ]\" = wrong. Several [x] => multiple answers with a Check button. Add \":: explanation\" to an answer, and a \"> \" quote for general feedback. The character reacts to the answer.",
+      "$sample": "<!-- character-role: mentor -->\n<!-- character-expression: thinking -->\n### Which attribute describes an image for screen readers?\n- [ ] title :: The title is not read reliably.\n- [x] alt :: Exactly: the text alternative is read instead of the image.\n- [ ] src\n- [ ] aria-hidden :: On the contrary, it hides the element!\n\n> A decorative image must have an empty alt: alt=\"\"."
+    }
+  },
   template: `<div class="quiz{{#multiple}} is-multiple{{/multiple}}">
   <div class="quiz-head mls-rise">
     {{#character}}<div class="quiz-who">{{{avatar}}}</div>{{/character}}
     <div class="quiz-q mls-card">
-      <span class="quiz-badge"><i class="bi bi-patch-question-fill"></i> Quiz{{#multiple}} · plusieurs réponses possibles{{/multiple}}</span>
+      <span class="quiz-badge"><i class="bi bi-patch-question-fill"></i> {{t.quiz}}{{#multiple}} · {{t.multiple}}{{/multiple}}</span>
       <h2 class="mls-title">{{{titleHtml}}}</h2>
       {{#hasText}}<div class="mls-prose" data-mls-speak data-mls-speak-role="{{role}}">{{{text}}}</div>{{/hasText}}
     </div>
   </div>
-  <div class="quiz-choices" role="group" aria-label="Propositions de réponse">
+  <div class="quiz-choices" role="group" aria-label="{{t.choices}}">
     {{#items}}<button type="button" class="quiz-choice mls-rise" style="animation-delay:calc({{index}} * .07s + .15s)" data-i="{{index}}" aria-pressed="false">
       <span class="quiz-letter" aria-hidden="true"></span><span class="quiz-label">{{{term}}}</span><i class="bi quiz-mark" aria-hidden="true"></i>
     </button>{{/items}}
   </div>
   <div class="quiz-actions">
-    {{#multiple}}<button class="mls-btn quiz-validate" type="button" disabled><i class="bi bi-check2-square"></i> Valider</button>{{/multiple}}
-    <button class="mls-btn mls-btn-ghost quiz-retry" type="button" hidden><i class="bi bi-arrow-repeat"></i> Réessayer</button>
+    {{#multiple}}<button class="mls-btn quiz-validate" type="button" disabled><i class="bi bi-check2-square"></i> {{t.validate}}</button>{{/multiple}}
+    <button class="mls-btn mls-btn-ghost quiz-retry" type="button" hidden><i class="bi bi-arrow-repeat"></i> {{t.retry}}</button>
   </div>
   <div class="quiz-feedback mls-card" hidden data-mls-speak data-mls-speak-role="{{role}}">
     <div class="quiz-verdict"></div>
@@ -90,7 +116,7 @@ var locked = false;
 ctx.gradable();
 
 if (!data.correctCount && ctx.mode !== 'standalone') {
-  root.insertAdjacentHTML('afterbegin', '<div class="mls-error">Aucune bonne réponse : cochez-en au moins une avec « - [x] ».</div>');
+  root.insertAdjacentHTML('afterbegin', '<div class="mls-error">' + ctx.t('noCorrect') + '</div>');
 }
 
 function selected() {
@@ -110,7 +136,7 @@ function check() {
     c.classList.add(it.checked ? 'is-correct' : (picked ? 'is-wrong' : 'is-dim'));
     if (it.hasDef && (picked || it.checked)) notes += '<li><strong>' + it.term + '</strong> — ' + it.def + '</li>';
   });
-  verdict.innerHTML = ok ? '<i class="bi bi-emoji-smile-fill"></i> Bonne réponse !' : '<i class="bi bi-emoji-frown-fill"></i> Pas tout à fait…';
+  verdict.innerHTML = ok ? '<i class="bi bi-emoji-smile-fill"></i> ' + ctx.t('correct') : '<i class="bi bi-emoji-frown-fill"></i> ' + ctx.t('wrong');
   explain.innerHTML = notes;
   fb.classList.toggle('ok', ok);
   fb.classList.toggle('ko', !ok);

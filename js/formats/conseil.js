@@ -11,10 +11,22 @@ MLS.formats.register({
 Débranchez votre souris et parcourez votre page avec **Tab**, **Maj+Tab** et **Entrée**.
 
 > Si vous ne voyez pas où se trouve le focus, c’est un problème !`,
+  i18n: {
+    "fr": {
+      "badge": "Conseil"
+    },
+    "en": {
+      "badge": "Tip",
+      "$name": "Character tip",
+      "$category": "Characters",
+      "$description": "A \"tip\" box presented by a character. Customise the badge with <!-- badge: … -->.",
+      "$sample": "<!-- character-role: mentor -->\n<!-- character-expression: encouraging -->\n<!-- badge: Pro tip -->\n### Test with the keyboard\nUnplug your mouse and browse your page with **Tab**, **Shift+Tab** and **Enter**.\n\n> If you cannot see where the focus is, that is a problem!"
+    }
+  },
   template: `<div class="tip">
   {{#character}}<div class="tip-who mls-rise">{{{avatar}}}<div class="tip-name">{{{nameTag}}}<small>{{label}}</small></div></div>{{/character}}
   <div class="tip-card mls-card mls-rise" style="animation-delay:.1s">
-    <span class="tip-badge"><i class="bi bi-lightbulb-fill"></i> {{#meta.badge}}{{meta.badge}}{{/meta.badge}}{{^meta.badge}}Conseil{{/meta.badge}}</span>
+    <span class="tip-badge"><i class="bi bi-lightbulb-fill"></i> {{#meta.badge}}{{meta.badge}}{{/meta.badge}}{{^meta.badge}}{{t.badge}}{{/meta.badge}}</span>
     {{#title}}<h2 class="mls-title">{{{titleHtml}}}</h2>{{/title}}
     <div class="mls-prose" data-mls-speak data-mls-speak-role="{{role}}">{{{body}}}</div>
   </div>

@@ -14,7 +14,7 @@
   function custom() { return MLS.store.get(KEY, {}) || {}; }
 
   MLS.formats = {
-    FIELDS: ['id', 'name', 'icon', 'category', 'description', 'sample', 'template', 'css', 'js'],
+    FIELDS: ['id', 'name', 'icon', 'category', 'description', 'sample', 'template', 'css', 'js', 'i18n'],
 
     register: function (def) {
       def.builtin = true;
@@ -28,7 +28,12 @@
     all: function () {
       var c = custom();
       var list = order.map(function (id) {
-        if (c[id]) { var o = MLS.util.clone(c[id]); o.builtin = true; o.modified = true; return o; }
+        if (c[id]) {
+          var o = MLS.util.clone(c[id]);
+          o.builtin = true; o.modified = true;
+          if (!o.i18n && builtins[id].i18n) o.i18n = MLS.util.clone(builtins[id].i18n); // anciennes surcharges
+          return o;
+        }
         return MLS.util.clone(builtins[id]);
       });
       Object.keys(c).forEach(function (id) {
@@ -62,6 +67,16 @@
       MLS.store.set(KEY, c);
     },
 
-    isBuiltin: function (id) { return !!builtins[id]; }
+    isBuiltin: function (id) { return !!builtins[id]; },
+
+    /**
+     * Champ localisé d'un format : i18n[lang].$name / $description / $sample / $category,
+     * sinon le champ de base (rédigé en français pour les formats intégrés).
+     */
+    text: function (f, field, lang) {
+      var l = MLS.i18n.pick(lang);
+      var tr = f.i18n && f.i18n[l];
+      return (tr && tr['$' + field] != null) ? tr['$' + field] : (f[field] || '');
+    }
   };
 })(window.MLS);

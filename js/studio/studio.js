@@ -6,6 +6,12 @@
 
   var U = MLS.util, ui = MLS.ui;
   var $ = function (id) { return document.getElementById(id); };
+  var LANG = MLS.i18n.uiLang();
+  var T = MLS.i18n.translator(LANG);
+  var esc = U.escapeHtml;
+
+  MLS.i18n.apply(document, LANG);
+  MLS.i18n.mountSwitcher($('lang-switch'));
 
   var editor = $('editor');
   var iframe = $('preview');
@@ -19,29 +25,26 @@
     errors: {}
   };
 
-  var NEW_COURSE = [
-    '---',
-    'title: "Mon nouveau module"',
-    'description: "Décrivez en une phrase ce que l’apprenant va découvrir."',
-    'duration: 5 min',
-    'theme: violet',
-    'characters:',
-    '  mentor: "Le Guide Pédagogique"',
-    '---',
-    '',
-    '<!-- slide: format-title -->',
-    '<!-- character-role: mentor -->',
-    '<!-- character-expression: happy -->',
-    '### Bienvenue !',
-    'Une phrase d’accroche pour donner envie.',
-    '',
-    '---',
-    '',
-    '<!-- slide: format-content -->',
-    '### Première notion',
-    'Votre contenu ici…',
-    ''
-  ].join('\n');
+  var NEW_COURSE = {
+    fr: [
+      '---', 'title: "Mon nouveau module"', 'description: "Décrivez en une phrase ce que l’apprenant va découvrir."',
+      'duration: 5 min', 'lang: fr', 'theme: violet', 'characters:', '  mentor: "Le Guide Pédagogique"', '---', '',
+      '<!-- slide: format-title -->', '<!-- character-role: mentor -->', '<!-- character-expression: happy -->',
+      '### Bienvenue !', 'Une phrase d’accroche pour donner envie.', '', '---', '',
+      '<!-- slide: format-content -->', '### Première notion', 'Votre contenu ici…', ''
+    ].join('\n'),
+    en: [
+      '---', 'title: "My new module"', 'description: "Describe in one sentence what the learner will discover."',
+      'duration: 5 min', 'lang: en', 'theme: violet', 'characters:', '  mentor: "The Guide"', '---', '',
+      '<!-- slide: format-title -->', '<!-- character-role: mentor -->', '<!-- character-expression: happy -->',
+      '### Welcome!', 'A catchy sentence to spark curiosity.', '', '---', '',
+      '<!-- slide: format-content -->', '### First concept', 'Your content here…', ''
+    ].join('\n')
+  };
+
+  function sample() { return (MLS.samples && (MLS.samples[LANG] || MLS.samples.fr)) || MLS.sampleCourse; }
+  function courseLang() { return MLS.i18n.pick((state.course && state.course.meta.lang) || 'fr'); }
+  function savedBadge(key) { return '<span class="ok"><i class="bi bi-cloud-check"></i> ' + T(key) + '</span>'; }
 
   /* ------------------------------------------------------------ Aperçu */
 
@@ -80,17 +83,19 @@
 
   function renderDiagnostics() {
     var diag = $('diag');
-    var items = (state.course ? state.course.warnings : []).slice();
+    var items = (state.course ? state.course.warnings : []).map(function (w) {
+      return { slide: w.slide, line: w.line, msg: w.code ? T('w.' + w.code, w.params) : w.msg };
+    });
     Object.keys(state.errors).forEach(function (k) {
       var er = state.errors[k];
       var sl = state.course && state.course.slides[er.slide];
-      items.push({ slide: er.slide, line: sl && sl.line, msg: 'Erreur de ' + er.kind + ' : ' + er.message });
+      items.push({ slide: er.slide, line: sl && sl.line, msg: T('s.errorOf', { kind: T('s.kind.' + er.kind), msg: er.message }) });
     });
     diag.innerHTML = '';
     items.forEach(function (w) {
       var b = document.createElement('button');
       b.type = 'button';
-      b.innerHTML = '<i class="bi bi-exclamation-triangle"></i><span>' + (w.slide >= 0 ? '<strong>Slide ' + (w.slide + 1) + '</strong> · ' : '') + U.escapeHtml(w.msg) + '</span>';
+      b.innerHTML = '<i class="bi bi-exclamation-triangle"></i><span>' + (w.slide >= 0 ? '<strong>' + esc(T('s.slideStatus', { n: w.slide + 1, total: state.course.slides.length })) + '</strong> · ' : '') + esc(w.msg) + '</span>';
       b.addEventListener('click', function () { if (w.line) gotoLine(w.line); });
       diag.appendChild(b);
     });
@@ -114,9 +119,9 @@
     var line = editor.value.slice(0, pos).split('\n').length;
     var n = state.course.slides.length;
     var sl = state.course.slides[idx];
-    $('st-slide').innerHTML = '<i class="bi bi-collection"></i> Slide ' + (n ? idx + 1 : 0) + ' / ' + n +
-      (sl ? ' · <code>' + U.escapeHtml(sl.format) + '</code>' : '');
-    $('st-line').textContent = 'Ligne ' + line;
+    $('st-slide').innerHTML = '<i class="bi bi-collection"></i> ' + esc(T('s.slideStatus', { n: n ? idx + 1 : 0, total: n })) +
+      (sl ? ' · <code>' + esc(sl.format) + '</code>' : '');
+    $('st-line').textContent = T('s.line', { n: line });
     if (idx !== state.cursorSlide) {
       state.cursorSlide = idx;
       if ($('act-sync').checked && state.ready) send(iframe.contentWindow, { type: 'mls:goto', index: idx });
@@ -125,12 +130,12 @@
 
   var saveDraft = U.debounce(function () {
     var ok = MLS.store.set('draft', editor.value);
-    $('st-saved').innerHTML = ok ? '<span class="ok"><i class="bi bi-cloud-check"></i> Brouillon enregistré</span>'
-      : '<span class="text-danger"><i class="bi bi-exclamation-octagon"></i> Stockage plein : exportez votre Markdown</span>';
+    $('st-saved').innerHTML = ok ? savedBadge('s.draftSaved')
+      : '<span class="text-danger"><i class="bi bi-exclamation-octagon"></i> ' + T('s.storageFull') + '</span>';
   }, 600);
 
   editor.addEventListener('input', function () {
-    $('st-saved').textContent = 'Modification…';
+    $('st-saved').textContent = T('s.editing');
     analyse();
     loadPreviewSoon();
     saveDraft();
@@ -138,7 +143,7 @@
   ['keyup', 'click', 'select'].forEach(function (ev) { editor.addEventListener(ev, updateCursorInfo); });
   ui.codeArea(editor);
 
-  function setContent(md, opts) {
+  function setContent(md) {
     editor.value = md;
     state.cursorSlide = 0;
     editor.setSelectionRange(0, 0);
@@ -146,35 +151,37 @@
     analyse();
     loadPreview({ index: 0 });
     MLS.store.set('draft', md);
-    if (!(opts && opts.silent)) $('st-saved').innerHTML = '<span class="ok"><i class="bi bi-cloud-check"></i> Brouillon enregistré</span>';
+    $('st-saved').innerHTML = savedBadge('s.draftSaved');
   }
 
   /* ------------------------------------------------ Insertion de formats */
 
   function renderFormatMenu() {
     var menu = $('format-menu');
-    menu.innerHTML = '<h6 class="dropdown-header">Formats disponibles</h6>';
+    menu.innerHTML = '<h6 class="dropdown-header">' + T('s.formatsHeader') + '</h6>';
     state.formats.forEach(function (f) {
+      var name = MLS.formats.text(f, 'name', LANG), desc = MLS.formats.text(f, 'description', LANG);
       var b = document.createElement('button');
       b.className = 'dropdown-item';
       b.type = 'button';
-      b.innerHTML = '<i class="bi ' + U.escapeHtml(f.icon || 'bi-square') + '"></i><span><strong>' + U.escapeHtml(f.name) + '</strong>' +
-        (f.builtin ? '' : ' <span class="badge text-bg-warning">perso</span>') +
-        '<small>' + U.escapeHtml((f.description || '').slice(0, 110)) + ((f.description || '').length > 110 ? '…' : '') + '</small></span>';
+      b.innerHTML = '<i class="bi ' + esc(f.icon || 'bi-square') + '"></i><span><strong>' + esc(name) + '</strong>' +
+        (f.builtin ? '' : ' <span class="badge text-bg-warning">' + T('c.custom') + '</span>') +
+        '<small>' + esc(desc.slice(0, 110)) + (desc.length > 110 ? '…' : '') + '</small></span>';
       b.addEventListener('click', function () { insertSlide(f); });
       menu.appendChild(b);
     });
-    menu.insertAdjacentHTML('beforeend', '<div class="dropdown-divider"></div><a class="dropdown-item" href="lab.html"><i class="bi bi-palette"></i><span><strong>Créer un format…</strong><small>Ouvrir le Format Lab</small></span></a>');
+    menu.insertAdjacentHTML('beforeend', '<div class="dropdown-divider"></div><a class="dropdown-item" href="lab.html"><i class="bi bi-palette"></i><span><strong>' +
+      T('s.createFormat') + '</strong><small>' + T('s.openLab') + '</small></span></a>');
   }
 
   function insertSlide(f) {
     var v = editor.value;
     var pos = editor.selectionStart;
-    // on insère après la fin de la slide courante
+    // on insère après la fin de la slide courante, avec l'exemple dans la langue du cours
     var idx = state.course ? MLS.parser.slideIndexAt(state.course, pos) : 0;
     var sl = state.course && state.course.slides[idx];
     var at = sl ? sl.end : v.length;
-    var block = '\n\n---\n\n<!-- slide: ' + f.id + ' -->\n' + (f.sample || '### Titre') + '\n';
+    var block = '\n\n---\n\n<!-- slide: ' + f.id + ' -->\n' + (MLS.formats.text(f, 'sample', courseLang()) || '### Title') + '\n';
     var before = v.slice(0, at).replace(/\s+$/, '');
     var after = v.slice(at).replace(/^\s*/, '');
     var nv = before + block + (after ? '\n' + after : '');
@@ -186,7 +193,7 @@
     editor.scrollTop = Math.max(0, (nv.slice(0, caret).split('\n').length - 4) * lh);
     editor.dispatchEvent(new Event('input'));
     updateCursorInfo();
-    ui.toast('<i class="bi bi-plus-circle"></i> Slide « ' + U.escapeHtml(f.name) + ' » insérée.', 'primary');
+    ui.toast('<i class="bi bi-plus-circle"></i> ' + esc(T('s.inserted', { name: MLS.formats.text(f, 'name', LANG) })), 'primary');
   }
 
   /* ---------------------------------------------------------- Versions */
@@ -194,17 +201,17 @@
   var snapshotModal = new bootstrap.Modal($('snapshot-modal'));
 
   function openSnapshot() {
-    $('snapshot-label').value = 'Version du ' + new Date().toLocaleString('fr-FR', { day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit' });
+    $('snapshot-label').value = T('s.snapDefault', { date: new Date().toLocaleString(T('c.dateLocale'), { day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit' }) });
     snapshotModal.show();
     setTimeout(function () { $('snapshot-label').select(); }, 300);
   }
 
   $('snapshot-form').addEventListener('submit', function (e) {
     e.preventDefault();
-    var v = MLS.versions.save(editor.value, $('snapshot-label').value.trim());
+    var v = MLS.versions.save(editor.value, $('snapshot-label').value.trim() || T('s.unnamed'));
     snapshotModal.hide();
-    if (v) ui.toast('<i class="bi bi-camera"></i> Version « ' + U.escapeHtml(v.label) + ' » enregistrée.', 'success');
-    else ui.toast('Stockage du navigateur plein : supprimez d’anciennes versions.', 'danger');
+    if (v) ui.toast('<i class="bi bi-camera"></i> ' + esc(T('s.snapSaved', { label: v.label })), 'success');
+    else ui.toast(T('s.snapFull'), 'danger');
     renderHistory();
   });
 
@@ -212,7 +219,11 @@
     var list = MLS.versions.list();
     $('history-count').textContent = list.length;
     var box = $('history-list');
-    if (!list.length) { box.innerHTML = '<div class="text-center text-secondary py-5"><i class="bi bi-inbox fs-1 d-block"></i>Aucune version enregistrée.<br><small>Utilisez le bouton « Version » ou Ctrl+S.</small></div>'; return; }
+    if (!list.length) {
+      box.innerHTML = '<div class="text-center text-secondary py-5"><i class="bi bi-inbox fs-1 d-block"></i>' + T('s.histEmpty') +
+        '<br><small>' + T('s.histEmptyHint') + '</small></div>';
+      return;
+    }
     box.innerHTML = '';
     list.forEach(function (v) {
       var same = v.md === editor.value;
@@ -221,36 +232,41 @@
       card.className = 'st-version' + (same ? ' current' : '');
       card.innerHTML =
         '<div class="d-flex align-items-start gap-2"><div class="flex-grow-1">' +
-        '<div class="fw-semibold">' + (v.auto ? '<i class="bi bi-robot text-secondary" title="Automatique"></i> ' : '') + U.escapeHtml(v.label) + '</div>' +
-        '<div class="meta">' + ui.formatDate(v.date) + ' · ' + v.slides + ' slides · ' + U.escapeHtml(v.title || '') + '</div>' +
-        '<div class="meta">' + (same ? '<span class="badge text-bg-primary">identique au brouillon</span>'
-          : 'Écart avec le brouillon : <span class="diff-add">+' + d.added + '</span> / <span class="diff-del">−' + d.removed + '</span> lignes') + '</div>' +
+        '<div class="fw-semibold">' + (v.auto ? '<i class="bi bi-robot text-secondary" title="' + T('s.auto') + '"></i> ' : '') + esc(v.label) + '</div>' +
+        '<div class="meta">' + ui.formatDate(v.date) + ' · ' + T('s.slidesN', { n: v.slides }) + ' · ' + esc(v.title || '') + '</div>' +
+        '<div class="meta">' + (same ? '<span class="badge text-bg-primary">' + T('s.identical') + '</span>'
+          : T('s.diff', { add: '<span class="diff-add">+' + d.added + '</span>', del: '<span class="diff-del">−' + d.removed + '</span>' })) + '</div>' +
         '</div></div>' +
         '<div class="d-flex gap-1 mt-2 flex-wrap">' +
-        '<button class="btn btn-sm btn-outline-primary" data-a="restore"' + (same ? ' disabled' : '') + '><i class="bi bi-arrow-counterclockwise"></i> Restaurer</button>' +
-        '<button class="btn btn-sm btn-outline-secondary" data-a="preview" title="Aperçu dans un nouvel onglet"><i class="bi bi-eye"></i></button>' +
-        '<button class="btn btn-sm btn-outline-secondary" data-a="rename" title="Renommer"><i class="bi bi-pencil"></i></button>' +
-        '<button class="btn btn-sm btn-outline-secondary" data-a="download" title="Télécharger le .md"><i class="bi bi-download"></i></button>' +
-        '<button class="btn btn-sm btn-outline-danger ms-auto" data-a="delete" title="Supprimer"><i class="bi bi-trash"></i></button></div>';
+        '<button class="btn btn-sm btn-outline-primary" data-a="restore"' + (same ? ' disabled' : '') + '><i class="bi bi-arrow-counterclockwise"></i> ' + T('s.restore') + '</button>' +
+        '<button class="btn btn-sm btn-outline-secondary" data-a="preview" title="' + T('s.previewTab') + '" aria-label="' + T('s.previewTab') + '"><i class="bi bi-eye"></i></button>' +
+        '<button class="btn btn-sm btn-outline-secondary" data-a="rename" title="' + T('s.rename') + '" aria-label="' + T('s.rename') + '"><i class="bi bi-pencil"></i></button>' +
+        '<button class="btn btn-sm btn-outline-secondary" data-a="download" title="' + T('s.downloadThis') + '" aria-label="' + T('s.downloadThis') + '"><i class="bi bi-download"></i></button>' +
+        '<button class="btn btn-sm btn-outline-danger ms-auto" data-a="delete" title="' + T('s.delete') + '" aria-label="' + T('s.delete') + '"><i class="bi bi-trash"></i></button></div>';
       card.addEventListener('click', function (e) {
         var b = e.target.closest('[data-a]');
         if (!b) return;
         var a = b.getAttribute('data-a');
         if (a === 'restore') {
-          if (!confirm('Restaurer « ' + v.label + ' » ? Le brouillon actuel sera d’abord sauvegardé automatiquement.')) return;
-          MLS.versions.save(editor.value, 'Avant restauration de « ' + v.label + ' »', { auto: true });
-          setContent(v.md);
-          renderHistory();
-          ui.toast('Version restaurée.', 'success');
+          ui.confirm(T('s.confirmRestore', { label: v.label }), { ok: T('s.restore') }).then(function (ok) {
+            if (!ok) return;
+            MLS.versions.save(editor.value, T('s.beforeRestore', { label: v.label }), { auto: true });
+            setContent(v.md);
+            renderHistory();
+            ui.toast(T('s.restored'), 'success');
+          });
         } else if (a === 'preview') {
           openPopup(v.md);
         } else if (a === 'rename') {
-          var nl = prompt('Nouveau nom :', v.label);
-          if (nl && nl.trim()) { MLS.versions.rename(v.id, nl.trim()); renderHistory(); }
+          ui.prompt(T('s.renamePrompt'), v.label, { ok: T('s.rename') }).then(function (nl) {
+            if (nl && nl.trim()) { MLS.versions.rename(v.id, nl.trim()); renderHistory(); }
+          });
         } else if (a === 'download') {
-          ui.downloadText(v.md, (U.slugify(v.title) || 'cours') + '-' + U.slugify(v.label) + '.md', 'text/markdown;charset=utf-8');
+          ui.downloadText(v.md, (U.slugify(v.title) || 'course') + '-' + U.slugify(v.label) + '.md', 'text/markdown;charset=utf-8');
         } else if (a === 'delete') {
-          if (confirm('Supprimer définitivement la version « ' + v.label + ' » ?')) { MLS.versions.remove(v.id); renderHistory(); }
+          ui.confirm(T('s.confirmDelete', { label: v.label }), { ok: T('s.delete'), danger: true }).then(function (ok) {
+            if (ok) { MLS.versions.remove(v.id); renderHistory(); }
+          });
         }
       });
       box.appendChild(card);
@@ -266,28 +282,32 @@
   });
 
   $('act-new').addEventListener('click', function () {
-    if (!confirm('Créer un nouveau cours ? Le brouillon actuel sera sauvegardé dans l’historique.')) return;
-    MLS.versions.save(editor.value, 'Avant nouveau cours', { auto: true });
-    setContent(NEW_COURSE);
-    renderHistory();
+    ui.confirm(T('s.confirmNew'), { ok: T('s.new') }).then(function (ok) {
+      if (!ok) return;
+      MLS.versions.save(editor.value, T('s.beforeNew'), { auto: true });
+      setContent(NEW_COURSE[LANG] || NEW_COURSE.en);
+      renderHistory();
+    });
   });
   $('act-sample').addEventListener('click', function () {
-    if (!confirm('Charger le cours d’exemple ? Le brouillon actuel sera sauvegardé dans l’historique.')) return;
-    MLS.versions.save(editor.value, 'Avant chargement de l’exemple', { auto: true });
-    setContent(MLS.sampleCourse);
-    renderHistory();
+    ui.confirm(T('s.confirmSample'), { ok: T('s.sample') }).then(function (ok) {
+      if (!ok) return;
+      MLS.versions.save(editor.value, T('s.beforeSample'), { auto: true });
+      setContent(sample());
+      renderHistory();
+    });
   });
   $('act-open').addEventListener('click', function () {
     ui.readFile('.md,.markdown,.txt,text/markdown').then(function (f) {
-      MLS.versions.save(editor.value, 'Avant ouverture de ' + f.name, { auto: true });
+      MLS.versions.save(editor.value, T('s.beforeOpen', { name: f.name }), { auto: true });
       setContent(f.text.replace(/\r\n?/g, '\n'));
       renderHistory();
-      ui.toast('<i class="bi bi-folder2-open"></i> ' + U.escapeHtml(f.name) + ' ouvert.', 'primary');
+      ui.toast('<i class="bi bi-folder2-open"></i> ' + esc(T('s.opened', { name: f.name })), 'primary');
     });
   });
   $('act-save-md').addEventListener('click', function () {
     var c = state.course || MLS.parser.parseCourse(editor.value);
-    ui.downloadText(editor.value, (U.slugify(c.title) || 'cours') + '.md', 'text/markdown;charset=utf-8');
+    ui.downloadText(editor.value, (U.slugify(c.title) || 'course') + '.md', 'text/markdown;charset=utf-8');
   });
 
   /* ---------------------------------------------------- Barre d'aperçu */
@@ -307,7 +327,7 @@
   function openPopup(md) {
     state.popupMd = md || null;
     state.popup = window.open('player.html', '_blank');
-    if (!state.popup) ui.toast('Le navigateur a bloqué la fenêtre. Autorisez les pop-ups pour ce site.', 'warning');
+    if (!state.popup) ui.toast(T('s.popupBlocked'), 'warning');
   }
   $('act-popup').addEventListener('click', function () { openPopup(); });
 
@@ -336,10 +356,12 @@
     var media = MLS.exporter.localMedia(editor.value);
     var nChars = (window.MLS_CHARACTERS && MLS_CHARACTERS.characters.length) || 0;
     var custom = state.formats.filter(function (f) { return !f.builtin || f.modified; }).length;
-    $('export-summary').innerHTML = '<strong>' + U.escapeHtml(c.title) + '</strong> · ' + c.slides.length + ' slides · ' +
-      c.roles.length + ' rôle(s) · ' + nChars + ' personnages au choix · ' + media.length + ' image(s) locale(s)' +
-      (custom ? ' · ' + custom + ' format(s) personnalisé(s)' : '') +
-      '<br><span class="text-secondary">Aucune dépendance externe : Bootstrap, icônes, moteur Markdown et polices sont inclus.</span>';
+    var l = courseLang();
+    $('export-summary').innerHTML = '<strong>' + esc(c.title) + '</strong> · ' +
+      esc(T('s.exSummary', { slides: c.slides.length, roles: c.roles.length, chars: nChars, media: media.length })) +
+      (custom ? esc(T('s.exCustom', { n: custom })) : '') +
+      '<br>' + esc(T('s.exLang', { lang: l.toUpperCase() + ' · ' + MLS.i18n.names[l] })) +
+      '<br><span class="text-secondary">' + T('s.exNoDeps') + '</span>';
     $('export-msg').innerHTML = '';
   }
   $('export-modal').addEventListener('show.bs.modal', exportSummary);
@@ -351,19 +373,20 @@
     bar.hidden = false;
     bar.firstElementChild.style.width = '0';
     btn.disabled = true;
-    $('export-msg').innerHTML = '<span class="text-secondary">Assemblage du paquet…</span>';
+    $('export-msg').innerHTML = '<span class="text-secondary">' + T('s.exBuilding') + '</span>';
     MLS.exporter.build({
       type: type,
       markdown: editor.value,
       formats: state.formats,
+      t: T,
       onProgress: function (p) { bar.firstElementChild.style.width = Math.round(p * 100) + '%'; }
     }).then(function (res) {
       MLS.exporter.download(res.blob, res.filename);
-      $('export-msg').innerHTML = '<div class="text-success"><i class="bi bi-check-circle"></i> <strong>' + U.escapeHtml(res.filename) + '</strong> généré (' +
-        (res.blob.size / 1024 / 1024).toFixed(2) + ' Mo).</div>' +
-        res.warnings.map(function (w) { return '<div class="text-warning-emphasis"><i class="bi bi-exclamation-triangle"></i> ' + U.escapeHtml(w) + '</div>'; }).join('');
+      $('export-msg').innerHTML = '<div class="text-success"><i class="bi bi-check-circle"></i> ' +
+        esc(T('s.exDone', { file: res.filename, size: (res.blob.size / 1024 / 1024).toFixed(2) })) + '</div>' +
+        res.warnings.map(function (w) { return '<div class="text-warning-emphasis"><i class="bi bi-exclamation-triangle"></i> ' + esc(w) + '</div>'; }).join('');
     }).catch(function (err) {
-      $('export-msg').innerHTML = '<div class="text-danger"><i class="bi bi-x-octagon"></i> ' + U.escapeHtml(err.message) + '</div>';
+      $('export-msg').innerHTML = '<div class="text-danger"><i class="bi bi-x-octagon"></i> ' + esc(err.message) + '</div>';
     }).then(function () {
       btn.disabled = false;
       setTimeout(function () { bar.hidden = true; }, 800);
@@ -378,18 +401,18 @@
       renderFormatMenu();
       analyse();
       loadPreview();
-      ui.toast('<i class="bi bi-palette"></i> Formats mis à jour depuis le Format Lab.', 'primary');
+      ui.toast('<i class="bi bi-palette"></i> ' + T('s.formatsUpdated'), 'primary');
     }
   });
 
   /* -------------------------------------------------------------- Init */
 
   renderFormatMenu();
-  editor.value = MLS.store.get('draft', null) || MLS.sampleCourse;
+  editor.value = MLS.store.get('draft', null) || sample();
   editor.setSelectionRange(0, 0);
   analyse();
   renderHistory();
-  $('st-saved').innerHTML = '<span class="ok"><i class="bi bi-cloud-check"></i> Brouillon local</span>';
+  $('st-saved').innerHTML = savedBadge('s.draftLocal');
   // si l'iframe est déjà prête avant ce script, elle répondra à ce "hello"
   send(iframe.contentWindow, { type: 'mls:hello' });
 })(window.MLS);

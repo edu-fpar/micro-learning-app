@@ -107,7 +107,7 @@
     var parts = split(md);
     var fm = {};
     var warnings = [];
-    try { fm = MLS.yaml.parse(parts.frontRaw); } catch (e) { warnings.push({ slide: -1, msg: 'Front-matter illisible : ' + e.message }); }
+    try { fm = MLS.yaml.parse(parts.frontRaw); } catch (e) { warnings.push({ slide: -1, code: 'frontmatter', params: { msg: e.message }, msg: 'Front-matter illisible : ' + e.message }); }
     var roles = normalizeRoles(fm);
     var roleIds = roles.map(function (r) { return r.role; });
 
@@ -118,20 +118,20 @@
       p.end = s.end;
       p.line = s.line;
       if (opts.formats && opts.formats.indexOf(p.format) === -1) {
-        warnings.push({ slide: i, line: s.line, msg: 'Format inconnu « ' + p.format + ' » (rendu en format-content).' });
+        warnings.push({ slide: i, line: s.line, code: 'unknownFormat', params: { format: p.format }, msg: 'Format inconnu « ' + p.format + ' » (rendu en format-content).' });
       }
       p.roles.forEach(function (r) {
         r.split(',').forEach(function (one) {
           one = one.trim();
           if (one && roleIds.indexOf(one) === -1) {
-            warnings.push({ slide: i, line: s.line, msg: 'Rôle « ' + one + ' » non déclaré dans le front-matter (characters).' });
+            warnings.push({ slide: i, line: s.line, code: 'unknownRole', params: { role: one }, msg: 'Rôle « ' + one + ' » non déclaré dans le front-matter (characters).' });
           }
         });
       });
       return p;
     });
 
-    if (!slides.length) warnings.push({ slide: -1, msg: 'Aucune slide : séparez vos slides par une ligne « --- ».' });
+    if (!slides.length) warnings.push({ slide: -1, code: 'noSlides', msg: 'Aucune slide : séparez vos slides par une ligne « --- ».' });
 
     return {
       meta: fm,

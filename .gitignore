@@ -5,3 +5,16 @@
 
 # Dossiers d'archives
 _archives/
+
+# Fichiers système d'exploitation
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Éditeurs de code (VS Code, etc.)
+.vscode/
+.idea/
+
+# Fichiers de logs ou temporaires
+*.log
+.temp/

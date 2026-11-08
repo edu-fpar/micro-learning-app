@@ -18,6 +18,18 @@ Le contenu et le fonctionnement doivent être compréhensibles : langage clair, 
 
 #### Robuste
 Le contenu doit être compatible avec les technologies d’assistance, actuelles et futures.`,
+  i18n: {
+    "fr": {
+      "empty": "Ajoutez des sous-titres « #### Titre » pour créer des onglets."
+    },
+    "en": {
+      "empty": "Add \"#### Title\" subheadings to create tabs.",
+      "$name": "Tabs / accordion",
+      "$category": "Structure",
+      "$description": "Content split into sections by \"####\" subheadings. Tabs on large screens, accordion on mobile.",
+      "$sample": "### The 4 POUR principles\nWCAG rests on four main principles.\n\n#### Perceivable\nInformation must be perceivable: text alternatives, captions, sufficient contrast.\n\n#### Operable\nComponents must be operable: keyboard navigation, enough time, no harmful animations.\n\n#### Understandable\nContent must be understandable: plain language, predictable behaviour, input help.\n\n#### Robust\nContent must work with current and future assistive technologies."
+    }
+  },
   template: `<div class="tabs-f mls-card mls-rise">
   {{#title}}<h2 class="mls-title">{{{titleHtml}}}</h2>{{/title}}
   {{#hasText}}<div class="mls-prose tabs-intro">{{{text}}}</div>{{/hasText}}
@@ -27,7 +39,7 @@ Le contenu doit être compatible avec les technologies d’assistance, actuelles
     </button>
     <div class="tabs-panel mls-prose" data-mls-speak id="{{id}}-pan{{index}}" role="region" aria-labelledby="{{id}}-tab{{index}}">{{{html}}}</div>{{/sections}}
   </div>
-  {{^sections}}<p class="mls-muted">Ajoutez des sous-titres « #### Titre » pour créer des onglets.</p>{{/sections}}
+  {{^sections}}<p class="mls-muted">{{t.empty}}</p>{{/sections}}
 </div>`,
   css: `:scope .tabs-grid { display: grid; grid-template-columns: repeat(var(--n), auto) 1fr; column-gap: .5rem; margin-top: 1rem; }
 :scope .tabs-btn { grid-row: 1; display: flex; align-items: center; gap: .55rem; border: 0; background: var(--mls-soft); color: var(--mls-ink);

@@ -13,79 +13,79 @@
   <nav class="st-nav d-flex align-items-center">
     <a class="st-brand" href="index.html"><span class="logo"><i class="bi bi-stars"></i></span><span>MicroLearn <small class="st-hide-sm">Studio</small></span></a>
     <div class="st-spaces">
-      <a href="index.html" class="active"><i class="bi bi-pencil-square"></i> <span class="st-hide-sm">Studio</span></a>
-      <a href="lab.html"><i class="bi bi-palette"></i> <span class="st-hide-sm">Format Lab</span></a>
-      <a href="docs/index.html"><i class="bi bi-book"></i> <span class="st-hide-sm">Docs</span></a>
+      <a href="index.html" class="active"><i class="bi bi-pencil-square"></i> <span class="st-hide-sm" data-i18n="c.studio"></span></a>
+      <a href="lab.html"><i class="bi bi-palette"></i> <span class="st-hide-sm" data-i18n="c.lab"></span></a>
+      <a href="docs/index.html"><i class="bi bi-book"></i> <span class="st-hide-sm" data-i18n="c.docs"></span></a>
     </div>
     <div class="st-actions">
       <div class="dropdown">
-        <button class="btn btn-sm btn-st dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi bi-file-earmark"></i> <span class="st-hide-sm">Fichier</span></button>
+        <button class="btn btn-sm btn-st dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi bi-file-earmark"></i> <span class="st-hide-sm" data-i18n="s.file"></span></button>
         <ul class="dropdown-menu dropdown-menu-end">
-          <li><button class="dropdown-item" id="act-new"><i class="bi bi-file-earmark-plus me-2"></i>Nouveau cours</button></li>
-          <li><button class="dropdown-item" id="act-open"><i class="bi bi-folder2-open me-2"></i>Ouvrir un fichier .md…</button></li>
-          <li><button class="dropdown-item" id="act-sample"><i class="bi bi-lightbulb me-2"></i>Charger le cours d’exemple</button></li>
+          <li><button class="dropdown-item" id="act-new"><i class="bi bi-file-earmark-plus me-2"></i><span data-i18n="s.new"></span></button></li>
+          <li><button class="dropdown-item" id="act-open"><i class="bi bi-folder2-open me-2"></i><span data-i18n="s.open"></span></button></li>
+          <li><button class="dropdown-item" id="act-sample"><i class="bi bi-lightbulb me-2"></i><span data-i18n="s.sample"></span></button></li>
           <li><hr class="dropdown-divider"></li>
-          <li><button class="dropdown-item" id="act-save-md"><i class="bi bi-filetype-md me-2"></i>Télécharger le Markdown</button></li>
+          <li><button class="dropdown-item" id="act-save-md"><i class="bi bi-filetype-md me-2"></i><span data-i18n="s.downloadMd"></span></button></li>
         </ul>
       </div>
-      <button class="btn btn-sm btn-st" id="act-snapshot" title="Enregistrer une version (Ctrl+S)"><i class="bi bi-camera"></i> <span class="st-hide-sm">Version</span></button>
-      <button class="btn btn-sm btn-st position-relative" id="act-history" data-bs-toggle="offcanvas" data-bs-target="#history" title="Historique des versions">
-        <i class="bi bi-clock-history"></i> <span class="st-hide-sm">Historique</span>
+      <button class="btn btn-sm btn-st" id="act-snapshot" data-i18n-title="s.versionTitle"><i class="bi bi-camera"></i> <span class="st-hide-sm" data-i18n="s.version"></span></button>
+      <button class="btn btn-sm btn-st position-relative" id="act-history" data-bs-toggle="offcanvas" data-bs-target="#history" data-i18n-title="s.historyTitle">
+        <i class="bi bi-clock-history"></i> <span class="st-hide-sm" data-i18n="s.history"></span>
         <span class="badge rounded-pill text-bg-light ms-1" id="history-count">0</span>
       </button>
-      <button class="btn btn-sm btn-accent" data-bs-toggle="modal" data-bs-target="#export-modal"><i class="bi bi-box-arrow-down"></i> <span class="st-hide-sm">Exporter</span></button>
+      <button class="btn btn-sm btn-accent" data-bs-toggle="modal" data-bs-target="#export-modal"><i class="bi bi-box-arrow-down"></i> <span class="st-hide-sm" data-i18n="s.export"></span></button>
+      <div id="lang-switch"></div>
     </div>
-    <input type="file" id="file-input" accept=".md,.markdown,.txt,text/markdown" hidden>
   </nav>
   <div class="st-mobile-tabs" role="tablist">
-    <button class="active" data-view="edit" role="tab" aria-selected="true"><i class="bi bi-pencil"></i> Édition</button>
-    <button data-view="preview" role="tab" aria-selected="false"><i class="bi bi-play-btn"></i> Aperçu</button>
+    <button class="active" data-view="edit" role="tab" aria-selected="true"><i class="bi bi-pencil"></i> <span data-i18n="s.tabEdit"></span></button>
+    <button data-view="preview" role="tab" aria-selected="false"><i class="bi bi-play-btn"></i> <span data-i18n="s.tabPreview"></span></button>
   </div>
 
   <main class="st-main" data-view="edit" id="main">
     <!-- ÉDITEUR -->
-    <section class="st-pane st-pane-editor" aria-label="Éditeur Markdown">
+    <section class="st-pane st-pane-editor" data-i18n-aria="s.editorAria">
       <div class="st-pane-toolbar">
         <span class="st-pane-title"><i class="bi bi-markdown"></i> Markdown</span>
         <div class="dropdown">
-          <button class="btn btn-sm btn-outline-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi bi-plus-square"></i> Insérer une slide</button>
+          <button class="btn btn-sm btn-outline-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi bi-plus-square"></i> <span data-i18n="s.insert"></span></button>
           <div class="dropdown-menu dropdown-menu-end st-format-menu" id="format-menu"></div>
         </div>
-        <button class="btn btn-sm btn-outline-secondary" id="act-theme" title="Thème de l’éditeur clair/sombre" aria-label="Basculer le thème de l’éditeur"><i class="bi bi-circle-half"></i></button>
+        <button class="btn btn-sm btn-outline-secondary" id="act-theme" data-i18n-title="s.editorTheme" data-i18n-aria="s.editorTheme"><i class="bi bi-circle-half"></i></button>
       </div>
       <div class="st-editor-wrap">
-        <textarea id="editor" class="st-code" spellcheck="false" aria-label="Contenu Markdown du cours"></textarea>
+        <textarea id="editor" class="st-code" spellcheck="false" data-i18n-aria="s.editorTextarea"></textarea>
       </div>
       <div class="st-diag" id="diag"></div>
       <div class="st-status">
         <span id="st-slide"><i class="bi bi-collection"></i> –</span>
-        <span id="st-line">Ligne –</span>
+        <span id="st-line"></span>
         <span id="st-saved" class="ms-auto"></span>
       </div>
     </section>
 
-    <div class="st-splitter" id="splitter" role="separator" aria-orientation="vertical" aria-label="Redimensionner les panneaux" tabindex="0"></div>
+    <div class="st-splitter" id="splitter" role="separator" aria-orientation="vertical" data-i18n-aria="c.resize" tabindex="0"></div>
 
     <!-- APERÇU -->
-    <section class="st-pane st-pane-preview" aria-label="Aperçu">
+    <section class="st-pane st-pane-preview" data-i18n-aria="c.preview">
       <div class="st-pane-toolbar">
-        <span class="st-pane-title"><i class="bi bi-play-btn"></i> Aperçu</span>
-        <div class="btn-group btn-group-sm" role="group" aria-label="Type d’écran">
+        <span class="st-pane-title"><i class="bi bi-play-btn"></i> <span data-i18n="c.preview"></span></span>
+        <div class="btn-group btn-group-sm" role="group" data-i18n-aria="c.deviceGroup">
           <input type="radio" class="btn-check" name="device" id="dev-desktop" value="desktop" checked>
-          <label class="btn btn-outline-secondary" for="dev-desktop" title="Vue bureau"><i class="bi bi-display"></i> <span class="d-none d-xl-inline">Bureau</span></label>
+          <label class="btn btn-outline-secondary" for="dev-desktop" data-i18n-title="c.deviceDesktop"><i class="bi bi-display"></i> <span class="d-none d-xl-inline" data-i18n="c.desktop"></span></label>
           <input type="radio" class="btn-check" name="device" id="dev-tablet" value="tablet">
-          <label class="btn btn-outline-secondary" for="dev-tablet" title="Vue tablette"><i class="bi bi-tablet"></i></label>
+          <label class="btn btn-outline-secondary" for="dev-tablet" data-i18n-title="c.deviceTablet"><i class="bi bi-tablet"></i></label>
           <input type="radio" class="btn-check" name="device" id="dev-mobile" value="mobile">
-          <label class="btn btn-outline-secondary" for="dev-mobile" title="Vue mobile"><i class="bi bi-phone"></i> <span class="d-none d-xl-inline">Mobile</span></label>
+          <label class="btn btn-outline-secondary" for="dev-mobile" data-i18n-title="c.deviceMobile"><i class="bi bi-phone"></i> <span class="d-none d-xl-inline" data-i18n="c.mobile"></span></label>
         </div>
-        <button class="btn btn-sm btn-outline-secondary" id="act-cast" title="Choisir les personnages"><i class="bi bi-people"></i></button>
-        <button class="btn btn-sm btn-outline-secondary" id="act-welcome" title="Tester l’écran d’accueil apprenant"><i class="bi bi-door-open"></i></button>
+        <button class="btn btn-sm btn-outline-secondary" id="act-cast" data-i18n-title="s.cast" data-i18n-aria="s.cast"><i class="bi bi-people"></i></button>
+        <button class="btn btn-sm btn-outline-secondary" id="act-welcome" data-i18n-title="s.welcome" data-i18n-aria="s.welcome"><i class="bi bi-door-open"></i></button>
         <input type="checkbox" class="btn-check" id="act-sync" checked autocomplete="off">
-        <label class="btn btn-sm btn-outline-secondary" for="act-sync" title="Synchroniser l’aperçu avec la position du curseur"><i class="bi bi-link-45deg"></i></label>
-        <button class="btn btn-sm btn-outline-secondary" id="act-popup" title="Ouvrir l’aperçu dans un nouvel onglet"><i class="bi bi-box-arrow-up-right"></i></button>
+        <label class="btn btn-sm btn-outline-secondary" for="act-sync" data-i18n-title="s.sync"><i class="bi bi-link-45deg"></i></label>
+        <button class="btn btn-sm btn-outline-secondary" id="act-popup" data-i18n-title="s.popup" data-i18n-aria="s.popup"><i class="bi bi-box-arrow-up-right"></i></button>
       </div>
       <div class="st-preview-area" id="preview-area" data-device="desktop">
-        <div class="st-device" id="device"><iframe id="preview" src="player.html" title="Aperçu du module"></iframe></div>
+        <div class="st-device" id="device"><iframe id="preview" src="player.html" data-i18n-title="s.iframe"></iframe></div>
         <span class="st-device-label" id="device-label"></span>
       </div>
     </section>
@@ -94,11 +94,11 @@
   <!-- HISTORIQUE -->
   <div class="offcanvas offcanvas-end" tabindex="-1" id="history" aria-labelledby="history-title" style="--bs-offcanvas-width: 420px">
     <div class="offcanvas-header border-bottom">
-      <h5 class="offcanvas-title" id="history-title"><i class="bi bi-clock-history"></i> Historique des versions</h5>
-      <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Fermer"></button>
+      <h5 class="offcanvas-title" id="history-title"><i class="bi bi-clock-history"></i> <span data-i18n="s.historyTitle"></span></h5>
+      <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-i18n-aria="c.close"></button>
     </div>
     <div class="offcanvas-body">
-      <p class="small text-secondary">Les versions sont enregistrées dans ce navigateur (localStorage). Pensez à télécharger le Markdown pour une sauvegarde durable.</p>
+      <p class="small text-secondary" data-i18n="s.historyIntro"></p>
       <div id="history-list"></div>
     </div>
   </div>
@@ -107,15 +107,15 @@
   <div class="modal fade" id="snapshot-modal" tabindex="-1" aria-labelledby="snapshot-title" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
       <form class="modal-content" id="snapshot-form">
-        <div class="modal-header"><h5 class="modal-title" id="snapshot-title"><i class="bi bi-camera"></i> Enregistrer une version</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fermer"></button></div>
+        <div class="modal-header"><h5 class="modal-title" id="snapshot-title"><i class="bi bi-camera"></i> <span data-i18n="s.snapTitle"></span></h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" data-i18n-aria="c.close"></button></div>
         <div class="modal-body">
-          <label class="form-label" for="snapshot-label">Nom de la version</label>
+          <label class="form-label" for="snapshot-label" data-i18n="s.snapLabel"></label>
           <input class="form-control" id="snapshot-label" maxlength="80" required>
-          <div class="form-text">Ex. : « Relecture client », « Ajout du quiz final »…</div>
+          <div class="form-text" data-i18n="s.snapHelp"></div>
         </div>
-        <div class="modal-footer"><button type="button" class="btn btn-light" data-bs-dismiss="modal">Annuler</button>
-          <button class="btn btn-accent" type="submit"><i class="bi bi-check-lg"></i> Enregistrer</button></div>
+        <div class="modal-footer"><button type="button" class="btn btn-light" data-bs-dismiss="modal" data-i18n="c.cancel"></button>
+          <button class="btn btn-accent" type="submit"><i class="bi bi-check-lg"></i> <span data-i18n="c.save"></span></button></div>
       </form>
     </div>
   </div>
@@ -124,26 +124,26 @@
   <div class="modal fade" id="export-modal" tabindex="-1" aria-labelledby="export-title" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg">
       <div class="modal-content">
-        <div class="modal-header"><h5 class="modal-title" id="export-title"><i class="bi bi-box-arrow-down"></i> Exporter le module</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fermer"></button></div>
+        <div class="modal-header"><h5 class="modal-title" id="export-title"><i class="bi bi-box-arrow-down"></i> <span data-i18n="s.exportTitle"></span></h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" data-i18n-aria="c.close"></button></div>
         <div class="modal-body">
-          <div class="row g-3" role="radiogroup" aria-label="Type d’export">
+          <div class="row g-3" role="radiogroup" data-i18n-aria="s.exportType">
             <div class="col-md-4"><input type="radio" class="btn-check" name="export-type" id="ex-zip" value="zip" checked>
               <label class="btn btn-outline-primary w-100 h-100 text-start p-3" for="ex-zip"><i class="bi bi-file-zip fs-3 d-block mb-1"></i>
-              <strong>Paquet ZIP</strong><br><small>Dossier autonome (index.html + assets). Clé USB, intranet, GitHub Pages.</small></label></div>
+              <strong data-i18n="s.exZip"></strong><br><small data-i18n="s.exZipDesc"></small></label></div>
             <div class="col-md-4"><input type="radio" class="btn-check" name="export-type" id="ex-html" value="html">
               <label class="btn btn-outline-primary w-100 h-100 text-start p-3" for="ex-html"><i class="bi bi-filetype-html fs-3 d-block mb-1"></i>
-              <strong>Fichier HTML unique</strong><br><small>Tout intégré dans un seul fichier, à envoyer par mail ou à déposer partout.</small></label></div>
+              <strong data-i18n="s.exHtml"></strong><br><small data-i18n="s.exHtmlDesc"></small></label></div>
             <div class="col-md-4"><input type="radio" class="btn-check" name="export-type" id="ex-scorm" value="scorm">
               <label class="btn btn-outline-primary w-100 h-100 text-start p-3" for="ex-scorm"><i class="bi bi-mortarboard fs-3 d-block mb-1"></i>
-              <strong>SCORM 1.2</strong><br><small>ZIP avec imsmanifest.xml : progression et score remontés au LMS.</small></label></div>
+              <strong data-i18n="s.exScorm"></strong><br><small data-i18n="s.exScormDesc"></small></label></div>
           </div>
           <div class="alert alert-light border mt-3 mb-0 small" id="export-summary"></div>
           <div class="progress mt-3" style="height:8px" hidden id="export-progress"><div class="progress-bar progress-bar-striped progress-bar-animated" style="width:0"></div></div>
           <div id="export-msg" class="mt-2 small"></div>
         </div>
-        <div class="modal-footer"><button type="button" class="btn btn-light" data-bs-dismiss="modal">Fermer</button>
-          <button class="btn btn-accent" id="export-go"><i class="bi bi-download"></i> Générer et télécharger</button></div>
+        <div class="modal-footer"><button type="button" class="btn btn-light" data-bs-dismiss="modal" data-i18n="c.close"></button>
+          <button class="btn btn-accent" id="export-go"><i class="bi bi-download"></i> <span data-i18n="s.exGo"></span></button></div>
       </div>
     </div>
   </div>
@@ -153,6 +153,8 @@
   <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
   <script src="vendor/marked/marked.min.js"></script>
   <script src="js/core/mls.js"></script>
+  <script src="js/core/i18n.js"></script>
+  <script src="js/studio/i18n-ui.js"></script>
   <script src="js/core/yaml.js"></script>
   <script src="js/core/template.js"></script>
   <script src="js/core/parser.js"></script>
@@ -168,6 +170,7 @@
   <script src="js/formats/tabs.js"></script>
   <script src="assets/characters/catalog.js"></script>
   <script src="js/studio/sample.js"></script>
+  <script src="js/studio/sample-en.js"></script>
   <script src="js/studio/ui.js"></script>
   <script src="js/studio/versions.js"></script>
   <script src="js/studio/zip.js"></script>

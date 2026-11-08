@@ -9,15 +9,7 @@
   'use strict';
 
   var U = MLS.util;
-  var FILTERS = [
-    { id: 'all', label: 'Tous' },
-    { id: 'femme', label: 'Femmes' },
-    { id: 'homme', label: 'Hommes' },
-    { id: 'non-binaire', label: 'Non-binaire' },
-    { id: 'senior', label: 'Seniors' },
-    { id: 'jeune', label: 'Jeunes' },
-    { id: 'handicap', label: 'Situation de handicap' }
-  ];
+  var FILTERS = ['all', 'femme', 'homme', 'non-binaire', 'senior', 'jeune', 'handicap'];
 
   function el(tag, cls, html) {
     var e = document.createElement(tag);
@@ -39,6 +31,8 @@
     this.state = {};
     this.hooks = {};
     this.started = false;
+    this.lang = 'fr';
+    this.t = MLS.i18n.translator('fr');
     this.build();
   }
 
@@ -65,23 +59,23 @@
     this.root.innerHTML =
       '<div class="mls-bg" aria-hidden="true"><span class="mls-blob b1"></span><span class="mls-blob b2"></span><span class="mls-blob b3"></span></div>' +
       '<header class="mls-top">' +
-      '  <button type="button" class="mls-icon-btn" data-act="toc" aria-label="Sommaire" title="Sommaire"><i class="bi bi-list"></i></button>' +
+      '  <button type="button" class="mls-icon-btn" data-act="toc" data-pt-label="p.toc"><i class="bi bi-list"></i></button>' +
       '  <div class="mls-course-title"></div>' +
       '  <div class="mls-top-actions">' +
-      '    <button type="button" class="mls-icon-btn mls-stop-speech" data-act="stop-speech" aria-label="Arrêter la lecture audio" title="Arrêter la lecture audio" hidden><i class="bi bi-stop-circle-fill"></i></button>' +
-      '    <button type="button" class="mls-icon-btn" data-act="cast" aria-label="Personnages et lecture audio" title="Personnages et lecture audio"><i class="bi bi-people"></i></button>' +
-      '    <button type="button" class="mls-icon-btn" data-act="fullscreen" aria-label="Plein écran" title="Plein écran"><i class="bi bi-arrows-fullscreen"></i></button>' +
+      '    <button type="button" class="mls-icon-btn mls-stop-speech" data-act="stop-speech" data-pt-label="p.stopAudio" hidden><i class="bi bi-stop-circle-fill"></i></button>' +
+      '    <button type="button" class="mls-icon-btn" data-act="cast" data-pt-label="p.castAudio"><i class="bi bi-people"></i></button>' +
+      '    <button type="button" class="mls-icon-btn" data-act="fullscreen" data-pt-label="p.fullscreen"><i class="bi bi-arrows-fullscreen"></i></button>' +
       '  </div>' +
-      '  <div class="mls-progress" role="progressbar" aria-label="Progression" aria-valuemin="0" aria-valuemax="100"><span></span></div>' +
+      '  <div class="mls-progress" role="progressbar" data-pt-aria="p.progress" aria-valuemin="0" aria-valuemax="100"><span></span></div>' +
       '</header>' +
       '<main class="mls-stage"></main>' +
-      '<nav class="mls-nav" aria-label="Navigation des slides">' +
-      '  <button type="button" class="mls-nav-btn" data-act="prev"><i class="bi bi-arrow-left"></i><span>Précédent</span></button>' +
+      '<nav class="mls-nav" data-pt-aria="p.navigation">' +
+      '  <button type="button" class="mls-nav-btn" data-act="prev"><i class="bi bi-arrow-left"></i><span data-pt="p.prev"></span></button>' +
       '  <div class="mls-counter" aria-live="polite"></div>' +
-      '  <button type="button" class="mls-nav-btn mls-primary" data-act="next"><span>Suivant</span><i class="bi bi-arrow-right"></i></button>' +
+      '  <button type="button" class="mls-nav-btn mls-primary" data-act="next"><span></span><i class="bi bi-arrow-right"></i></button>' +
       '</nav>' +
-      '<aside class="mls-toc" hidden><div class="mls-toc-head"><strong>Sommaire</strong>' +
-      '<button type="button" class="mls-icon-btn" data-act="toc-close" aria-label="Fermer le sommaire"><i class="bi bi-x-lg"></i></button></div><ol></ol></aside>' +
+      '<aside class="mls-toc" hidden><div class="mls-toc-head"><strong data-pt="p.toc"></strong>' +
+      '<button type="button" class="mls-icon-btn" data-act="toc-close" data-pt-label="p.closeToc"><i class="bi bi-x-lg"></i></button></div><ol></ol></aside>' +
       '<div class="mls-overlay mls-welcome" hidden></div>' +
       '<div class="mls-overlay mls-end" hidden></div>' +
       '<div class="mls-sr" aria-live="polite"></div>';
@@ -137,6 +131,22 @@
     }, { passive: true });
   };
 
+  Player.prototype.translateChrome = function () {
+    var t = this.t;
+    this.root.querySelectorAll('[data-pt]').forEach(function (e) { e.textContent = t(e.getAttribute('data-pt')); });
+    this.root.querySelectorAll('[data-pt-label]').forEach(function (e) { var v = t(e.getAttribute('data-pt-label')); e.setAttribute('aria-label', v); e.title = v; });
+    this.root.querySelectorAll('[data-pt-aria]').forEach(function (e) { e.setAttribute('aria-label', t(e.getAttribute('data-pt-aria'))); });
+  };
+
+  /** Textes d'un format pour la langue du cours : dictionnaire du player + format.i18n (repli FR). */
+  Player.prototype.formatTexts = function (fmt) {
+    var out = MLS.i18n.table(this.lang);
+    var tr = (fmt && fmt.i18n) || {};
+    var l = MLS.i18n.pick(this.lang);
+    [tr.fr || {}, tr[l] || {}].forEach(function (d) { Object.keys(d).forEach(function (k) { if (k.charAt(0) !== '$') out[k] = d[k]; }); });
+    return out;
+  };
+
   Player.prototype.overlayOpen = function () {
     return !this.$('.mls-welcome').hidden || !this.$('.mls-end').hidden;
   };
@@ -150,6 +160,10 @@
     this.course = MLS.parser.parseCourse(markdown, { formats: Object.keys(this.formatsById) });
     var fm = this.course.meta;
     this.courseKey = 'course.' + (U.slugify(this.course.title) || 'sans-titre');
+    this.lang = String(fm.lang || 'fr');
+    this.t = MLS.i18n.translator(this.lang);
+    this.root.setAttribute('lang', MLS.i18n.pick(this.lang));
+    this.translateChrome();
     this.loadCast();
     this.setupAudio();
 
@@ -235,7 +249,7 @@
     var img = (c.images && (c.images[expression] || c.images.neutral)) || '';
     var alt = c.name + ' (' + label + ')';
     return {
-      role: role, label: label, id: c.id, name: c.name, description: c.description || '',
+      role: role, label: label, id: c.id, name: c.name, description: MLS.i18n.local(c.description, this.lang),
       img: img, alt: alt, expression: expression,
       avatar: '<img class="mls-avatar" src="' + U.escapeHtml(img) + '" alt="' + U.escapeHtml(alt) + '" data-mls-role="' +
         U.escapeHtml(role) + '" data-mls-expr="' + U.escapeHtml(expression) + '">',
@@ -294,7 +308,7 @@
       sec.setAttribute('data-format', fmt ? fmt.id : 'none');
       sec.setAttribute('data-index', slide.index);
       sec.setAttribute('aria-roledescription', 'slide');
-      sec.setAttribute('aria-label', 'Slide ' + (slide.index + 1) + ' sur ' + self.course.slides.length);
+      sec.setAttribute('aria-label', self.t('p.slideOf', { n: slide.index + 1, total: self.course.slides.length }));
       var inner = el('div', 'mls-slide-inner');
       sec.appendChild(inner);
       self.stage.appendChild(sec);
@@ -302,10 +316,12 @@
       var data;
       try {
         data = self.enrich(MLS.parser.slideData(slide));
+        data.t = self.formatTexts(fmt);
+        data.lang = MLS.i18n.pick(self.lang);
         slide.title = data.title;
         inner.innerHTML = fmt ? MLS.template.render(fmt.template, data) : data.body;
       } catch (err) {
-        self.showError(inner, slide, 'gabarit', err);
+        self.showError(inner, slide, 'template', err);
         return sec;
       }
       if (fmt && fmt.js && String(fmt.js).trim()) {
@@ -324,8 +340,8 @@
 
   Player.prototype.showError = function (inner, slide, kind, err, append) {
     var msg = this.mode === 'standalone'
-      ? 'Cette slide n’a pas pu être affichée.'
-      : 'Erreur de ' + kind + ' (' + slide.format + ', slide ' + (slide.index + 1) + ') : ' + U.escapeHtml(err.message);
+      ? this.t('p.slideError')
+      : this.t('p.devError', { kind: this.t('p.kind.' + kind), format: slide.format, n: slide.index + 1, msg: U.escapeHtml(err.message) });
     var box = '<div class="mls-error"><i class="bi bi-exclamation-triangle"></i> ' + msg + '</div>';
     if (append) inner.insertAdjacentHTML('afterbegin', box); else inner.innerHTML = box;
     if (this.opts.onError) this.opts.onError({ slide: slide.index, kind: kind, message: err.message });
@@ -354,7 +370,12 @@
       speakable: function (el) { self.decorateSpeech(el, index); },
       onEnter: function (fn) { (self.hooks[index] = self.hooks[index] || { enter: [], leave: [] }).enter.push(fn); },
       onLeave: function (fn) { (self.hooks[index] = self.hooks[index] || { enter: [], leave: [] }).leave.push(fn); },
-      escape: U.escapeHtml
+      escape: U.escapeHtml,
+      lang: MLS.i18n.pick(this.lang),
+      t: function (key, vars) {
+        var tx = self.formatTexts(self.formatsById[self.course.slides[index].format]);
+        return MLS.i18n.format(tx[key] != null ? tx[key] : key, vars);
+      }
     };
   };
 
@@ -374,7 +395,7 @@
       b.type = 'button';
       var fmt = self.formatsById[s.format];
       b.innerHTML = '<span class="mls-toc-num">' + (i + 1) + '</span><i class="bi ' + U.escapeHtml((fmt && fmt.icon) || 'bi-file-text') +
-        '"></i><span>' + U.escapeHtml(s.title || ('Slide ' + (i + 1))) + '</span>';
+        '"></i><span>' + U.escapeHtml(s.title || self.t('p.slide', { n: i + 1 })) + '</span>';
       b.addEventListener('click', function () { self.toggleToc(false); self.goTo(i); });
       li.appendChild(b);
       ol.appendChild(li);
@@ -428,7 +449,7 @@
     this.$('[data-act="prev"]').disabled = i === 0;
     var nextBtn = this.$('[data-act="next"]');
     var last = i === n - 1;
-    nextBtn.querySelector('span').textContent = last ? 'Terminer' : 'Suivant';
+    nextBtn.querySelector('span').textContent = this.t(last ? 'p.finish' : 'p.next');
     nextBtn.querySelector('i').className = 'bi ' + (last ? 'bi-flag' : 'bi-arrow-right');
     nextBtn.disabled = last && this.mode === 'lab';
 
@@ -456,19 +477,11 @@
 
   /* ------------------------------------------------ Lecture à voix haute */
 
-  var MODE_HINTS = {
-    off: 'Aucune lecture audio, les icônes sont masquées.',
-    click: 'Une icône <i class="bi bi-volume-up-fill"></i> apparaît à côté des textes longs : touchez-la pour les écouter.',
-    interact: 'Icônes, et lecture quand vous ouvrez un élément : point d’une image, carte, étape, onglet, réplique, correction de quiz…',
-    auto: 'Les textes longs et les dialogues sont lus dès l’affichage de chaque slide, ainsi que les éléments que vous ouvrez.'
-  };
-
   Player.prototype.setupAudio = function () {
     var fm = this.course.meta;
     var self = this;
     this.audioOn = MLS.speech.supported && fm.audio !== false && !/^(off|non)$/i.test(String(fm.audio || ''));
     this.audioMin = Number(fm['audio-min']) || 120;
-    this.lang = String(fm.lang || 'fr');
     this.tts = MLS.speech.settings();
     this.voices = MLS.store.get(this.courseKey + '.voices', {}) || {};
     this.applyAudioClass();
@@ -527,8 +540,8 @@
       var b = document.createElement('button');
       b.type = 'button';
       b.className = 'mls-speak-btn';
-      b.setAttribute('aria-label', 'Écouter ce texte');
-      b.title = 'Écouter ce texte';
+      b.setAttribute('aria-label', self.t('a.listen'));
+      b.title = self.t('a.listen');
       b.innerHTML = '<i class="bi bi-volume-up-fill"></i>';
       el.insertBefore(b, el.firstChild);
     });
@@ -545,7 +558,7 @@
       var b = n.querySelector(':scope > .mls-speak-btn');
       if (!b) return;
       b.innerHTML = on ? '<i class="bi bi-stop-fill"></i>' : '<i class="bi bi-volume-up-fill"></i>';
-      b.setAttribute('aria-label', on ? 'Arrêter la lecture' : 'Écouter ce texte');
+      b.setAttribute('aria-label', self.t(on ? 'a.stop' : 'a.listen'));
     }
     function clear() {
       self.root.querySelectorAll('.mls-speaking').forEach(function (n) { n.classList.remove('mls-speaking'); setIcon(n, false); });
@@ -578,12 +591,14 @@
   Player.prototype.voiceOptions = function (selected) {
     var mine = MLS.speech.voicesFor(this.lang);
     var others = MLS.speech.voices().filter(function (v) { return mine.indexOf(v) === -1; });
+    var online = this.t('a.online');
     function opt(v) {
       return '<option value="' + U.escapeHtml(v.voiceURI) + '"' + (v.voiceURI === selected ? ' selected' : '') + '>' +
-        U.escapeHtml(v.name) + ' (' + U.escapeHtml(v.lang) + ')' + (v.localService ? '' : ' · en ligne') + '</option>';
+        U.escapeHtml(v.name) + ' (' + U.escapeHtml(v.lang) + ')' + (v.localService ? '' : ' · ' + online) + '</option>';
     }
-    return (mine.length ? '<optgroup label="Langue du module">' + mine.map(opt).join('') + '</optgroup>' : '') +
-      (others.length ? '<optgroup label="Autres langues">' + others.map(opt).join('') + '</optgroup>' : '');
+    var def = mine.length ? '' : '<option value=""' + (selected ? '' : ' selected') + '>' + U.escapeHtml(this.t('a.defaultVoice')) + '</option>';
+    return def + (mine.length ? '<optgroup label="' + this.t('a.groupMine') + '">' + mine.map(opt).join('') + '</optgroup>' : '') +
+      (others.length ? '<optgroup label="' + this.t('a.groupOther') + '">' + others.map(opt).join('') + '</optgroup>' : '');
   };
 
   Player.prototype.fillVoiceSelects = function () {
@@ -593,7 +608,7 @@
     var has = MLS.speech.voices().length > 0;
     w.querySelectorAll('select[data-voice]').forEach(function (s) {
       var r = s.getAttribute('data-voice');
-      s.innerHTML = has ? self.voiceOptions(self.voiceFor(r === '_narrator' ? null : r)) : '<option>Aucune voix</option>';
+      s.innerHTML = has ? self.voiceOptions(self.voiceFor(r === '_narrator' ? null : r)) : '<option>' + self.t('a.noVoiceShort') + '</option>';
       s.disabled = !has;
     });
     w.querySelectorAll('[data-test-voice]').forEach(function (b) { b.disabled = !has; });
@@ -605,32 +620,32 @@
     var id = 'mls-v-' + (U.slugify(key) || 'narrateur');
     return '<div class="mls-voice-row"><label for="' + id + '"><i class="bi bi-soundwave"></i> ' + label + '</label>' +
       '<select id="' + id + '" data-voice="' + U.escapeHtml(key) + '"></select>' +
-      '<button type="button" class="mls-chip" data-test-voice="' + U.escapeHtml(key) + '"><i class="bi bi-play-fill"></i> Tester</button></div>';
+      '<button type="button" class="mls-chip" data-test-voice="' + U.escapeHtml(key) + '"><i class="bi bi-play-fill"></i> ' + this.t('a.test') + '</button></div>';
   };
 
   Player.prototype.audioSettingsHtml = function () {
-    var mode = this.tts.mode;
+    var mode = this.tts.mode, t = this.t;
     return '<section class="mls-audio">' +
-      '<h2 class="mls-welcome-h2"><i class="bi bi-volume-up"></i> Lecture à voix haute</h2>' +
-      '<p class="mls-welcome-hint">Pour écouter les textes un peu longs plutôt que de les lire. Cet outil de confort ne remplace pas votre lecteur d’écran et n’interfère pas avec lui.</p>' +
-      '<div class="mls-filters" role="group" aria-label="Mode de lecture audio">' +
+      '<h2 class="mls-welcome-h2"><i class="bi bi-volume-up"></i> ' + t('a.title') + '</h2>' +
+      '<p class="mls-welcome-hint">' + t('a.hint') + '</p>' +
+      '<div class="mls-filters" role="group" aria-label="' + t('a.modeAria') + '">' +
       MLS.speech.MODES.map(function (m) {
         return '<button type="button" class="mls-chip' + (m.id === mode ? ' is-on' : '') + '" data-mode="' + m.id + '" aria-pressed="' + (m.id === mode) + '">' +
-          '<i class="bi ' + m.icon + '"></i> ' + m.label + '</button>';
+          '<i class="bi ' + m.icon + '"></i> ' + t('a.mode.' + m.id) + '</button>';
       }).join('') + '</div>' +
-      '<p class="mls-mode-hint">' + MODE_HINTS[mode] + '</p>' +
-      '<div class="mls-audio-grid">' + this.voiceRow('_narrator', 'Voix du narrateur') +
-      '<div class="mls-voice-row"><label for="mls-rate"><i class="bi bi-speedometer2"></i> Vitesse</label>' +
+      '<p class="mls-mode-hint">' + t('a.hint.' + mode) + '</p>' +
+      '<div class="mls-audio-grid">' + this.voiceRow('_narrator', t('a.narrator')) +
+      '<div class="mls-voice-row"><label for="mls-rate"><i class="bi bi-speedometer2"></i> ' + t('a.speed') + '</label>' +
       '<input type="range" id="mls-rate" min="0.6" max="1.6" step="0.1" value="' + this.tts.rate + '">' +
       '<output for="mls-rate">' + Number(this.tts.rate).toFixed(1) + '×</output></div></div>' +
-      '<p class="mls-no-voice" hidden><i class="bi bi-exclamation-circle"></i> Aucune voix de synthèse n’est disponible dans ce navigateur.</p>' +
+      '<p class="mls-no-voice" hidden><i class="bi bi-exclamation-circle"></i> ' + t('a.noVoice') + '</p>' +
       '</section>';
   };
 
   Player.prototype.testVoice = function (key) {
     var text;
-    if (key === '_narrator') text = 'Bonjour ! Voici la voix qui lira les textes de ce module.';
-    else { var ch = this.character(key); text = 'Bonjour, je suis ' + ch.name + ', ' + ch.label + '.'; }
+    if (key === '_narrator') text = this.t('a.testNarrator');
+    else { var ch = this.character(key); text = this.t('a.testRole', { name: ch.name, label: ch.label }); }
     MLS.speech.speak([{ text: text, voice: this.voiceFor(key === '_narrator' ? null : key) }], { rate: this.tts.rate, lang: this.lang });
   };
 
@@ -644,20 +659,20 @@
     var roles = this.course.roles;
     var resume = this.mode === 'standalone' && !fromMenu ? (MLS.scorm.getLocation() || MLS.store.get(this.courseKey + '.location', 0)) : 0;
     var html = '<div class="mls-welcome-card" role="dialog" aria-modal="true" aria-labelledby="mls-wt">';
-    if (fromMenu) html += '<button type="button" class="mls-icon-btn mls-close" data-w="close" aria-label="Fermer"><i class="bi bi-x-lg"></i></button>';
-    html += '<div class="mls-eyebrow"><i class="bi bi-mortarboard"></i> ' + U.escapeHtml(fm.subtitle || 'Module de formation') + '</div>';
+    if (fromMenu) html += '<button type="button" class="mls-icon-btn mls-close" data-w="close" aria-label="' + this.t('p.close') + '"><i class="bi bi-x-lg"></i></button>';
+    html += '<div class="mls-eyebrow"><i class="bi bi-mortarboard"></i> ' + U.escapeHtml(fm.subtitle || this.t('p.moduleEyebrow')) + '</div>';
     html += '<h1 id="mls-wt">' + U.escapeHtml(this.course.title) + '</h1>';
     if (fm.description) html += '<p class="mls-welcome-desc">' + U.escapeHtml(fm.description) + '</p>';
-    html += '<div class="mls-welcome-meta"><span><i class="bi bi-collection"></i> ' + this.course.slides.length + ' slides</span>' +
+    html += '<div class="mls-welcome-meta"><span><i class="bi bi-collection"></i> ' + this.t('p.slidesCount', { n: this.course.slides.length }) + '</span>' +
       (fm.duration ? '<span><i class="bi bi-clock"></i> ' + U.escapeHtml(fm.duration) + '</span>' : '') +
       (fm.author ? '<span><i class="bi bi-person-badge"></i> ' + U.escapeHtml(fm.author) + '</span>' : '') + '</div>';
 
     if (roles.length && this.chars().length) {
-      html += '<h2 class="mls-welcome-h2">Choisissez vos personnages</h2>' +
-        '<p class="mls-welcome-hint">Ils vous accompagneront tout au long du module. Vous pourrez les changer à tout moment avec le bouton <i class="bi bi-people"></i>.</p>' +
-        '<div class="mls-filters" role="group" aria-label="Filtrer les personnages">' +
+      html += '<h2 class="mls-welcome-h2">' + this.t('p.chooseCast') + '</h2>' +
+        '<p class="mls-welcome-hint">' + this.t('p.chooseCastHint') + '</p>' +
+        '<div class="mls-filters" role="group" aria-label="' + this.t('p.filterAria') + '">' +
         FILTERS.map(function (f, i) {
-          return '<button type="button" class="mls-chip' + (i === 0 ? ' is-on' : '') + '" data-filter="' + f.id + '" aria-pressed="' + (i === 0) + '">' + f.label + '</button>';
+          return '<button type="button" class="mls-chip' + (i === 0 ? ' is-on' : '') + '" data-filter="' + f + '" aria-pressed="' + (i === 0) + '">' + self.t('p.filter.' + f) + '</button>';
         }).join('') + '</div>';
       roles.forEach(function (r) {
         var ch = self.character(r.role);
@@ -666,24 +681,24 @@
           '<div><div class="mls-role-label">' + U.escapeHtml(r.label) + '</div>' +
           '<div class="mls-role-name">' + ch.nameTag + '</div>' +
           '<div class="mls-role-desc">' + U.escapeHtml(ch.description || '') + '</div></div></div>' +
-          '<div class="mls-char-grid" role="group" aria-label="Personnage pour : ' + U.escapeHtml(r.label) + '">' +
+          '<div class="mls-char-grid" role="group" aria-label="' + U.escapeHtml(self.t('p.castFor', { label: r.label })) + '">' +
           self.chars().map(function (c) {
             var on = self.cast[r.role] === c.id;
             return '<button type="button" class="mls-char' + (on ? ' is-on' : '') + '" data-id="' + U.escapeHtml(c.id) + '" data-tags="' +
-              U.escapeHtml((c.tags || []).join(' ')) + '" aria-pressed="' + on + '" title="' + U.escapeHtml(c.description || c.name) + '">' +
+              U.escapeHtml((c.tags || []).join(' ')) + '" aria-pressed="' + on + '" title="' + U.escapeHtml(MLS.i18n.local(c.description, self.lang) || c.name) + '">' +
               '<img src="' + U.escapeHtml(c.images.neutral) + '" alt=""><span>' + U.escapeHtml(c.name) + '</span></button>';
           }).join('') +
-          '</div>' + (self.audioOn ? self.voiceRow(r.role, 'Voix') : '') + '</section>';
+          '</div>' + (self.audioOn ? self.voiceRow(r.role, self.t('a.voice')) : '') + '</section>';
       });
     }
     if (this.audioOn) html += this.audioSettingsHtml();
     html += '<div class="mls-welcome-actions">';
     if (resume > 0) {
-      html += '<button type="button" class="mls-btn mls-btn-ghost" data-w="start">Recommencer</button>' +
-        '<button type="button" class="mls-btn" data-w="resume"><i class="bi bi-play-fill"></i> Reprendre (slide ' + (resume + 1) + ')</button>';
+      html += '<button type="button" class="mls-btn mls-btn-ghost" data-w="start">' + this.t('p.restart') + '</button>' +
+        '<button type="button" class="mls-btn" data-w="resume"><i class="bi bi-play-fill"></i> ' + this.t('p.resume', { n: resume + 1 }) + '</button>';
     } else {
       html += '<button type="button" class="mls-btn" data-w="' + (fromMenu ? 'close' : 'start') + '">' +
-        (fromMenu ? '<i class="bi bi-check-lg"></i> Valider' : '<i class="bi bi-play-fill"></i> Commencer') + '</button>';
+        (fromMenu ? '<i class="bi bi-check-lg"></i> ' + this.t('p.validate') : '<i class="bi bi-play-fill"></i> ' + this.t('p.start')) + '</button>';
     }
     html += '</div></div>';
     w.innerHTML = html;
@@ -712,7 +727,7 @@
         MLS.speech.saveSettings(self.tts);
         self.applyAudioClass();
         w.querySelectorAll('[data-mode]').forEach(function (c) { var on = c === mb; c.classList.toggle('is-on', on); c.setAttribute('aria-pressed', on); });
-        w.querySelector('.mls-mode-hint').innerHTML = MODE_HINTS[self.tts.mode];
+        w.querySelector('.mls-mode-hint').innerHTML = self.t('a.hint.' + self.tts.mode);
         if (self.tts.mode === 'off') MLS.speech.cancel();
         return;
       }
@@ -739,7 +754,7 @@
         if (cur && ch.img) { cur.src = ch.img; cur.alt = ch.alt; }
         sec.querySelector('.mls-role-desc').textContent = ch.description || '';
         self.refreshAvatars();
-        self.announce(ch.name + ' sera : ' + ch.label);
+        self.announce(self.t('p.castAnnounce', { name: ch.name, label: ch.label }));
         return;
       }
       var act = e.target.closest('[data-w]');
@@ -768,13 +783,13 @@
     end.innerHTML =
       '<div class="mls-welcome-card mls-end-card" role="dialog" aria-modal="true" aria-labelledby="mls-et">' +
       (mentor ? '<div class="mls-end-avatar">' + mentor.avatar + '</div>' : '<div class="mls-end-icon"><i class="bi bi-trophy"></i></div>') +
-      '<h1 id="mls-et">Module terminé !</h1>' +
+      '<h1 id="mls-et">' + this.t('p.endTitle') + '</h1>' +
       (total ? '<div class="mls-score" style="--p:' + pct + '"><span>' + ok + '<small>/' + total + '</small></span></div>' +
-        '<p>' + (pct === 100 ? 'Parfait, toutes vos réponses sont justes.' : pct >= 50 ? 'Bien joué ! Vous pouvez revoir les points manqués.' : 'Revoyez le module pour consolider vos acquis.') + '</p>'
-        : '<p>Merci d’avoir suivi ce module.</p>') +
+        '<p>' + this.t(pct === 100 ? 'p.endPerfect' : pct >= 50 ? 'p.endGood' : 'p.endLow') + '</p>'
+        : '<p>' + this.t('p.endThanks') + '</p>') +
       '<div class="mls-welcome-actions">' +
-      '<button type="button" class="mls-btn mls-btn-ghost" data-e="review"><i class="bi bi-arrow-counterclockwise"></i> Revoir le module</button>' +
-      '<button type="button" class="mls-btn" data-e="close"><i class="bi bi-check-lg"></i> Fermer</button>' +
+      '<button type="button" class="mls-btn mls-btn-ghost" data-e="review"><i class="bi bi-arrow-counterclockwise"></i> ' + this.t('p.review') + '</button>' +
+      '<button type="button" class="mls-btn" data-e="close"><i class="bi bi-check-lg"></i> ' + this.t('p.close') + '</button>' +
       '</div></div>';
     end.hidden = false;
     MLS.scorm.complete(ok, total);

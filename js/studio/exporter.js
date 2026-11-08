@@ -10,13 +10,12 @@
 
   var U = MLS.util;
 
-  function fetchOk(url, kind) {
+  function fetchOk(url, kind, T) {
     return fetch(url, { cache: 'no-cache' }).then(function (r) {
-      if (!r.ok) throw new Error('Fichier introuvable : ' + url + ' (' + r.status + ')');
+      if (!r.ok) throw new Error(T('s.exMissing', { url: url, status: r.status }));
       return kind === 'text' ? r.text() : r.arrayBuffer();
     }, function () {
-      throw new Error('Impossible de lire « ' + url + ' ». L’export nécessite que le Studio soit servi en http(s) ' +
-        '(GitHub Pages, serveur local…) et non ouvert en file://.');
+      throw new Error(T('s.exFetch', { url: url }));
     });
   }
 
@@ -61,13 +60,13 @@
       '})();';
   }
 
-  function indexHtml(title, cssLinks, jsLinks) {
-    return '<!doctype html>\n<html lang="fr">\n<head>\n  <meta charset="utf-8">\n' +
+  function indexHtml(title, cssLinks, jsLinks, lang) {
+    return '<!doctype html>\n<html lang="' + (lang || 'fr') + '">\n<head>\n  <meta charset="utf-8">\n' +
       '  <meta name="viewport" content="width=device-width, initial-scale=1">\n' +
       '  <meta name="generator" content="MicroLearn Studio ' + MLS.version + '">\n' +
       '  <title>' + U.escapeHtml(title) + '</title>\n' + cssLinks + '\n</head>\n<body class="mls-body">\n' +
       '  <div id="player"></div>\n' +
-      '  <noscript><p style="padding:2rem;font-family:sans-serif">Ce module de formation nécessite JavaScript.</p></noscript>\n' +
+      '  <noscript><p style="padding:2rem;font-family:sans-serif">' + (lang === 'fr' ? 'Ce module de formation nécessite JavaScript.' : 'This learning module requires JavaScript.') + '</p></noscript>\n' +
       jsLinks + '\n</body>\n</html>\n';
   }
 
@@ -88,7 +87,8 @@
       '\n    </resource>\n  </resources>\n</manifest>\n';
   }
 
-  function readme(title, type) {
+  function readme(title, type, lang) {
+    if (lang !== 'fr') return readmeEn(title, type);
     return 'MODULE : ' + title + '\r\n' +
       '======================================================\r\n\r\n' +
       'Généré avec MicroLearn Studio ' + MLS.version + ' le ' + new Date().toLocaleString('fr-FR') + '.\r\n\r\n' +
@@ -100,6 +100,17 @@
           '(vous pouvez le copier sur une clé USB, un intranet ou un partage réseau).\r\n') +
       '\r\nContenu :\r\n  index.html       point d\'entrée\r\n  course.js        contenu du cours (Markdown + formats)\r\n' +
       '  css/, js/, vendor/  moteur de lecture\r\n  assets/          personnages et images\r\n';
+  }
+
+  function readmeEn(title, type) {
+    return 'MODULE: ' + title + '\r\n' +
+      '======================================================\r\n\r\n' +
+      'Generated with MicroLearn Studio ' + MLS.version + ' on ' + new Date().toLocaleString('en-GB') + '.\r\n\r\n' +
+      (type === 'scorm'
+        ? 'SCORM 1.2 package: import this ZIP file as is into your LMS (Moodle, etc.).\r\nProgress (last slide) and quiz score are reported to the LMS.\r\n'
+        : 'Simply open "index.html" in a modern browser.\r\nNo Internet connection is needed: everything is included in this folder\r\n(you can copy it to a USB stick, an intranet or a network share).\r\n') +
+      '\r\nContents:\r\n  index.html       entry point\r\n  course.js        course content (Markdown + formats)\r\n' +
+      '  css/, js/, vendor/  playback engine\r\n  assets/          characters and images\r\n';
   }
 
   /**
@@ -114,7 +125,9 @@
     var slug = U.slugify(title) || 'module';
     var formats = o.formats.map(function (f) { return MLS.formats.serialize(f); });
     var catalog = U.clone(window.MLS_CHARACTERS || { characters: [] });
-    var warnings = externalMedia(md).map(function (u) { return 'Image distante (nécessite Internet) : ' + u; });
+    var T = o.t || MLS.i18n.translator(MLS.i18n.uiLang());
+    var lang = MLS.i18n.pick(course.meta.lang || 'fr');
+    var warnings = externalMedia(md).map(function (u) { return T('s.exRemote', { url: u }); });
     var progress = o.onProgress || function () {};
 
     var F = MLS.PLAYER_FILES;
@@ -131,11 +144,11 @@
     var done = 0;
     var results = {};
     return Promise.all(tasks.map(function (t) {
-      return fetchOk(t.path, t.kind).then(function (data) {
+      return fetchOk(t.path, t.kind, T).then(function (data) {
         results[t.path] = data;
         progress(++done / tasks.length);
       }, function (err) {
-        if (t.optional) { warnings.push('Image locale introuvable, ignorée : ' + t.path); progress(++done / tasks.length); return; }
+        if (t.optional) { warnings.push(T('s.exNoLocal', { url: t.path })); progress(++done / tasks.length); return; }
         throw err;
       });
     })).then(function () {
@@ -169,7 +182,7 @@
           return '<script>/* ' + p + ' */\n' + results[p].replace(/\/\/# sourceMappingURL=\S+/g, '').replace(/<\/script/gi, '<\\/script') + '\n</script>';
         }).join('\n');
         js += '\n<script>window.MLS_CHARACTERS = ' + safeJson(catalog) + ';\nwindow.MLS_COURSE = ' + safeJson(data) + ';</script>\n<script>' + bootScript() + '</script>';
-        var html = indexHtml(title, css, js);
+        var html = indexHtml(title, css, js, lang);
         return { blob: new Blob([html], { type: 'text/html;charset=utf-8' }), filename: slug + '.html', warnings: warnings };
       }
 
@@ -186,8 +199,8 @@
       var cssLinks = F.css.map(function (p) { return '  <link rel="stylesheet" href="' + p + '">'; }).join('\n');
       var jsLinks = F.js.concat(['course.js']).map(function (p) { return '  <script src="' + p + '"></script>'; }).join('\n') +
         '\n  <script>\n' + bootScript() + '\n  </script>';
-      zip.add(root + 'index.html', indexHtml(title, cssLinks, jsLinks));
-      zip.add(root + 'LISEZMOI.txt', readme(title, type));
+      zip.add(root + 'index.html', indexHtml(title, cssLinks, jsLinks, lang));
+      zip.add(root + (lang === 'fr' ? 'LISEZMOI.txt' : 'README.txt'), readme(title, type, lang));
       if (type === 'scorm') {
         var list = zip.paths();
         zip.add('imsmanifest.xml', manifest('mls-' + slug, title, list));

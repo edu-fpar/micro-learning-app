@@ -162,6 +162,7 @@ function svg(c, e) {
   return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img"><title>${c.name}</title>${parts.join('')}</svg>\n`;
 }
 
+const EN_DESC = {"amina":"Engineer, wears a hijab.","lucas":"Project manager, wears glasses.","mei":"Design student.","jose":"Experienced trainer, wears a hearing aid.","fatou":"Developer, uses a wheelchair.","tom":"Apprentice, curious about everything.","ines":"Director, about to retire.","karan":"Quality manager, wears a turban.","sam":"UX designer, non-binary.","noah":"Accessibility expert, blind, uses a white cane.","lea":"Lawyer, has a cochlear implant.","malik":"Consultant in his sixties."};
 const catalog = { expressions: EXPRESSIONS, characters: [] };
 for (const c of CHARACTERS) {
   const dir = path.join(OUT, c.id);
@@ -171,7 +172,7 @@ for (const c of CHARACTERS) {
     fs.writeFileSync(path.join(dir, e + '.svg'), svg(c, e));
     images[e] = `assets/characters/${c.id}/${e}.svg`;
   }
-  catalog.characters.push({ id: c.id, name: c.name, description: c.description, tags: c.tags, images });
+  catalog.characters.push({ id: c.id, name: c.name, description: { fr: c.description, en: EN_DESC[c.id] || c.description }, tags: c.tags, images });
 }
 fs.writeFileSync(path.join(OUT, 'catalog.js'),
   '/* Répertoire des personnages — généré par tools/generate-avatars.js, éditable à la main.\n' +

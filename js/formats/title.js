@@ -9,12 +9,24 @@ MLS.formats.register({
 <!-- eyebrow: Chapitre 1 -->
 ### Bienvenue dans le module
 Une introduction rapide, ludique et interactive.`,
+  i18n: {
+    "fr": {
+      "go": "C’est parti"
+    },
+    "en": {
+      "go": "Let’s go",
+      "$name": "Cover",
+      "$category": "Structure",
+      "$description": "Opening or chapter slide: large title, hook, visual (image or character) and a button to start.",
+      "$sample": "<!-- character-role: mentor -->\n<!-- character-expression: happy -->\n<!-- eyebrow: Chapter 1 -->\n### Welcome to the module\nA quick, playful and interactive introduction."
+    }
+  },
   template: `<div class="cover">
   <div class="cover-text mls-rise">
     <span class="mls-eyebrow"><i class="bi bi-stars"></i> {{#meta.eyebrow}}{{meta.eyebrow}}{{/meta.eyebrow}}{{^meta.eyebrow}}{{course.title}}{{/meta.eyebrow}}</span>
     <h2 class="cover-title">{{{titleHtml}}}</h2>
     {{#hasText}}<div class="cover-sub mls-prose">{{{text}}}</div>{{/hasText}}
-    <button class="mls-btn cover-go" type="button"><i class="bi bi-play-fill"></i> {{#meta.button}}{{meta.button}}{{/meta.button}}{{^meta.button}}C’est parti{{/meta.button}}</button>
+    <button class="mls-btn cover-go" type="button"><i class="bi bi-play-fill"></i> {{#meta.button}}{{meta.button}}{{/meta.button}}{{^meta.button}}{{t.go}}{{/meta.button}}</button>
   </div>
   <div class="cover-visual mls-rise" style="animation-delay:.15s">
     <span class="cover-ring r1"></span><span class="cover-ring r2"></span>

@@ -7,6 +7,7 @@ MLS.sampleCourse = [
 'description: "Découvrez en quelques slides les règles essentielles pour concevoir des interfaces web accessibles à toutes et tous."',
 'duration: 10 min',
 'author: Équipe pédagogique',
+'lang: fr',
 'theme: violet',
 'characters:',
 '  mentor: "Le Guide Pédagogique"',
@@ -142,3 +143,5 @@ MLS.sampleCourse = [
 '### À vous de jouer !',
 '> Bravo, vous connaissez maintenant les bases. Testez vos pages au clavier dès aujourd\'hui !'
 ].join('\n');
+MLS.samples = MLS.samples || {};
+MLS.samples.fr = MLS.sampleCourse;

@@ -16,6 +16,8 @@
 5. **Fais parler des personnages** (rôles `mentor` et `peer` par défaut) dans les dialogues, conseils et quiz.
 6. **Rends ta réponse** dans le format décrit au § 7.
 
+Rédige le cours dans la langue demandée (par défaut celle du contenu fourni) et indique-la dans `lang`. Les exemples de cette page sont en français (version anglaise : skill-en.md), mais la syntaxe est identique en anglais : seuls les textes changent ; les identifiants de formats, de rôles et d'expressions restent en anglais/minuscules.
+
 Si l'enseignant·e donne des consignes (durée, public, ton, nombre de slides, formats à privilégier), elles passent avant les recommandations de cette page. Ne change jamais la **syntaxe**.
 
 ---
@@ -31,6 +33,7 @@ subtitle: "Micro-learning · 10 minutes"
 description: "Une phrase qui donne envie de suivre le module."
 duration: 10 min
 author: "Nom de l'enseignant·e"
+lang: fr
 theme: violet
 characters:
   mentor: "Le Guide Pédagogique"
@@ -59,7 +62,7 @@ Texte…
 | `author` | non | Auteur·rice. |
 | `theme` | non | Couleurs : `violet` (défaut), `ocean`, `sunset`, `forest`, `night`. |
 | `characters` | conseillé | Les **rôles** de personnages et leur intitulé (voir § 5). |
-| `lang` | non | Langue du module pour la lecture à voix haute, ex. `fr` (défaut), `en`. |
+| `lang` | **oui** | Langue du cours : `fr` ou `en` (d'autres langues viendront). Elle traduit les boutons et consignes du slideshow (Suivant, Valider, Réessayer…) et choisit les voix de lecture. **Mets toujours la langue dans laquelle tu rédiges le cours.** |
 | `audio` | non | `off` pour désactiver la lecture à voix haute dans tout le module. |
 | `audio-min` | non | Longueur (en caractères) à partir de laquelle un texte reçoit une icône d'écoute. Défaut : `120`. |
 
@@ -259,7 +262,7 @@ Cliquez sur les points pour explorer la feuille.
 
 ### Vérification avant d'envoyer
 
-- [ ] L'en-tête commence et finit par `---` et contient `title` et `characters`.
+- [ ] L'en-tête commence et finit par `---` et contient `title`, `lang` et `characters`.
 - [ ] Chaque slide commence par `<!-- slide: format-… -->` avec un format de la liste du § 4.
 - [ ] Les slides sont séparées par une ligne `---` seule, sans aucun `---` décoratif.
 - [ ] Chaque slide a exactement un titre `###`.

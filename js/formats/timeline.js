@@ -10,6 +10,20 @@ MLS.formats.register({
 - **2008** :: Les **WCAG 2.0** deviennent la référence internationale.
 - **2018** :: **WCAG 2.1** : prise en compte du mobile et des déficiences cognitives.
 - **2025** :: L’**European Accessibility Act** s’applique aux services privés.`,
+  i18n: {
+    "fr": {
+      "prevStep": "Étape précédente",
+      "nextStep": "Étape suivante"
+    },
+    "en": {
+      "prevStep": "Previous step",
+      "nextStep": "Next step",
+      "$name": "Timeline",
+      "$category": "Discovery",
+      "$description": "Interactive timeline: horizontal on large screens, vertical on mobile. Syntax: \"- **Date** :: Description\". Arrow keys navigate.",
+      "$sample": "### A short history of web accessibility\n- **1999** :: **WCAG 1.0** published by the W3C.\n- **2008** :: **WCAG 2.0** becomes the international reference.\n- **2018** :: **WCAG 2.1** covers mobile and cognitive disabilities.\n- **2025** :: The **European Accessibility Act** applies to private services."
+    }
+  },
   template: `<div class="tl">
   <div class="mls-rise">
     {{#title}}<h2 class="mls-title">{{{titleHtml}}}</h2>{{/title}}
@@ -26,8 +40,8 @@ MLS.formats.register({
       </div>
     </li>{{/items}}
   </ol>
-  <div class="tl-nav"><button type="button" class="mls-btn mls-btn-ghost tl-prev" aria-label="Étape précédente"><i class="bi bi-chevron-left"></i></button>
-  <button type="button" class="mls-btn tl-next" aria-label="Étape suivante"><i class="bi bi-chevron-right"></i></button></div>
+  <div class="tl-nav"><button type="button" class="mls-btn mls-btn-ghost tl-prev" aria-label="{{t.prevStep}}"><i class="bi bi-chevron-left"></i></button>
+  <button type="button" class="mls-btn tl-next" aria-label="{{t.nextStep}}"><i class="bi bi-chevron-right"></i></button></div>
 </div>`,
   css: `:scope .tl-track { list-style: none; padding: 0; margin: 1rem 0 0; display: grid; grid-template-columns: repeat(var(--n), minmax(0, 1fr)); row-gap: 1.2rem; }
 :scope .tl-step { display: contents; }

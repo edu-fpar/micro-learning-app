@@ -14,7 +14,10 @@ window.MLS_CHARACTERS = {
     {
       "id": "amina",
       "name": "Amina",
-      "description": "Ingénieure, porte un hijab.",
+      "description": {
+        "fr": "Ingénieure, porte un hijab.",
+        "en": "Engineer, wears a hijab."
+      },
       "tags": [
         "femme",
         "adulte"
@@ -31,7 +34,10 @@ window.MLS_CHARACTERS = {
     {
       "id": "lucas",
       "name": "Lucas",
-      "description": "Chef de projet, porte des lunettes.",
+      "description": {
+        "fr": "Chef de projet, porte des lunettes.",
+        "en": "Project manager, wears glasses."
+      },
       "tags": [
         "homme",
         "adulte"
@@ -48,7 +54,10 @@ window.MLS_CHARACTERS = {
     {
       "id": "mei",
       "name": "Mei",
-      "description": "Étudiante en design.",
+      "description": {
+        "fr": "Étudiante en design.",
+        "en": "Design student."
+      },
       "tags": [
         "femme",
         "jeune"
@@ -65,7 +74,10 @@ window.MLS_CHARACTERS = {
     {
       "id": "jose",
       "name": "José",
-      "description": "Formateur expérimenté, porte un appareil auditif.",
+      "description": {
+        "fr": "Formateur expérimenté, porte un appareil auditif.",
+        "en": "Experienced trainer, wears a hearing aid."
+      },
       "tags": [
         "homme",
         "senior",
@@ -83,7 +95,10 @@ window.MLS_CHARACTERS = {
     {
       "id": "fatou",
       "name": "Fatou",
-      "description": "Développeuse, se déplace en fauteuil roulant.",
+      "description": {
+        "fr": "Développeuse, se déplace en fauteuil roulant.",
+        "en": "Developer, uses a wheelchair."
+      },
       "tags": [
         "femme",
         "adulte",
@@ -101,7 +116,10 @@ window.MLS_CHARACTERS = {
     {
       "id": "tom",
       "name": "Tom",
-      "description": "Alternant, curieux de tout.",
+      "description": {
+        "fr": "Alternant, curieux de tout.",
+        "en": "Apprentice, curious about everything."
+      },
       "tags": [
         "homme",
         "jeune"
@@ -118,7 +136,10 @@ window.MLS_CHARACTERS = {
     {
       "id": "ines",
       "name": "Inès",
-      "description": "Directrice, bientôt à la retraite.",
+      "description": {
+        "fr": "Directrice, bientôt à la retraite.",
+        "en": "Director, about to retire."
+      },
       "tags": [
         "femme",
         "senior"
@@ -135,7 +156,10 @@ window.MLS_CHARACTERS = {
     {
       "id": "karan",
       "name": "Karan",
-      "description": "Responsable qualité, porte un turban.",
+      "description": {
+        "fr": "Responsable qualité, porte un turban.",
+        "en": "Quality manager, wears a turban."
+      },
       "tags": [
         "homme",
         "adulte"
@@ -152,7 +176,10 @@ window.MLS_CHARACTERS = {
     {
       "id": "sam",
       "name": "Sam",
-      "description": "UX designer, non-binaire.",
+      "description": {
+        "fr": "UX designer, non-binaire.",
+        "en": "UX designer, non-binary."
+      },
       "tags": [
         "non-binaire",
         "jeune"
@@ -169,7 +196,10 @@ window.MLS_CHARACTERS = {
     {
       "id": "noah",
       "name": "Noah",
-      "description": "Expert accessibilité, non-voyant, utilise une canne blanche.",
+      "description": {
+        "fr": "Expert accessibilité, non-voyant, utilise une canne blanche.",
+        "en": "Accessibility expert, blind, uses a white cane."
+      },
       "tags": [
         "homme",
         "adulte",
@@ -187,7 +217,10 @@ window.MLS_CHARACTERS = {
     {
       "id": "lea",
       "name": "Léa",
-      "description": "Juriste, porte un implant cochléaire.",
+      "description": {
+        "fr": "Juriste, porte un implant cochléaire.",
+        "en": "Lawyer, has a cochlear implant."
+      },
       "tags": [
         "femme",
         "jeune",
@@ -205,7 +238,10 @@ window.MLS_CHARACTERS = {
     {
       "id": "malik",
       "name": "Malik",
-      "description": "Consultant, la soixantaine.",
+      "description": {
+        "fr": "Consultant, la soixantaine.",
+        "en": "Consultant in his sixties."
+      },
       "tags": [
         "homme",
         "senior"

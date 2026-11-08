@@ -11,6 +11,14 @@ L’accessibilité numérique permet à **toutes et tous** d’utiliser un servi
 - Le handicap peut être permanent, temporaire ou situationnel
 
 ![Illustration](assets/images/accessibilite.svg)`,
+  i18n: {
+    "en": {
+      "$name": "Content",
+      "$category": "Structure",
+      "$description": "Classic content slide: rich text, lists, tables. An image on its own line is shown next to the text (below on mobile).",
+      "$sample": "### Why accessibility?\nDigital accessibility lets **everyone** use a service, whatever their abilities.\n\n- 1 person in 5 lives with a disability\n- Disability can be permanent, temporary or situational\n\n![Illustration](assets/images/accessibilite.svg)"
+    }
+  },
   template: `<div class="content mls-card mls-rise{{#hasImage}} has-image{{/hasImage}}">
   <div class="content-main">
     {{#title}}<h2 class="mls-title">{{{titleHtml}}}</h2>{{/title}}

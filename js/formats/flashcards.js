@@ -11,11 +11,27 @@ Retournez chaque carte pour découvrir sa définition.
 - **WCAG 2.1** :: Directives internationales d’accessibilité du W3C.
 - **ARIA** :: Attributs qui enrichissent la sémantique pour les technologies d’assistance.
 - **Lecteur d’écran** :: Logiciel qui vocalise ou affiche en braille le contenu de l’écran.`,
+  i18n: {
+    "fr": {
+      "hint": "Touchez une carte pour la retourner",
+      "found": "découvertes",
+      "allFound": "Toutes les cartes ont été découvertes."
+    },
+    "en": {
+      "hint": "Tap a card to flip it",
+      "found": "discovered",
+      "allFound": "All cards have been discovered.",
+      "$name": "Flip cards",
+      "$category": "Discovery",
+      "$description": "Grid of two-sided cards. Syntax: \"- **Term** :: Definition\". A counter shows the cards discovered.",
+      "$sample": "### Key vocabulary\nFlip each card to discover its definition.\n\n- **WCAG 2.1** :: International web accessibility guidelines from the W3C.\n- **ARIA** :: Attributes that add semantics for assistive technologies.\n- **Screen reader** :: Software that speaks the screen content aloud or shows it in braille."
+    }
+  },
   template: `<div class="fc">
   <div class="fc-head mls-rise">
     {{#title}}<h2 class="mls-title">{{{titleHtml}}}</h2>{{/title}}
     {{#hasText}}<div class="mls-prose">{{{text}}}</div>{{/hasText}}
-    <p class="fc-hint"><i class="bi bi-hand-index-thumb"></i> Touchez une carte pour la retourner · <strong><span class="fc-count">0</span> / {{items.length}}</strong> découvertes</p>
+    <p class="fc-hint"><i class="bi bi-hand-index-thumb"></i> {{t.hint}} · <strong><span class="fc-count">0</span> / {{items.length}}</strong> {{t.found}}</p>
   </div>
   <div class="fc-grid">
     {{#items}}<button type="button" class="fc-card mls-rise" style="animation-delay:calc({{index}} * .06s + .1s)" aria-pressed="false">
@@ -63,7 +79,7 @@ cards.forEach(function (card, i) {
     back.setAttribute('aria-hidden', !on);
     if (on) { seen[i] = true; card.classList.add('is-seen'); ctx.announce(back.textContent.trim()); ctx.speak(back); }
     refresh();
-    if (Object.keys(seen).length === cards.length) ctx.announce('Toutes les cartes ont été découvertes.');
+    if (Object.keys(seen).length === cards.length) ctx.announce(ctx.t('allFound'));
   });
 });
 refresh();`

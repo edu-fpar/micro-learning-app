@@ -19,6 +19,7 @@
     js: [
       'vendor/marked/marked.min.js',
       'js/core/mls.js',
+      'js/core/i18n.js',
       'js/core/yaml.js',
       'js/core/template.js',
       'js/core/parser.js',

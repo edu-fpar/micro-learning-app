@@ -4,8 +4,10 @@
 
 ## Pour les IA
 
-- [Skill : mettre un cours au format MicroLearn](docs/skill.md): instructions complètes et syntaxe à respecter pour convertir un cours en Markdown MicroLearn.
+- [Skill : mettre un cours au format MicroLearn (FR)](docs/skill.md): instructions complètes et syntaxe à respecter pour convertir un cours en Markdown MicroLearn.
+- [Skill: format a course for MicroLearn (EN)](docs/skill-en.md): full instructions and syntax to convert a course into MicroLearn Markdown.
 
 ## Pour les humains
 
-- [Documentation](docs/index.html)
+- [Documentation (FR)](docs/index.html?lang=fr)
+- [Documentation (EN)](docs/index.html?lang=en)

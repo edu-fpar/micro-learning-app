@@ -6,8 +6,8 @@
 
   var DEVICES = {
     desktop: null,
-    tablet: { w: 820, h: 1180, label: 'Tablette · 820 × 1180' },
-    mobile: { w: 390, h: 844, label: 'Mobile · 390 × 844' }
+    tablet: { w: 820, h: 1180, key: 'c.tablet' },
+    mobile: { w: 390, h: 844, key: 'c.mobile' }
   };
 
   MLS.ui = {
@@ -37,7 +37,7 @@
         device.style.width = d.w + 'px';
         device.style.height = d.h + 'px';
         device.style.transform = 'scale(' + s.toFixed(3) + ')';
-        if (label) label.textContent = d.label + (s < 1 ? ' · ' + Math.round(s * 100) + ' %' : '');
+        if (label) label.textContent = MLS.i18n.t(MLS.i18n.uiLang(), d.key) + ' · ' + d.w + ' × ' + d.h + (s < 1 ? ' · ' + Math.round(s * 100) + ' %' : '');
       }
       if (window.ResizeObserver) new ResizeObserver(fit).observe(area); else window.addEventListener('resize', fit);
       return {
@@ -129,9 +129,58 @@
         })();
     },
 
+    /**
+     * Boîte de confirmation dans la page (les confirm()/prompt() natifs sont souvent
+     * bloqués dans les navigateurs intégrés). Renvoie une Promise<boolean>.
+     */
+    confirm: function (message, opts) {
+      return MLS.ui.dialog(message, opts).then(function (r) { return r !== null; });
+    },
+
+    /** Saisie d'un texte dans la page. Renvoie une Promise<string|null>. */
+    prompt: function (message, value, opts) {
+      opts = opts || {};
+      opts.input = value == null ? '' : String(value);
+      return MLS.ui.dialog(message, opts);
+    },
+
+    dialog: function (message, opts) {
+      opts = opts || {};
+      var t = MLS.i18n.translator(MLS.i18n.uiLang());
+      return new Promise(function (resolve) {
+        var el = document.createElement('div');
+        el.className = 'modal fade';
+        el.tabIndex = -1;
+        el.setAttribute('aria-modal', 'true');
+        el.setAttribute('role', 'dialog');
+        el.innerHTML = '<div class="modal-dialog modal-dialog-centered"><form class="modal-content">' +
+          '<div class="modal-body"><p class="mb-0" style="white-space:pre-line"></p>' +
+          (opts.input != null ? '<input class="form-control mt-3" maxlength="120">' : '') + '</div>' +
+          '<div class="modal-footer"><button type="button" class="btn btn-light" data-bs-dismiss="modal">' + t('c.cancel') + '</button>' +
+          '<button type="submit" class="btn ' + (opts.danger ? 'btn-danger' : 'btn-accent') + '">' + (opts.ok || t('c.ok')) + '</button></div>' +
+          '</form></div>';
+        el.querySelector('p').textContent = message;
+        var input = el.querySelector('input');
+        if (input) input.value = opts.input;
+        document.body.appendChild(el);
+        var result = null;
+        var modal = new bootstrap.Modal(el);
+        el.querySelector('form').addEventListener('submit', function (e) {
+          e.preventDefault();
+          result = input ? input.value : true;
+          modal.hide();
+        });
+        el.addEventListener('shown.bs.modal', function () {
+          if (input) { input.focus(); input.select(); } else el.querySelector('[type=submit]').focus();
+        });
+        el.addEventListener('hidden.bs.modal', function () { modal.dispose(); el.remove(); resolve(result); });
+        modal.show();
+      });
+    },
+
     formatDate: function (iso) {
       try {
-        return new Date(iso).toLocaleString('fr-FR', { day: '2-digit', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' });
+        return new Date(iso).toLocaleString(MLS.i18n.t(MLS.i18n.uiLang(), 'c.dateLocale'), { day: '2-digit', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' });
       } catch (e) { return iso; }
     }
   };
