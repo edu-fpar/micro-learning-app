@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Aperçu — MicroLearn</title>
+  <link rel="stylesheet" href="vendor/bootstrap/css/bootstrap.min.css">
+  <link rel="stylesheet" href="vendor/bootstrap-icons/bootstrap-icons.min.css">
+  <link rel="stylesheet" href="css/player.css">
+</head>
+<body class="mls-body">
+  <div id="player"></div>
+
+  <script src="vendor/marked/marked.min.js"></script>
+  <script src="js/core/mls.js"></script>
+  <script src="js/core/yaml.js"></script>
+  <script src="js/core/template.js"></script>
+  <script src="js/core/parser.js"></script>
+  <script src="js/core/scorm.js"></script>
+  <script src="js/core/speech.js"></script>
+  <script src="js/core/player.js"></script>
+  <script src="assets/characters/catalog.js"></script>
+  <script>
+    /* Shell d'aperçu : piloté par le Studio / le Format Lab via postMessage. */
+    (function () {
+      var host = window.parent !== window ? window.parent : window.opener;
+      var player = null;
+
+      function post(msg) { if (host) host.postMessage(msg, '*'); }
+
+      window.addEventListener('message', function (e) {
+        if (!host || e.source !== host) return;
+        var m = e.data || {};
+        if (m.type === 'mls:hello') {
+          post({ type: 'mls:ready' });
+        } else if (m.type === 'mls:load') {
+          if (!player) {
+            player = new MLS.Player(document.getElementById('player'), {
+              mode: m.mode || 'preview',
+              formats: m.formats || [],
+              onSlide: function (i) { post({ type: 'mls:slide', index: i }); },
+              onError: function (err) { post({ type: 'mls:error', error: err }); }
+            });
+          }
+          player.mode = m.mode || 'preview';
+          var course = player.load(m.markdown || '', { formats: m.formats, index: m.index, keepIndex: m.keepIndex, welcome: m.welcome });
+          post({ type: 'mls:loaded', slides: course.slides.length, warnings: course.warnings });
+        } else if (m.type === 'mls:goto' && player) {
+          player.goTo(m.index, { focus: false });
+        } else if (m.type === 'mls:welcome' && player) {
+          player.openWelcome(false);
+        } else if (m.type === 'mls:cast' && player) {
+          player.openWelcome(true);
+        }
+      });
+
+      post({ type: 'mls:ready' });
+    })();
+  </script>
+</body>
+</html>

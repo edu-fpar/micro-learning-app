@@ -1,0 +1,11 @@
+# MicroLearn Studio
+
+> Outil 100 % navigateur qui transforme un cours écrit en Markdown structuré en slideshow interactif (quiz, cartes, frises, dialogues avec personnages), exportable hors-ligne et en SCORM.
+
+## Pour les IA
+
+- [Skill : mettre un cours au format MicroLearn](docs/skill.md): instructions complètes et syntaxe à respecter pour convertir un cours en Markdown MicroLearn.
+
+## Pour les humains
+
+- [Documentation](docs/index.html)

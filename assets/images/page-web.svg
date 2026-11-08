@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450" role="img"><title>Maquette d'une page web</title>
+<rect width="800" height="450" rx="18" fill="#f7f7fb"/>
+<rect width="800" height="80" rx="18" fill="#2d2a5a"/><rect y="60" width="800" height="20" fill="#2d2a5a"/>
+<circle cx="70" cy="42" r="22" fill="#ffb703"/><rect x="100" y="32" width="70" height="20" rx="6" fill="#fff" opacity=".85"/>
+<g fill="#fff" opacity=".8"><rect x="430" y="34" width="70" height="14" rx="7"/><rect x="520" y="34" width="70" height="14" rx="7"/><rect x="610" y="34" width="70" height="14" rx="7"/><rect x="700" y="34" width="60" height="14" rx="7"/></g>
+<rect x="60" y="130" width="360" height="34" rx="8" fill="#6c4cf1"/>
+<g fill="#c9c6e0"><rect x="60" y="190" width="400" height="12" rx="6"/><rect x="60" y="214" width="380" height="12" rx="6"/><rect x="60" y="238" width="410" height="12" rx="6"/><rect x="60" y="262" width="300" height="12" rx="6"/></g>
+<rect x="60" y="300" width="190" height="60" rx="12" fill="#e7e3ff"/><rect x="270" y="300" width="190" height="60" rx="12" fill="#ffe7df"/>
+<rect x="520" y="130" width="230" height="250" rx="16" fill="#fff" stroke="#e1def0" stroke-width="2"/>
+<g fill="#8a87a8"><rect x="545" y="155" width="70" height="10" rx="5"/><rect x="545" y="210" width="70" height="10" rx="5"/></g>
+<g fill="none" stroke="#c9c6e0" stroke-width="2"><rect x="545" y="172" width="180" height="28" rx="7"/><rect x="545" y="227" width="180" height="28" rx="7"/></g>
+<rect x="545" y="285" width="120" height="36" rx="18" fill="#18c29c"/>
+<rect y="400" width="800" height="50" fill="#ececf4"/><rect y="400" width="800" height="50" rx="18" fill="#ececf4"/>
+<g fill="#b4b1cc"><rect x="300" y="418" width="200" height="12" rx="6"/></g>
+</svg>

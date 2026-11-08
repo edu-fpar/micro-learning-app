@@ -1,0 +1,206 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Documentation — MicroLearn</title>
+  <link rel="stylesheet" href="../vendor/bootstrap/css/bootstrap.min.css">
+  <link rel="stylesheet" href="../vendor/bootstrap-icons/bootstrap-icons.min.css">
+  <link rel="stylesheet" href="../css/studio.css">
+  <style>
+    body.docs { background: #f6f7fb; }
+    .docs-main { max-width: 900px; margin: 0 auto; padding: 2rem 1rem 4rem; }
+    .docs-main h2 { font-weight: 800; margin-top: 2.5rem; padding-top: .5rem; }
+    .docs-main h2 i { color: var(--st-accent); }
+    .docs-card { background: #fff; border-radius: 16px; padding: 1.3rem 1.5rem; box-shadow: 0 10px 30px -18px rgba(40, 20, 120, .35); }
+    .docs-main pre { background: var(--st-code-bg); color: var(--st-code-ink); border-radius: 12px; padding: 1rem; font-size: .85rem; }
+    .docs-toc a { text-decoration: none; }
+    .ai-box { background: linear-gradient(135deg, #2a2752, #4b2fb8); color: #fff; border-radius: 20px; padding: 1.5rem; }
+    .ai-box code { color: #ffd166; word-break: break-all; }
+    .ai-prompt { background: rgba(255,255,255,.1); border-radius: 12px; padding: .9rem 1rem; font-size: .95rem; }
+  </style>
+</head>
+<body class="docs">
+  <nav class="st-nav d-flex align-items-center">
+    <a class="st-brand" href="../index.html"><span class="logo"><i class="bi bi-stars"></i></span><span>MicroLearn <small>Docs</small></span></a>
+    <div class="st-spaces">
+      <a href="../index.html"><i class="bi bi-pencil-square"></i> <span class="st-hide-sm">Studio</span></a>
+      <a href="../lab.html"><i class="bi bi-palette"></i> <span class="st-hide-sm">Format Lab</span></a>
+      <a href="index.html" class="active"><i class="bi bi-book"></i> <span class="st-hide-sm">Docs</span></a>
+    </div>
+  </nav>
+
+  <main class="docs-main">
+    <h1 class="fw-bold">Documentation</h1>
+    <p class="lead text-secondary">MicroLearn transforme un cours écrit en Markdown en module interactif, consultable sur ordinateur et sur mobile, même hors-ligne.</p>
+
+    <div class="docs-card docs-toc">
+      <strong>Sommaire</strong>
+      <ol class="mb-0 mt-2">
+        <li><a href="#ia">Préparer son cours avec une IA</a></li>
+        <li><a href="#demarrer">Démarrer en 3 étapes</a></li>
+        <li><a href="#syntaxe">La syntaxe en bref</a></li>
+        <li><a href="#formats">Les formats de slides</a></li>
+        <li><a href="#personnages">Les personnages</a></li>
+        <li><a href="#audio">Lecture à voix haute</a></li>
+        <li><a href="#versions">Versions et sauvegarde</a></li>
+        <li><a href="#export">Exporter le module</a></li>
+        <li><a href="#lab">Créer ses propres formats</a></li>
+      </ol>
+    </div>
+
+    <!-- IA -->
+    <h2 id="ia"><i class="bi bi-robot"></i> 1. Préparer son cours avec une IA</h2>
+    <div class="ai-box">
+      <p>Pas besoin d'apprendre la syntaxe : n'importe quelle IA (ChatGPT, Claude, Gemini, Mistral, Copilot…) peut mettre votre cours au bon format. Donnez-lui simplement l'adresse de la <strong>page d'instructions pour IA</strong> :</p>
+      <p class="mb-2"><code id="skill-url">docs/skill.md</code>
+        <button class="btn btn-sm btn-light ms-2" data-copy="skill-url"><i class="bi bi-clipboard"></i> Copier l'adresse</button>
+        <a class="btn btn-sm btn-outline-light ms-1" href="skill.md" target="_blank"><i class="bi bi-eye"></i> Voir la page</a></p>
+      <p class="mt-3 mb-1">Puis écrivez par exemple :</p>
+      <div class="ai-prompt" id="ai-prompt">Lis les instructions sur <span class="js-url">docs/skill.md</span> et mets en forme le cours suivant pour MicroLearn. Public : élèves de 4e, durée 10 minutes, tutoiement.<br>[collez ici votre cours, votre plan ou vos notes]</div>
+      <button class="btn btn-sm btn-light mt-2" data-copy="ai-prompt"><i class="bi bi-clipboard"></i> Copier la consigne</button>
+      <p class="mt-3 mb-1">L'IA répond avec un bloc de Markdown : copiez-le, collez-le dans le <a class="link-light" href="../index.html">Studio</a>, vérifiez l'aperçu, ajustez si besoin.</p>
+      <div class="small mt-3 opacity-75" id="ai-local" hidden>
+        <i class="bi bi-info-circle"></i> Cette application tourne sur votre ordinateur : une IA en ligne ne pourra pas lire cette adresse.
+        Publiez l'application (GitHub Pages par exemple) ou utilisez le bouton ci-dessous et collez le texte au début de votre message.
+      </div>
+      <button class="btn btn-sm btn-warning mt-2" id="copy-skill"><i class="bi bi-file-earmark-text"></i> Copier toutes les instructions (pour les IA sans accès web)</button>
+    </div>
+
+    <!-- DÉMARRER -->
+    <h2 id="demarrer"><i class="bi bi-rocket-takeoff"></i> 2. Démarrer en 3 étapes</h2>
+    <div class="docs-card">
+      <ol class="mb-0">
+        <li class="mb-2"><strong>Écrivez</strong> (ou collez) votre cours dans l'éditeur de gauche du <a href="../index.html">Studio</a>. Un cours d'exemple est chargé au premier lancement.</li>
+        <li class="mb-2"><strong>Vérifiez</strong> le rendu dans l'aperçu à droite. Basculez entre les vues <i class="bi bi-display"></i> bureau, <i class="bi bi-tablet"></i> tablette et <i class="bi bi-phone"></i> mobile. L'aperçu suit la slide où se trouve votre curseur. Le bouton <i class="bi bi-plus-square"></i> <em>Insérer une slide</em> ajoute un modèle prêt à remplir.</li>
+        <li><strong>Exportez</strong> avec le bouton <i class="bi bi-box-arrow-down"></i> <em>Exporter</em> et partagez le module.</li>
+      </ol>
+    </div>
+
+    <!-- SYNTAXE -->
+    <h2 id="syntaxe"><i class="bi bi-markdown"></i> 3. La syntaxe en bref</h2>
+    <div class="docs-card">
+      <ul>
+        <li>Le fichier commence par un <strong>en-tête</strong> entre deux lignes <code>---</code> (titre, description, personnages…).</li>
+        <li>Les slides sont <strong>séparées par une ligne <code>---</code></strong>.</li>
+        <li>Chaque slide commence par <code>&lt;!-- slide: format-… --&gt;</code> et contient un titre <code>###</code>.</li>
+        <li>Le reste est du Markdown classique : <code>**gras**</code>, <code>*italique*</code>, listes <code>- </code>, liens, images.</li>
+      </ul>
+<pre>---
+title: "Mon module"
+description: "Ce que l'apprenant va découvrir."
+duration: 10 min
+theme: violet
+characters:
+  mentor: "Le Guide"
+  peer: "Le Collègue"
+---
+
+&lt;!-- slide: format-title --&gt;
+&lt;!-- character-role: mentor --&gt;
+### Bienvenue !
+Une phrase d'accroche.
+
+---
+
+&lt;!-- slide: format-flashcards --&gt;
+### Lexique
+- **Mot** :: Sa définition.
+- **Autre mot** :: Une autre définition.</pre>
+      <p class="mb-0">Thèmes de couleurs : <code>violet</code>, <code>ocean</code>, <code>sunset</code>, <code>forest</code>, <code>night</code>. La référence complète de la syntaxe est la <a href="skill.md">page pour les IA</a>.</p>
+    </div>
+
+    <!-- FORMATS -->
+    <h2 id="formats"><i class="bi bi-grid-1x2"></i> 4. Les formats de slides</h2>
+    <div class="docs-card">
+      <div class="table-responsive">
+        <table class="table align-middle mb-0">
+          <thead><tr><th>Format</th><th>Pour…</th><th>Syntaxe clé</th></tr></thead>
+          <tbody>
+            <tr><td><i class="bi bi-easel2"></i> <code>format-title</code></td><td>ouvrir le module ou un chapitre</td><td>titre + accroche</td></tr>
+            <tr><td><i class="bi bi-file-earmark-text"></i> <code>format-content</code></td><td>exposer une notion</td><td>texte, listes, image</td></tr>
+            <tr><td><i class="bi bi-chat-quote"></i> <code>format-dialogue</code></td><td>mettre en situation</td><td><code>&gt; réplique</code>, <code>&gt; @peer: …</code></td></tr>
+            <tr><td><i class="bi bi-lightbulb"></i> <code>format-conseil</code></td><td>donner une astuce</td><td>personnage + texte</td></tr>
+            <tr><td><i class="bi bi-patch-question"></i> <code>format-quiz</code></td><td>évaluer</td><td><code>- [x] juste</code>, <code>- [ ] faux :: explication</code></td></tr>
+            <tr><td><i class="bi bi-front"></i> <code>format-flashcards</code></td><td>le vocabulaire</td><td><code>- **Terme** :: définition</code></td></tr>
+            <tr><td><i class="bi bi-clock-history"></i> <code>format-timeline</code></td><td>dates, étapes</td><td><code>- **1999** :: événement</code></td></tr>
+            <tr><td><i class="bi bi-segmented-nav"></i> <code>format-tabs</code></td><td>plusieurs facettes</td><td>sous-titres <code>####</code></td></tr>
+            <tr><td><i class="bi bi-bullseye"></i> <code>format-hotspots</code></td><td>explorer une image</td><td><code>- X,Y :: **Titre** :: texte</code></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- PERSONNAGES -->
+    <h2 id="personnages"><i class="bi bi-people"></i> 5. Les personnages</h2>
+    <div class="docs-card">
+      <p>Dans votre cours, vous ne choisissez pas un personnage précis mais un <strong>rôle</strong> (<code>mentor</code>, <code>peer</code>…), déclaré dans l'en-tête. Au lancement du module, <strong>chaque apprenant·e choisit</strong> l'apparence de ses personnages parmi un répertoire varié (genre, âge, origine, handicap).</p>
+      <p class="mb-0">Dans une slide : <code>&lt;!-- character-role: mentor --&gt;</code> et <code>&lt;!-- character-expression: happy --&gt;</code>. Expressions : <code>neutral</code>, <code>happy</code>, <code>encouraging</code>, <code>thinking</code>, <code>surprised</code>, <code>concerned</code>. Dans l'aperçu du Studio, le bouton <i class="bi bi-people"></i> permet de tester d'autres personnages.</p>
+    </div>
+
+    <!-- AUDIO -->
+    <h2 id="audio"><i class="bi bi-volume-up"></i> 6. Lecture à voix haute</h2>
+    <div class="docs-card">
+      <p>Pour les apprenant·es qui préfèrent écouter plutôt que lire, les textes longs peuvent être lus par la <strong>synthèse vocale du navigateur</strong> (aucune connexion nécessaire avec les voix installées sur l'appareil). C'est un outil de confort : il ne remplace pas les lecteurs d'écran et n'interfère pas avec eux.</p>
+      <ul>
+        <li>Sur l'écran d'accueil (bouton <i class="bi bi-people"></i>), l'apprenant·e choisit une <strong>voix pour chaque personnage</strong> et pour le narrateur, avec un bouton <em>Tester</em>, et règle la vitesse.</li>
+        <li>Quatre modes : <em>Désactivée</em>, <em>Sur l'icône seulement</em> <i class="bi bi-volume-up-fill"></i> (par défaut), <em>Quand j'ouvre un élément</em> (point d'une image, carte, étape, onglet, réplique, correction de quiz), <em>Automatique</em> (lecture dès l'affichage de la slide).</li>
+        <li>L'icône apparaît sur les textes de plus de 120 caractères et sur toutes les répliques de dialogue. Le bouton <i class="bi bi-stop-circle-fill"></i> en haut arrête la lecture.</li>
+      </ul>
+      <p class="mb-0">Réglages enseignant : dans l'en-tête, <code>lang: fr</code>, <code>audio-min: 80</code> (seuil) ou <code>audio: off</code> ; dans une slide, <code>&lt;!-- audio: all --&gt;</code> ou <code>&lt;!-- audio: off --&gt;</code>.</p>
+    </div>
+
+    <!-- VERSIONS -->
+    <h2 id="versions"><i class="bi bi-clock-history"></i> 7. Versions et sauvegarde</h2>
+    <div class="docs-card">
+      <ul class="mb-0">
+        <li>Le brouillon est <strong>enregistré automatiquement</strong> dans votre navigateur.</li>
+        <li><i class="bi bi-camera"></i> <em>Version</em> (ou <kbd>Ctrl</kbd>+<kbd>S</kbd>) prend une photo de votre cours. L'<i class="bi bi-clock-history"></i> <em>Historique</em> permet de revenir en arrière.</li>
+        <li>Ces données restent dans <strong>ce navigateur, sur cet ordinateur</strong>. Pour une vraie sauvegarde, utilisez <em>Fichier → Télécharger le Markdown</em>.</li>
+      </ul>
+    </div>
+
+    <!-- EXPORT -->
+    <h2 id="export"><i class="bi bi-box-arrow-down"></i> 8. Exporter le module</h2>
+    <div class="docs-card">
+      <ul class="mb-0">
+        <li><strong>Paquet ZIP</strong> : un dossier à décompresser ; ouvrez <code>index.html</code>. Idéal pour une clé USB, un intranet ou un site web.</li>
+        <li><strong>Fichier HTML unique</strong> : tout dans un seul fichier, facile à envoyer.</li>
+        <li><strong>SCORM 1.2</strong> : à importer dans un LMS (Moodle…). La progression et le score sont transmis.</li>
+      </ul>
+      <p class="mt-2 mb-0 small text-secondary">Les modules exportés fonctionnent sans Internet. L'export lui-même nécessite que le Studio soit ouvert via une adresse web (http/https), pas en double-cliquant sur le fichier.</p>
+    </div>
+
+    <!-- LAB -->
+    <h2 id="lab"><i class="bi bi-palette"></i> 9. Créer ses propres formats</h2>
+    <div class="docs-card">
+      <p class="mb-0">Le <a href="../lab.html">Format Lab</a> permet de modifier les formats existants ou d'en créer de nouveaux (gabarit HTML, CSS, script), avec un test en direct sur bureau et mobile. Les formats enregistrés apparaissent aussitôt dans le Studio et sont inclus dans les exports. L'onglet <em>Aide</em> du Lab détaille tout ce qui est disponible.</p>
+    </div>
+  </main>
+
+  <script>
+    (function () {
+      var url = new URL('skill.md', location.href).href;
+      document.getElementById('skill-url').textContent = url;
+      document.querySelectorAll('.js-url').forEach(function (e) { e.textContent = url; });
+      if (/^(localhost|127\.|\[::1\])/.test(location.hostname) || location.protocol === 'file:') document.getElementById('ai-local').hidden = false;
+
+      function copy(text, btn) {
+        navigator.clipboard.writeText(text).then(function () {
+          var old = btn.innerHTML;
+          btn.innerHTML = '<i class="bi bi-check-lg"></i> Copié !';
+          setTimeout(function () { btn.innerHTML = old; }, 1600);
+        }, function () { alert('Copie impossible : sélectionnez le texte manuellement.'); });
+      }
+      document.querySelectorAll('[data-copy]').forEach(function (b) {
+        b.addEventListener('click', function () { copy(document.getElementById(b.getAttribute('data-copy')).innerText.trim(), b); });
+      });
+      document.getElementById('copy-skill').addEventListener('click', function () {
+        var b = this;
+        fetch('skill.md').then(function (r) { return r.text(); }).then(function (t) { copy(t, b); })
+          .catch(function () { alert('Lecture impossible en file:// : ouvrez docs/skill.md et copiez son contenu.'); });
+      });
+    })();
+  </script>
+</body>
+</html>

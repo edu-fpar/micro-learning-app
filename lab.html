@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Format Lab — MicroLearn</title>
+  <link rel="stylesheet" href="vendor/bootstrap/css/bootstrap.min.css">
+  <link rel="stylesheet" href="vendor/bootstrap-icons/bootstrap-icons.min.css">
+  <link rel="stylesheet" href="css/studio.css">
+</head>
+<body class="studio">
+
+  <nav class="st-nav d-flex align-items-center">
+    <a class="st-brand" href="index.html"><span class="logo"><i class="bi bi-stars"></i></span><span>MicroLearn <small class="st-hide-sm">Format Lab</small></span></a>
+    <div class="st-spaces">
+      <a href="index.html"><i class="bi bi-pencil-square"></i> <span class="st-hide-sm">Studio</span></a>
+      <a href="lab.html" class="active"><i class="bi bi-palette"></i> <span class="st-hide-sm">Format Lab</span></a>
+      <a href="docs/index.html"><i class="bi bi-book"></i> <span class="st-hide-sm">Docs</span></a>
+    </div>
+    <div class="st-actions">
+      <button class="btn btn-sm btn-st" id="act-import" title="Importer des formats (.json)"><i class="bi bi-upload"></i> <span class="st-hide-sm">Importer</span></button>
+      <button class="btn btn-sm btn-st" id="act-export-all" title="Exporter tous les formats personnalisés (.json)"><i class="bi bi-download"></i> <span class="st-hide-sm">Exporter</span></button>
+    </div>
+  </nav>
+
+  <main class="lab-main" id="main">
+    <!-- LISTE DES FORMATS -->
+    <aside class="lab-side" aria-label="Formats">
+      <div class="lab-side-head">
+        <strong class="me-auto small text-uppercase text-secondary">Formats</strong>
+        <button class="btn btn-sm btn-accent" id="act-new"><i class="bi bi-plus-lg"></i> Nouveau</button>
+      </div>
+      <div class="lab-list" id="list"></div>
+    </aside>
+
+    <!-- ÉDITION DU FORMAT -->
+    <section class="lab-editor" aria-label="Édition du format">
+      <div class="lab-meta">
+        <div><label class="form-label small mb-0" for="f-name">Nom</label><input class="form-control form-control-sm" id="f-name"></div>
+        <div><label class="form-label small mb-0" for="f-id">Identifiant (pour <code>&lt;!-- slide: … --&gt;</code>)</label><input class="form-control form-control-sm font-monospace" id="f-id"></div>
+        <div><label class="form-label small mb-0" for="f-icon">Icône <a href="#" id="icon-help" class="small">?</a></label>
+          <div class="input-group input-group-sm"><span class="input-group-text"><i id="f-icon-preview" class="bi bi-square"></i></span><input class="form-control font-monospace" id="f-icon"></div></div>
+        <div><label class="form-label small mb-0" for="f-category">Catégorie</label><input class="form-control form-control-sm" id="f-category" list="cats">
+          <datalist id="cats"><option>Structure</option><option>Personnages</option><option>Découverte</option><option>Évaluation</option></datalist></div>
+        <div class="full"><label class="form-label small mb-0" for="f-description">Description / mode d’emploi</label><input class="form-control form-control-sm" id="f-description"></div>
+      </div>
+      <ul class="nav nav-tabs lab-tabs" role="tablist">
+        <li class="nav-item"><button class="nav-link active" data-panel="template" role="tab"><i class="bi bi-filetype-html"></i> Gabarit</button></li>
+        <li class="nav-item"><button class="nav-link" data-panel="css" role="tab"><i class="bi bi-filetype-css"></i> CSS</button></li>
+        <li class="nav-item"><button class="nav-link" data-panel="js" role="tab"><i class="bi bi-filetype-js"></i> Script</button></li>
+        <li class="nav-item"><button class="nav-link" data-panel="sample" role="tab"><i class="bi bi-markdown"></i> Markdown d’exemple</button></li>
+        <li class="nav-item"><button class="nav-link" data-panel="data" role="tab"><i class="bi bi-braces"></i> Données</button></li>
+        <li class="nav-item"><button class="nav-link" data-panel="help" role="tab"><i class="bi bi-question-circle"></i> Aide</button></li>
+      </ul>
+      <div class="lab-panels">
+        <div class="lab-panel active" data-panel="template"><textarea class="st-code" id="f-template" spellcheck="false" aria-label="Gabarit HTML"></textarea></div>
+        <div class="lab-panel" data-panel="css"><textarea class="st-code" id="f-css" spellcheck="false" aria-label="Styles CSS"></textarea></div>
+        <div class="lab-panel" data-panel="js"><textarea class="st-code" id="f-js" spellcheck="false" aria-label="Script d’interactivité"></textarea></div>
+        <div class="lab-panel" data-panel="sample"><textarea class="st-code light" id="f-sample" spellcheck="false" aria-label="Markdown d’exemple"></textarea></div>
+        <div class="lab-panel" data-panel="data"><textarea class="st-code light" id="f-data" readonly aria-label="Données transmises au gabarit"></textarea></div>
+        <div class="lab-panel" data-panel="help"><div class="lab-help" id="help"></div></div>
+      </div>
+      <div class="lab-foot">
+        <button class="btn btn-sm btn-accent" id="act-save"><i class="bi bi-floppy"></i> Enregistrer <kbd class="small">Ctrl+S</kbd></button>
+        <button class="btn btn-sm btn-outline-secondary" id="act-duplicate"><i class="bi bi-copy"></i> Dupliquer</button>
+        <button class="btn btn-sm btn-outline-secondary" id="act-export-one"><i class="bi bi-filetype-json"></i> Exporter ce format</button>
+        <button class="btn btn-sm btn-outline-warning" id="act-reset"><i class="bi bi-arrow-counterclockwise"></i> Réinitialiser</button>
+        <button class="btn btn-sm btn-outline-danger" id="act-delete"><i class="bi bi-trash"></i> Supprimer</button>
+        <span class="lab-dirty ms-auto" id="dirty"></span>
+      </div>
+    </section>
+
+    <div class="st-splitter" id="splitter" role="separator" aria-orientation="vertical" aria-label="Redimensionner l’aperçu" tabindex="0"></div>
+
+    <!-- APERÇU -->
+    <section class="st-pane st-pane-preview" aria-label="Aperçu du format">
+      <div class="st-pane-toolbar">
+        <span class="st-pane-title"><i class="bi bi-play-btn"></i> Test en direct</span>
+        <div class="btn-group btn-group-sm" role="group" aria-label="Type d’écran">
+          <input type="radio" class="btn-check" name="device" id="dev-desktop" value="desktop" checked>
+          <label class="btn btn-outline-secondary" for="dev-desktop" title="Vue bureau"><i class="bi bi-display"></i></label>
+          <input type="radio" class="btn-check" name="device" id="dev-tablet" value="tablet">
+          <label class="btn btn-outline-secondary" for="dev-tablet" title="Vue tablette"><i class="bi bi-tablet"></i></label>
+          <input type="radio" class="btn-check" name="device" id="dev-mobile" value="mobile">
+          <label class="btn btn-outline-secondary" for="dev-mobile" title="Vue mobile"><i class="bi bi-phone"></i></label>
+        </div>
+        <select class="form-select form-select-sm w-auto" id="theme" aria-label="Thème de test">
+          <option value="violet">Violet</option><option value="ocean">Océan</option><option value="sunset">Sunset</option><option value="forest">Forêt</option><option value="night">Nuit</option>
+        </select>
+        <button class="btn btn-sm btn-outline-secondary" id="act-cast" title="Changer les personnages"><i class="bi bi-people"></i></button>
+        <button class="btn btn-sm btn-outline-secondary" id="act-refresh" title="Recharger (réinitialise l’interactivité)"><i class="bi bi-arrow-clockwise"></i></button>
+      </div>
+      <div class="st-preview-area" id="preview-area" data-device="desktop">
+        <div class="st-device" id="device"><iframe id="preview" src="player.html" title="Aperçu du format"></iframe></div>
+        <span class="st-device-label" id="device-label"></span>
+      </div>
+    </section>
+  </main>
+
+  <div class="toast-container position-fixed bottom-0 end-0 p-3" id="toasts"></div>
+
+  <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="vendor/marked/marked.min.js"></script>
+  <script src="js/core/mls.js"></script>
+  <script src="js/core/yaml.js"></script>
+  <script src="js/core/template.js"></script>
+  <script src="js/core/parser.js"></script>
+  <script src="js/core/formats.js"></script>
+  <script src="js/formats/title.js"></script>
+  <script src="js/formats/content.js"></script>
+  <script src="js/formats/dialogue.js"></script>
+  <script src="js/formats/conseil.js"></script>
+  <script src="js/formats/quiz.js"></script>
+  <script src="js/formats/flashcards.js"></script>
+  <script src="js/formats/timeline.js"></script>
+  <script src="js/formats/hotspots.js"></script>
+  <script src="js/formats/tabs.js"></script>
+  <script src="assets/characters/catalog.js"></script>
+  <script src="js/studio/ui.js"></script>
+  <script src="js/lab/lab.js"></script>
+</body>
+</html>
