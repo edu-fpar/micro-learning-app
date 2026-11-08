@@ -274,6 +274,35 @@ Click the points to explore the leaf.
 - 75,85 :: **Stoma** :: Opening for gas exchange.
 ```
 
+
+### Beta formats: interactive diagrams
+
+These 7 formats (being tested) turn a list into a diagram that learners explore part by part. Shared syntax: `- **Part** :: explanation` (label of 1 to 3 words); an optional `>` quote is the **takeaway**, revealed only once every part has been explored.
+
+| Format | When to use it | Items | Options |
+|---|---|---|---|
+| `format-puzzle` | the components of a whole (pieces to put back in place) | 2 to 6 | — |
+| `format-pyramid` | a hierarchy; the 1st item is at the **top** | 2 to 7 | — |
+| `format-funnel` | a filtering, from widest to narrowest | 2 to 7 | — |
+| `format-cycle` | steps that come back in a loop | 2 to 8 | `<!-- center: … -->` |
+| `format-process` | a method, successive steps | 2 to 7 | — |
+| `format-matrix` | two crossed criteria; order: top-left, top-right, bottom-left, bottom-right | 4 | `<!-- axis-x: … -->`, `<!-- axis-y: … -->` |
+| `format-hub` | a central concept and its components | 2 to 8 | `<!-- center: … -->` (otherwise the title) |
+
+```markdown
+<!-- slide: format-cycle -->
+<!-- center: Learning by experience -->
+### Kolb's learning cycle
+- **Concrete experience** :: Live a situation.
+- **Reflective observation** :: Step back, describe.
+- **Conceptualisation** :: Draw a rule.
+- **Active experimentation** :: Test it elsewhere.
+
+> Learning means going round this cycle again and again.
+```
+
+Use them when the **structure of the idea** matches the shape, at most one or two per module. As they are in beta, prefer the main formats when in doubt.
+
 ---
 
 ## 5. Characters
@@ -308,7 +337,7 @@ Click the points to explore the leaf.
 ### Check before sending
 
 - [ ] The header starts and ends with `---` and contains `title`, `lang` and `characters`.
-- [ ] Each slide starts with `<!-- slide: format-… -->` using a format from § 4.
+- [ ] Each slide starts with `<!-- slide: format-… -->` using a format from § 4 (beta formats included).
 - [ ] Slides are separated by a `---` line on its own, with no decorative `---`.
 - [ ] Each slide has exactly one `###` heading.
 - [ ] Each quiz has at least one `[x]` answer.

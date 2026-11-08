@@ -274,6 +274,35 @@ Cliquez sur les points pour explorer la feuille.
 - 75,85 :: **Stomate** :: Ouverture pour les échanges gazeux.
 ```
 
+
+### Formats bêta : schémas interactifs
+
+Ces 7 formats (en test) transforment une liste en schéma que l'apprenant explore partie par partie. Syntaxe commune : `- **Partie** :: explication` (libellé de 1 à 3 mots) ; une citation `>` facultative sert de **synthèse**, révélée seulement quand toutes les parties ont été explorées.
+
+| Format | Quand l'utiliser | Éléments | Options |
+|---|---|---|---|
+| `format-puzzle` | les composantes d'un tout (pièces à remettre en place) | 2 à 6 | — |
+| `format-pyramid` | une hiérarchie ; le 1er élément est au **sommet** | 2 à 7 | — |
+| `format-funnel` | un filtrage, du plus large au plus étroit | 2 à 7 | — |
+| `format-cycle` | des étapes qui reviennent en boucle | 2 à 8 | `<!-- center: … -->` |
+| `format-process` | une méthode, des étapes successives | 2 à 7 | — |
+| `format-matrix` | deux critères croisés ; ordre : haut-gauche, haut-droite, bas-gauche, bas-droite | 4 | `<!-- axis-x: … -->`, `<!-- axis-y: … -->` |
+| `format-hub` | un concept central et ses composantes | 2 à 8 | `<!-- center: … -->` (sinon le titre) |
+
+```markdown
+<!-- slide: format-cycle -->
+<!-- center: Apprendre par l'expérience -->
+### Le cycle de Kolb
+- **Expérience concrète** :: Vivre une situation.
+- **Observation réfléchie** :: Prendre du recul, décrire.
+- **Conceptualisation** :: En tirer une règle.
+- **Expérimentation active** :: La tester ailleurs.
+
+> Apprendre, c'est boucler ce cycle encore et encore.
+```
+
+Utilise-les quand la **structure de l'idée** correspond à la forme, au plus un ou deux par module. Comme ils sont en bêta, préfère les formats principaux en cas de doute.
+
 ---
 
 ## 5. Les personnages
@@ -308,7 +337,7 @@ Cliquez sur les points pour explorer la feuille.
 ### Vérification avant d'envoyer
 
 - [ ] L'en-tête commence et finit par `---` et contient `title`, `lang` et `characters`.
-- [ ] Chaque slide commence par `<!-- slide: format-… -->` avec un format de la liste du § 4.
+- [ ] Chaque slide commence par `<!-- slide: format-… -->` avec un format de la liste du § 4 (formats bêta compris).
 - [ ] Les slides sont séparées par une ligne `---` seule, sans aucun `---` décoratif.
 - [ ] Chaque slide a exactement un titre `###`.
 - [ ] Chaque quiz a au moins une réponse `[x]`.

@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Formats bêta — MicroLearn</title>
+  <link rel="stylesheet" href="../vendor/bootstrap/css/bootstrap.min.css">
+  <link rel="stylesheet" href="../vendor/bootstrap-icons/bootstrap-icons.min.css">
+  <link rel="stylesheet" href="../css/studio.css">
+  <style>
+    body.docs { background: #f6f7fb; overflow: auto; display: block; }
+    .docs-main { max-width: 900px; margin: 0 auto; padding: 2rem 1rem 4rem; }
+    .docs-main[hidden] { display: none; }
+    .docs-main h2 { font-weight: 800; margin-top: 2.2rem; }
+    .docs-main h2 i { color: var(--st-accent); }
+    .docs-card { background: #fff; border-radius: 16px; padding: 1.3rem 1.5rem; box-shadow: 0 10px 30px -18px rgba(40, 20, 120, .35); }
+    .docs-main pre { background: var(--st-code-bg); color: var(--st-code-ink); border-radius: 12px; padding: 1rem; font-size: .85rem; white-space: pre-wrap; }
+    .beta { display: inline-block; background: #ffb020; color: #3b2600; font-weight: 800; font-size: .75rem; border-radius: 999px; padding: .15rem .6rem; vertical-align: middle; text-transform: uppercase; letter-spacing: .05em; }
+    .fmt { display: grid; grid-template-columns: 2.2rem 1fr; gap: .2rem 1rem; padding: .9rem 0; border-top: 1px solid #eceef5; }
+    .fmt:first-child { border-top: 0; }
+    .fmt > i { font-size: 1.6rem; color: var(--st-accent); grid-row: span 2; }
+    .fmt h3 { font-size: 1.05rem; font-weight: 800; margin: 0; }
+    .fmt p { margin: 0; }
+    .doc-lang { display: flex; background: rgba(255,255,255,.08); border-radius: 10px; padding: 3px; margin-left: auto; }
+    .doc-lang button { border: 0; background: none; color: rgba(255,255,255,.75); padding: .25rem .7rem; border-radius: 8px; font-weight: 700; font-size: .85rem; }
+    .doc-lang button[aria-pressed="true"] { background: #fff; color: var(--st-nav); }
+  </style>
+</head>
+<body class="docs">
+  <nav class="st-nav d-flex align-items-center">
+    <a class="st-brand" href="../index.html"><span class="logo"><i class="bi bi-stars"></i></span><span>MicroLearn <small>Docs</small></span></a>
+    <div class="st-spaces">
+      <a href="../index.html"><i class="bi bi-pencil-square"></i> <span class="st-hide-sm">Studio</span></a>
+      <a href="../lab.html"><i class="bi bi-palette"></i> <span class="st-hide-sm">Format Lab</span></a>
+      <a href="index.html" class="active"><i class="bi bi-book"></i> <span class="st-hide-sm">Docs</span></a>
+    </div>
+    <div class="doc-lang" role="group" aria-label="Langue / Language">
+      <button type="button" data-doc-lang="fr" lang="fr" aria-pressed="true">FR</button>
+      <button type="button" data-doc-lang="en" lang="en" aria-pressed="false">EN</button>
+    </div>
+  </nav>
+
+  <!-- ======================================================== FRANÇAIS -->
+  <main class="docs-main" data-lang="fr" lang="fr">
+    <p><a href="index.html"><i class="bi bi-arrow-left"></i> Retour à la documentation</a></p>
+    <h1 class="fw-bold">Schémas interactifs <span class="beta">bêta</span></h1>
+    <p class="lead text-secondary">Sept formats qui transforment une liste en schéma à explorer : chaque partie se découvre au clic, et une synthèse n'apparaît qu'une fois tout exploré.</p>
+    <div class="alert alert-warning small"><i class="bi bi-cone-striped"></i> <strong>Version bêta</strong> : ces formats sont en test. Leur syntaxe pourrait encore évoluer et l'affichage sur mobile est en cours d'amélioration (notamment la synthèse, qui s'affiche sous le schéma).</div>
+    <p>Pour les voir en action : dans le Studio, <em>Fichier → Test : schémas interactifs (FR)</em> (ou EN).</p>
+
+    <h2><i class="bi bi-markdown"></i> Une syntaxe commune</h2>
+    <div class="docs-card">
+<pre>&lt;!-- slide: format-puzzle --&gt;
+### Les 4 piliers de l'apprentissage
+Une phrase d'introduction (facultative).
+
+- **Attention** :: Le cerveau ne retient que ce qu'il a sélectionné.
+- **Engagement actif** :: Chercher, prédire, essayer.
+- **Retour d'information** :: Savoir où l'on s'est trompé.
+- **Consolidation** :: Dormir, répéter, espacer.
+
+&gt; Synthèse : révélée quand toutes les parties ont été explorées.</pre>
+      <ul class="mb-0">
+        <li>Chaque élément de liste <code>- **Partie** :: explication</code> devient une partie du schéma. Le libellé doit rester court (1 à 3 mots).</li>
+        <li>La citation <code>&gt;</code> (facultative) est la <strong>synthèse</strong> : elle ne se dévoile qu'après l'exploration complète.</li>
+        <li>L'apprenant clique sur chaque partie (ou utilise les flèches) ; un compteur indique sa progression.</li>
+      </ul>
+    </div>
+
+    <h2><i class="bi bi-grid-3x3-gap"></i> Les 7 formats</h2>
+    <div class="docs-card">
+      <div class="fmt"><i class="bi bi-puzzle"></i><h3><code>format-puzzle</code> — Puzzle à assembler (2 à 6 pièces)</h3><p>Les pièces sont dispersées ; l'apprenant les remet en place une à une. Idéal pour « les composantes d'un tout ».</p></div>
+      <div class="fmt"><i class="bi bi-triangle"></i><h3><code>format-pyramid</code> — Pyramide (2 à 7 niveaux)</h3><p>Le 1<sup>er</sup> élément est au sommet. Pour une hiérarchie, des niveaux de priorité ou d'exigence.</p></div>
+      <div class="fmt"><i class="bi bi-funnel"></i><h3><code>format-funnel</code> — Entonnoir (2 à 7 étapes)</h3><p>Du plus large au plus étroit : filtrage, sélection, conversion.</p></div>
+      <div class="fmt"><i class="bi bi-arrow-repeat"></i><h3><code>format-cycle</code> — Cycle (2 à 8 étapes)</h3><p>Des étapes qui reviennent en boucle, avec un bouton <em>Lecture</em>. Libellé central facultatif : <code>&lt;!-- center: … --&gt;</code>.</p></div>
+      <div class="fmt"><i class="bi bi-chevron-double-right"></i><h3><code>format-process</code> — Processus (2 à 7 étapes)</h3><p>Chevrons horizontaux (verticaux sur mobile), avec un bouton <em>Lecture</em>. Pour une méthode ou une procédure.</p></div>
+      <div class="fmt"><i class="bi bi-grid"></i><h3><code>format-matrix</code> — Matrice 2 × 2 (4 éléments)</h3><p>Ordre : haut-gauche, haut-droite, bas-gauche, bas-droite. Axes : <code>&lt;!-- axis-x: … --&gt;</code> et <code>&lt;!-- axis-y: … --&gt;</code>.</p></div>
+      <div class="fmt"><i class="bi bi-diagram-3"></i><h3><code>format-hub</code> — Concept central (2 à 8 éléments)</h3><p>Un concept au centre (le titre, ou <code>&lt;!-- center: … --&gt;</code>) et ses composantes autour.</p></div>
+    </div>
+
+    <h2><i class="bi bi-lightbulb"></i> Conseils pédagogiques</h2>
+    <div class="docs-card">
+      <ul class="mb-0">
+        <li>Choisissez la forme selon la <strong>structure de l'idée</strong> : un tout (puzzle, hub), un ordre (processus), une boucle (cycle), une hiérarchie (pyramide), une sélection (entonnoir), deux critères croisés (matrice).</li>
+        <li>Faites <strong>prédire avant de cliquer</strong> : « Avant d'ouvrir les pièces, à votre avis, quels sont les piliers ? ».</li>
+        <li>Réservez la <strong>synthèse</strong> à l'idée à retenir : c'est la récompense de l'exploration.</li>
+        <li>Un ou deux schémas par module suffisent : alternez avec quiz, cartes et dialogues.</li>
+      </ul>
+    </div>
+  </main>
+
+  <!-- ======================================================== ENGLISH -->
+  <main class="docs-main" data-lang="en" lang="en" hidden>
+    <p><a href="index.html"><i class="bi bi-arrow-left"></i> Back to the documentation</a></p>
+    <h1 class="fw-bold">Interactive diagrams <span class="beta">beta</span></h1>
+    <p class="lead text-secondary">Seven formats that turn a list into a diagram to explore: each part is revealed on click, and a takeaway only appears once everything has been explored.</p>
+    <div class="alert alert-warning small"><i class="bi bi-cone-striped"></i> <strong>Beta</strong>: these formats are being tested. Their syntax may still change and the mobile layout is being improved (especially the takeaway, shown below the diagram).</div>
+    <p>To see them in action: in the Studio, <em>File → Test: interactive diagrams (EN)</em> (or FR).</p>
+
+    <h2><i class="bi bi-markdown"></i> A shared syntax</h2>
+    <div class="docs-card">
+<pre>&lt;!-- slide: format-puzzle --&gt;
+### The 4 pillars of learning
+An optional introduction sentence.
+
+- **Attention** :: The brain only retains what it has selected.
+- **Active engagement** :: Searching, predicting, trying.
+- **Feedback** :: Knowing where you went wrong.
+- **Consolidation** :: Sleep, repeat, space out.
+
+&gt; Takeaway: revealed once every part has been explored.</pre>
+      <ul class="mb-0">
+        <li>Each list item <code>- **Part** :: explanation</code> becomes a part of the diagram. Keep the label short (1 to 3 words).</li>
+        <li>The <code>&gt;</code> quote (optional) is the <strong>takeaway</strong>: it is only revealed after full exploration.</li>
+        <li>Learners click each part (or use the arrows); a counter shows their progress.</li>
+      </ul>
+    </div>
+
+    <h2><i class="bi bi-grid-3x3-gap"></i> The 7 formats</h2>
+    <div class="docs-card">
+      <div class="fmt"><i class="bi bi-puzzle"></i><h3><code>format-puzzle</code> — Puzzle to assemble (2 to 6 pieces)</h3><p>Pieces are scattered; learners put them back one by one. Ideal for "the components of a whole".</p></div>
+      <div class="fmt"><i class="bi bi-triangle"></i><h3><code>format-pyramid</code> — Pyramid (2 to 7 levels)</h3><p>The 1st item is at the top. For a hierarchy, levels of priority or difficulty.</p></div>
+      <div class="fmt"><i class="bi bi-funnel"></i><h3><code>format-funnel</code> — Funnel (2 to 7 stages)</h3><p>From widest to narrowest: filtering, selection, conversion.</p></div>
+      <div class="fmt"><i class="bi bi-arrow-repeat"></i><h3><code>format-cycle</code> — Cycle (2 to 8 steps)</h3><p>Steps that come back in a loop, with a <em>Play</em> button. Optional central label: <code>&lt;!-- center: … --&gt;</code>.</p></div>
+      <div class="fmt"><i class="bi bi-chevron-double-right"></i><h3><code>format-process</code> — Process (2 to 7 steps)</h3><p>Horizontal chevrons (vertical on mobile), with a <em>Play</em> button. For a method or procedure.</p></div>
+      <div class="fmt"><i class="bi bi-grid"></i><h3><code>format-matrix</code> — 2 × 2 matrix (4 items)</h3><p>Order: top-left, top-right, bottom-left, bottom-right. Axes: <code>&lt;!-- axis-x: … --&gt;</code> and <code>&lt;!-- axis-y: … --&gt;</code>.</p></div>
+      <div class="fmt"><i class="bi bi-diagram-3"></i><h3><code>format-hub</code> — Central concept (2 to 8 items)</h3><p>A concept in the centre (the title, or <code>&lt;!-- center: … --&gt;</code>) and its components around it.</p></div>
+    </div>
+
+    <h2><i class="bi bi-lightbulb"></i> Teaching tips</h2>
+    <div class="docs-card">
+      <ul class="mb-0">
+        <li>Choose the shape from the <strong>structure of the idea</strong>: a whole (puzzle, hub), an order (process), a loop (cycle), a hierarchy (pyramid), a selection (funnel), two crossed criteria (matrix).</li>
+        <li>Ask learners to <strong>predict before clicking</strong>: "Before opening the pieces, what do you think the pillars are?".</li>
+        <li>Keep the <strong>takeaway</strong> for the key idea: it is the reward for exploring.</li>
+        <li>One or two diagrams per module are enough: alternate with quizzes, cards and dialogues.</li>
+      </ul>
+    </div>
+  </main>
+
+  <script>
+    (function () {
+      function stored() { try { return JSON.parse(localStorage.getItem('mls.ui.lang')); } catch (e) { return null; } }
+      function show(lang, save) {
+        document.documentElement.lang = lang;
+        document.querySelectorAll('.docs-main').forEach(function (m) { m.hidden = m.getAttribute('data-lang') !== lang; });
+        document.querySelectorAll('[data-doc-lang]').forEach(function (b) { b.setAttribute('aria-pressed', b.getAttribute('data-doc-lang') === lang); });
+        if (save) { try { localStorage.setItem('mls.ui.lang', JSON.stringify(lang)); } catch (e) { /* ignore */ } }
+      }
+      document.querySelectorAll('[data-doc-lang]').forEach(function (b) {
+        b.addEventListener('click', function () { show(b.getAttribute('data-doc-lang'), true); });
+      });
+      var q = new URLSearchParams(location.search).get('lang');
+      var lang = q || stored() || (/^fr/i.test(navigator.language || '') ? 'fr' : 'en');
+      show(lang === 'en' ? 'en' : 'fr', false);
+    })();
+  </script>
+</body>
+</html>

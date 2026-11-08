@@ -12,7 +12,7 @@
     'c.deviceGroup': 'Type d’écran', 'c.tablet': 'Tablette', 'c.resize': 'Redimensionner les panneaux',
     'c.custom': 'perso', 'c.modified': 'modifié', 'c.dateLocale': 'fr-FR',
     // studio : barre
-    's.file': 'Fichier', 's.new': 'Nouveau cours', 's.open': 'Ouvrir un fichier .md…', 's.sample': 'Charger le cours d’exemple', 's.sampleDiagrams': 'Exemple : schémas interactifs (test)', 's.confirmSampleDiagrams': 'Charger l’exemple « schémas interactifs » ? Le brouillon actuel sera sauvegardé dans l’historique.',
+    's.file': 'Fichier', 's.new': 'Nouveau cours', 's.open': 'Ouvrir un fichier .md…', 's.sample': 'Charger le cours d’exemple', 's.sampleDiagrams': 'Test : schémas interactifs (FR)', 's.sampleDiagramsEn': 'Test : schémas interactifs (EN)', 's.confirmSampleDiagrams': 'Charger l’exemple « schémas interactifs » ? Le brouillon actuel sera sauvegardé dans l’historique.',
     's.downloadMd': 'Télécharger le Markdown', 's.version': 'Version', 's.versionTitle': 'Enregistrer une version (Ctrl+S)',
     's.history': 'Historique', 's.historyTitle': 'Historique des versions', 's.export': 'Exporter',
     's.tabEdit': 'Édition', 's.tabPreview': 'Aperçu',
@@ -57,6 +57,8 @@
     's.exMissing': 'Fichier introuvable : {url} ({status})', 's.exRemote': 'Image distante (nécessite Internet) : {url}',
     's.exNoLocal': 'Image locale introuvable, ignorée : {url}',
     's.formatsUpdated': 'Formats mis à jour depuis le Format Lab.',
+    's.switchCourse': 'Le cours affiché est un cours d’exemple qui existe aussi en {lang}. Voulez-vous également changer le cours ?',
+    's.switchCourseYes': 'Oui, afficher la version en {lang}', 'c.lang.fr': 'français', 'c.lang.en': 'anglais', 's.switchCourseNo': 'Non, garder ce cours',
 
     // Format Lab
     'l.title': 'Format Lab', 'l.import': 'Importer', 'l.importTitle': 'Importer des formats (.json)', 'l.exportAll': 'Exporter',
@@ -91,7 +93,7 @@
     'c.desktop': 'Desktop', 'c.deviceDesktop': 'Desktop view', 'c.deviceTablet': 'Tablet view', 'c.deviceMobile': 'Mobile view', 'c.mobile': 'Mobile',
     'c.deviceGroup': 'Screen type', 'c.tablet': 'Tablet', 'c.resize': 'Resize panels',
     'c.custom': 'custom', 'c.modified': 'modified', 'c.dateLocale': 'en-GB',
-    's.file': 'File', 's.new': 'New course', 's.open': 'Open a .md file…', 's.sample': 'Load the sample course', 's.sampleDiagrams': 'Sample: interactive diagrams (test)', 's.confirmSampleDiagrams': 'Load the “interactive diagrams” sample? The current draft will be saved in the history.',
+    's.file': 'File', 's.new': 'New course', 's.open': 'Open a .md file…', 's.sample': 'Load the sample course', 's.sampleDiagrams': 'Test: interactive diagrams (FR)', 's.sampleDiagramsEn': 'Test: interactive diagrams (EN)', 's.confirmSampleDiagrams': 'Load the “interactive diagrams” sample? The current draft will be saved in the history.',
     's.downloadMd': 'Download the Markdown', 's.version': 'Version', 's.versionTitle': 'Save a version (Ctrl+S)',
     's.history': 'History', 's.historyTitle': 'Version history', 's.export': 'Export',
     's.tabEdit': 'Edit', 's.tabPreview': 'Preview',
@@ -131,6 +133,8 @@
     's.exMissing': 'File not found: {url} ({status})', 's.exRemote': 'Remote image (requires Internet): {url}',
     's.exNoLocal': 'Local image not found, skipped: {url}',
     's.formatsUpdated': 'Formats updated from the Format Lab.',
+    's.switchCourse': 'The course shown is a sample course that also exists in {lang}. Do you also want to switch the course?',
+    's.switchCourseYes': 'Yes, show the {lang} version', 'c.lang.fr': 'French', 'c.lang.en': 'English', 's.switchCourseNo': 'No, keep this course',
     'l.title': 'Format Lab', 'l.import': 'Import', 'l.importTitle': 'Import formats (.json)', 'l.exportAll': 'Export',
     'l.exportAllTitle': 'Export all custom formats (.json)', 'l.formats': 'Formats', 'l.new': 'New',
     'l.editAria': 'Format editing', 'l.name': 'Name', 'l.id': 'Identifier', 'l.idTitle': 'Used in the Markdown: <!-- slide: identifier -->', 'l.icon': 'Icon',
@@ -158,7 +162,8 @@
   });
 
   /** Sélecteur de langue de l'interface (FR / EN), à placer dans la barre de navigation. */
-  MLS.i18n.mountSwitcher = function (container) {
+  MLS.i18n.mountSwitcher = function (container, opts) {
+    opts = opts || {};
     var cur = MLS.i18n.uiLang();
     container.innerHTML = '<div class="dropdown">' +
       '<button class="btn btn-sm btn-st dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" title="' + MLS.i18n.t(cur, 'c.language') + '">' +
@@ -170,8 +175,9 @@
     container.addEventListener('click', function (e) {
       var b = e.target.closest('[data-ui-lang]');
       if (!b || b.getAttribute('data-ui-lang') === cur) return;
-      MLS.i18n.setUiLang(b.getAttribute('data-ui-lang'));
-      location.reload();
+      var lang = b.getAttribute('data-ui-lang');
+      var go = function () { MLS.i18n.setUiLang(lang); location.reload(); };
+      if (opts.beforeChange) Promise.resolve(opts.beforeChange(lang)).then(go, go); else go();
     });
   };
 })(window.MLS);

@@ -317,3 +317,15 @@ body.mls-body { background: #f4f2ff; overflow: hidden; }
   .dg-svg.dg-h { display: none; }
   .dg-svg.dg-v { display: block; max-width: 340px; margin: 0 auto; }
 }
+
+/* Barre de titre et navigation plus lisibles sur tablette et grand écran */
+@media (min-width: 700px) {
+  .mls-top { padding: .7rem 1.2rem; }
+  .mls-ct-main { font-size: clamp(1.05rem, .7rem + .9vw, 1.25rem); }
+  .mls-ct-sub { font-size: clamp(.82rem, .6rem + .45vw, .95rem); }
+  .mls-icon-btn { width: 48px; height: 48px; font-size: 1.35rem; }
+  .mls-nav { padding: .8rem 1.2rem; }
+  .mls-nav-btn { font-size: clamp(1.05rem, .7rem + .8vw, 1.2rem); min-height: 52px; padding: .6rem 1.4rem; }
+  .mls-counter { font-size: clamp(1.05rem, .7rem + .8vw, 1.2rem); }
+  .mls-progress { height: 5px; }
+}

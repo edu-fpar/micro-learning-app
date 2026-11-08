@@ -156,7 +156,7 @@
         el.innerHTML = '<div class="modal-dialog modal-dialog-centered"><form class="modal-content">' +
           '<div class="modal-body"><p class="mb-0" style="white-space:pre-line"></p>' +
           (opts.input != null ? '<input class="form-control mt-3" maxlength="120">' : '') + '</div>' +
-          '<div class="modal-footer"><button type="button" class="btn btn-light" data-bs-dismiss="modal">' + t('c.cancel') + '</button>' +
+          '<div class="modal-footer"><button type="button" class="btn btn-light" data-bs-dismiss="modal">' + (opts.cancel || t('c.cancel')) + '</button>' +
           '<button type="submit" class="btn ' + (opts.danger ? 'btn-danger' : 'btn-accent') + '">' + (opts.ok || t('c.ok')) + '</button></div>' +
           '</form></div>';
         el.querySelector('p').textContent = message;

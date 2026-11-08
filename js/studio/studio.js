@@ -11,7 +11,25 @@
   var esc = U.escapeHtml;
 
   MLS.i18n.apply(document, LANG);
-  MLS.i18n.mountSwitcher($('lang-switch'));
+  /** Couples d'exemples (même cours dans chaque langue) : utilisés quand on change la langue de l'interface. */
+  function samplePairs() {
+    var s = MLS.samples || {};
+    return [{ fr: s.fr, en: s.en }, { fr: s.diagrams, en: s.diagramsEn }];
+  }
+
+  // Changer la langue de l'interface ne change pas le cours, sauf s'il s'agit d'un exemple et que l'utilisateur le souhaite.
+  MLS.i18n.mountSwitcher($('lang-switch'), {
+    beforeChange: function (newLang) {
+      var cur = editor.value.trim();
+      var pair = samplePairs().filter(function (p) {
+        return Object.keys(p).some(function (l) { return p[l] && p[l].trim() === cur; });
+      })[0];
+      if (!pair || !pair[newLang] || pair[newLang].trim() === cur) return;
+      var name = T('c.lang.' + newLang);
+      return ui.confirm(T('s.switchCourse', { lang: name }), { ok: T('s.switchCourseYes', { lang: name }), cancel: T('s.switchCourseNo') })
+        .then(function (ok) { if (ok) MLS.store.set('draft', pair[newLang]); });
+    }
+  });
 
   var editor = $('editor');
   var iframe = $('preview');
@@ -297,14 +315,16 @@
       renderHistory();
     });
   });
-  $('act-sample-diagrams').addEventListener('click', function () {
-    ui.confirm(T('s.confirmSampleDiagrams'), { ok: T('s.sampleDiagrams') }).then(function (ok) {
+  function loadTest(md, label) {
+    ui.confirm(T('s.confirmSampleDiagrams'), { ok: label }).then(function (ok) {
       if (!ok) return;
       MLS.versions.save(editor.value, T('s.beforeSample'), { auto: true });
-      setContent(MLS.samples.diagrams);
+      setContent(md);
       renderHistory();
     });
-  });
+  }
+  $('act-sample-diagrams').addEventListener('click', function () { loadTest(MLS.samples.diagrams, T('s.sampleDiagrams')); });
+  $('act-sample-diagrams-en').addEventListener('click', function () { loadTest(MLS.samples.diagramsEn, T('s.sampleDiagramsEn')); });
   $('act-open').addEventListener('click', function () {
     ui.readFile('.md,.markdown,.txt,text/markdown').then(function (f) {
       MLS.versions.save(editor.value, T('s.beforeOpen', { name: f.name }), { auto: true });
@@ -417,6 +437,8 @@
 
   renderFormatMenu();
   editor.value = MLS.store.get('draft', null) || sample();
+  // on mémorise le cours affiché : changer la langue de l'interface ne le remplacera pas
+  if (MLS.store.get('draft', null) == null) MLS.store.set('draft', editor.value);
   editor.setSelectionRange(0, 0);
   analyse();
   renderHistory();
