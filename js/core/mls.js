@@ -25,6 +25,7 @@
       'js/core/parser.js',
       'js/core/scorm.js',
       'js/core/speech.js',
+      'js/core/diagram.js',
       'js/core/player.js',
       'assets/characters/catalog.js'
     ],

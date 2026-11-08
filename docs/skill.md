@@ -18,6 +18,8 @@
 
 Rédige le cours dans la langue demandée (par défaut celle du contenu fourni) et indique-la dans `lang`. Les exemples de cette page sont en français (version anglaise : skill-en.md), mais la syntaxe est identique en anglais : seuls les textes changent ; les identifiants de formats, de rôles et d'expressions restent en anglais/minuscules.
 
+**Cours long ?** Au-delà d'environ 20 slides, découpe-le : soit en **chapitres** dans un même module (une slide `format-title` par chapitre), soit en **plusieurs modules** (voir § 2 bis) si l'enseignant·e le demande ou si le contenu dépasse 30 à 40 slides.
+
 Si l'enseignant·e donne des consignes (durée, public, ton, nombre de slides, formats à privilégier), elles passent avant les recommandations de cette page. Ne change jamais la **syntaxe**.
 
 ---
@@ -65,6 +67,9 @@ Texte…
 | `lang` | **oui** | Langue du cours : `fr` ou `en` (d'autres langues viendront). Elle traduit les boutons et consignes du slideshow (Suivant, Valider, Réessayer…) et choisit les voix de lecture. **Mets toujours la langue dans laquelle tu rédiges le cours.** |
 | `audio` | non | `off` pour désactiver la lecture à voix haute dans tout le module. |
 | `audio-min` | non | Longueur (en caractères) à partir de laquelle un texte reçoit une icône d'écoute. Défaut : `120`. |
+| `course` | non | Nom du **parcours** quand la formation compte plusieurs modules. |
+| `module` / `modules` | non | Position de ce module et nombre total de modules du parcours, ex. `module: 2` et `modules: 4`. |
+| `next` | non | Module suivant : `title` (et `url` facultative, pour une diffusion web ; ignorée en SCORM). |
 
 ### Règles impératives
 
@@ -74,6 +79,45 @@ Texte…
 - Les commentaires `<!-- … -->` ne s'affichent pas : ils servent de réglages.
 - Le reste est du Markdown standard : **gras**, *italique*, listes, liens, tableaux, `code`.
 - N'invente **aucun chemin d'image**. N'utilise une image (`![texte alternatif](chemin)`) que si l'enseignant·e t'en fournit le chemin ou l'URL ; sinon, choisis un format qui n'en a pas besoin. Donne toujours un texte alternatif descriptif.
+
+### 2 bis. Parcours en plusieurs modules
+
+Chaque module est un document Markdown complet et autonome (son propre en-tête, ses propres slides). **C'est toi qui numérotes les modules et qui les relies entre eux.**
+
+**Procédure :**
+
+1. Planifie d'abord le découpage : liste les N modules dans l'ordre, chacun avec un titre court et distinct (5 à 15 slides par module).
+2. Dans l'en-tête de **chaque** module, renseigne :
+   - `course` : le **même nom de parcours** dans tous les modules (copie-le à l'identique, au caractère près) ;
+   - `module` : la position du module, de `1` à N ;
+   - `modules` : N, **identique dans tous les modules** ;
+   - `next` → `title` : le `title` **exact** du module suivant (module k+1) ;
+   - même `lang`, mêmes rôles dans `characters` et même `theme` dans tous les modules, pour une expérience cohérente.
+3. **Dernier module** (module N) : pas de champ `next`.
+4. Chaque module commence par une slide `format-title` (avec `<!-- eyebrow: Module k -->` par exemple) et se termine par une courte slide de conclusion qui annonce le module suivant.
+5. `url` : **ne l'ajoute que si l'enseignant·e indique que les modules seront publiés sur le web, un intranet ou une clé USB.** Dans ce cas, utilise `url: "../<dossier>/index.html"`, où `<dossier>` est le titre du module suivant mis en minuscules, sans accents, chaque suite de caractères autres que lettres et chiffres remplacée par un tiret, sans tiret au début ni à la fin (ex. « Les contrastes et les couleurs » → `les-contrastes-et-les-couleurs`). C'est le nom du dossier créé par l'export ZIP. Ne mets jamais d'`url` pour une diffusion SCORM.
+
+**Exemple : module 2 d'un parcours de 3 modules**
+
+```markdown
+---
+title: "Les formulaires accessibles"
+course: "Accessibilité numérique"
+module: 2
+modules: 3
+next:
+  title: "Les contrastes et les couleurs"
+lang: fr
+theme: ocean
+characters:
+  mentor: "Le Guide Pédagogique"
+  peer: "Le Collègue"
+---
+```
+
+Le module 1 aurait `module: 1` et `next` → `title: "Les formulaires accessibles"` ; le module 3, `module: 3` et aucun `next`.
+
+L'écran de fin de chaque module affiche la progression dans le parcours (« Module 2 / 3 ») et présente le module suivant.
 
 ---
 
@@ -89,6 +133,7 @@ Texte…
 | `<!-- badge: Astuce -->` | Texte du badge (format Conseil). |
 | `<!-- audio: all -->` | Icône d'écoute sur tous les textes de la slide, même courts. |
 | `<!-- audio: off -->` | Aucune lecture à voix haute sur cette slide (ex. quand le texte lu gâcherait l'exercice). |
+| `<!-- chapter: Nom du chapitre -->` | Ouvre un chapitre sur cette slide. Chaque slide `format-title` en ouvre déjà un automatiquement (`<!-- chapter: no -->` pour l'éviter). |
 
 **Expressions disponibles** : `neutral`, `happy`, `encouraging`, `thinking`, `surprised`, `concerned`.
 
@@ -255,7 +300,7 @@ Cliquez sur les points pour explorer la feuille.
 
 ## 7. Format de ta réponse
 
-1. Rends **tout le cours dans un seul bloc de code** Markdown (balisé ```` ```markdown ````), du premier `---` de l'en-tête jusqu'à la dernière slide, pour que l'enseignant·e puisse le copier d'un clic.
+1. Rends **chaque module dans son propre bloc de code** Markdown (un seul bloc si le cours tient en un module), dans l'ordre, chacun précédé d'une ligne « Module k / N : titre » hors du bloc (balisé ```` ```markdown ````), du premier `---` de l'en-tête jusqu'à la dernière slide, pour que l'enseignant·e puisse le copier d'un clic.
 2. Si un exemple de code doit figurer *dans* une slide, utilise des tildes `~~~` pour ce bloc intérieur (pour ne pas casser ton bloc de réponse).
 3. **Après** le bloc, ajoute au maximum 5 lignes : nombre de slides, formats utilisés, points à vérifier par l'enseignant·e (images à fournir, coordonnées à ajuster, choix pédagogiques discutables).
 4. Ne mets aucun autre texte dans le bloc de code.
@@ -270,11 +315,14 @@ Cliquez sur les points pour explorer la feuille.
 - [ ] Les cartes et les étapes de frise utilisent `**Terme** :: texte`.
 - [ ] Tous les rôles utilisés sont déclarés dans `characters`.
 - [ ] Aucune image inventée ; chaque image a un texte alternatif.
+- [ ] Plusieurs modules : même `course` (à l'identique) et même `modules` partout ; `module` numéroté de 1 à N sans trou ; `next.title` = `title` exact du module suivant ; pas de `next` dans le dernier ; `url` seulement si une diffusion web est demandée.
 
 ---
 
 ## 8. Phrase à utiliser par l'enseignant·e
 
 > « Lis les instructions sur [adresse de cette page] et mets en forme le cours suivant pour MicroLearn : … »
+>
+> Pour un parcours : « … et découpe-le en 3 modules (diffusion web) : … »
 
 *Source de vérité de la syntaxe : MicroLearn Studio. Cette page décrit la version 1.0.*

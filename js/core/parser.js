@@ -131,6 +131,8 @@
       return p;
     });
 
+    var modN = parseInt(fm.module, 10), modT = parseInt(fm.modules, 10);
+    if (modN && modT && modN > modT) warnings.push({ slide: -1, code: 'moduleRange', params: { n: modN, total: modT }, msg: 'module (' + modN + ') est supérieur à modules (' + modT + ').' });
     if (!slides.length) warnings.push({ slide: -1, code: 'noSlides', msg: 'Aucune slide : séparez vos slides par une ligne « --- ».' });
 
     return {

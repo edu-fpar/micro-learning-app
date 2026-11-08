@@ -60,7 +60,7 @@
       '<div class="mls-bg" aria-hidden="true"><span class="mls-blob b1"></span><span class="mls-blob b2"></span><span class="mls-blob b3"></span></div>' +
       '<header class="mls-top">' +
       '  <button type="button" class="mls-icon-btn" data-act="toc" data-pt-label="p.toc"><i class="bi bi-list"></i></button>' +
-      '  <div class="mls-course-title"></div>' +
+      '  <div class="mls-course-title"><span class="mls-ct-main"></span><span class="mls-ct-sub"></span></div>' +
       '  <div class="mls-top-actions">' +
       '    <button type="button" class="mls-icon-btn mls-stop-speech" data-act="stop-speech" data-pt-label="p.stopAudio" hidden><i class="bi bi-stop-circle-fill"></i></button>' +
       '    <button type="button" class="mls-icon-btn" data-act="cast" data-pt-label="p.castAudio"><i class="bi bi-people"></i></button>' +
@@ -173,11 +173,13 @@
     r.classList.add('mls-theme-' + U.slugify(fm.theme || 'violet'));
     if (fm.color) r.style.setProperty('--mls-primary', fm.color); else r.style.removeProperty('--mls-primary');
     if (fm.accent) r.style.setProperty('--mls-secondary', fm.accent); else r.style.removeProperty('--mls-secondary');
-    this.$('.mls-course-title').textContent = this.course.title;
+    this.$('.mls-ct-main').textContent = this.course.title;
+    this.setupParcours();
     if (this.mode === 'standalone') document.title = this.course.title;
 
     this.scores = {}; this.gradable = {}; this.state = {}; this.hooks = {};
     this.renderSlides();
+    this.computeChapters();
     this.renderToc();
 
     var idx = o.index != null ? o.index : (o.keepIndex ? keep : 0);
@@ -390,6 +392,12 @@
     var ol = this.$('.mls-toc ol');
     ol.innerHTML = '';
     this.course.slides.forEach(function (s, i) {
+      var ch = self.chapters.filter(function (c) { return c.start === i; })[0];
+      if (ch) {
+        var head = el('li', 'mls-toc-chapter');
+        head.textContent = self.t('p.chapterOf', { n: ch.number, total: self.chapters.length }) + ' · ' + ch.title;
+        ol.appendChild(head);
+      }
       var li = el('li');
       var b = el('button', 'mls-toc-item');
       b.type = 'button';
@@ -446,6 +454,7 @@
     this.$('.mls-progress span').style.width = pct + '%';
     this.$('.mls-progress').setAttribute('aria-valuenow', pct);
     this.$('.mls-counter').textContent = (i + 1) + ' / ' + n;
+    this.updateSubtitle(i);
     this.$('[data-act="prev"]').disabled = i === 0;
     var nextBtn = this.$('[data-act="next"]');
     var last = i === n - 1;
@@ -660,10 +669,14 @@
     var resume = this.mode === 'standalone' && !fromMenu ? (MLS.scorm.getLocation() || MLS.store.get(this.courseKey + '.location', 0)) : 0;
     var html = '<div class="mls-welcome-card" role="dialog" aria-modal="true" aria-labelledby="mls-wt">';
     if (fromMenu) html += '<button type="button" class="mls-icon-btn mls-close" data-w="close" aria-label="' + this.t('p.close') + '"><i class="bi bi-x-lg"></i></button>';
-    html += '<div class="mls-eyebrow"><i class="bi bi-mortarboard"></i> ' + U.escapeHtml(fm.subtitle || this.t('p.moduleEyebrow')) + '</div>';
+    var pc = this.parcours;
+    html += '<div class="mls-eyebrow"><i class="bi bi-mortarboard"></i> ' + U.escapeHtml(pc.name || fm.subtitle || this.t('p.moduleEyebrow')) +
+      (pc.n ? ' · ' + U.escapeHtml(this.t('p.moduleOf', { n: pc.n, total: pc.total || '?' })) : '') + '</div>';
     html += '<h1 id="mls-wt">' + U.escapeHtml(this.course.title) + '</h1>';
     if (fm.description) html += '<p class="mls-welcome-desc">' + U.escapeHtml(fm.description) + '</p>';
+    if (pc.total > 1) html += this.pathHtml(false);
     html += '<div class="mls-welcome-meta"><span><i class="bi bi-collection"></i> ' + this.t('p.slidesCount', { n: this.course.slides.length }) + '</span>' +
+      (this.chapters.length ? '<span><i class="bi bi-bookmark"></i> ' + this.t('p.chaptersCount', { n: this.chapters.length }) + '</span>' : '') +
       (fm.duration ? '<span><i class="bi bi-clock"></i> ' + U.escapeHtml(fm.duration) + '</span>' : '') +
       (fm.author ? '<span><i class="bi bi-person-badge"></i> ' + U.escapeHtml(fm.author) + '</span>' : '') + '</div>';
 
@@ -770,6 +783,106 @@
     if (first) setTimeout(function () { first.focus(); }, 50);
   };
 
+  /* --------------------------------------------- Parcours et chapitres */
+
+  /** En-tête : course (nom du parcours), module (position), modules (total), next {title, url}. */
+  Player.prototype.setupParcours = function () {
+    var fm = this.course.meta;
+    var next = fm.next;
+    if (typeof next === 'string') next = { title: next };
+    if (next && typeof next === 'object' && !next.title && !next.url) next = null;
+    var n = parseInt(fm.module, 10) || 0, total = parseInt(fm.modules, 10) || 0;
+    this.parcours = {
+      name: fm.course ? String(fm.course) : '',
+      n: n, total: Math.max(total, n),
+      next: next || null
+    };
+    this.parcoursKey = 'parcours.' + (U.slugify(this.parcours.name) || 'default');
+  };
+
+  /** Chapitres : chaque slide format-title (hors première) ou portant <!-- chapter: … --> ouvre un chapitre. */
+  Player.prototype.computeChapters = function () {
+    var self = this, list = [];
+    this.course.slides.forEach(function (s, i) {
+      var explicit = s.meta.chapter;
+      var no = /^(no|non|false|off)$/i.test(String(explicit || ''));
+      if (no) return;
+      if (explicit || s.format === 'format-title') {
+        var title = explicit && !/^(yes|oui|true|on)$/i.test(String(explicit)) ? String(explicit) : (s.title || self.t('p.slide', { n: i + 1 }));
+        list.push({ start: i, title: title });
+      }
+    });
+    if (list.length && list[0].start > 0) list.unshift({ start: 0, title: this.t('p.intro') });
+    this.chapters = list.length > 1 ? list : [];
+    this.chapters.forEach(function (c, k) { c.number = k + 1; });
+    // repères sur la barre de progression
+    var bar = this.$('.mls-progress');
+    bar.querySelectorAll('.mls-tick').forEach(function (t) { t.remove(); });
+    var n = this.course.slides.length;
+    this.chapters.forEach(function (c) {
+      if (!c.start || n < 2) return;
+      var t = el('i', 'mls-tick');
+      t.style.left = (c.start / (n - 1) * 100) + '%';
+      bar.appendChild(t);
+    });
+  };
+
+  Player.prototype.chapterAt = function (i) {
+    var cur = null;
+    this.chapters.forEach(function (c) { if (c.start <= i) cur = c; });
+    return cur;
+  };
+
+  Player.prototype.updateSubtitle = function (i) {
+    var parts = [], pc = this.parcours;
+    if (pc.n) parts.push(this.t('p.moduleOf', { n: pc.n, total: pc.total || '?' }));
+    var ch = this.chapterAt(i);
+    if (ch) parts.push(this.t('p.chapterOf', { n: ch.number, total: this.chapters.length }) + ' · ' + ch.title);
+    var sub = this.$('.mls-ct-sub');
+    sub.textContent = parts.join(' · ');
+    sub.hidden = !parts.length;
+  };
+
+  Player.prototype.modulesDone = function () { return MLS.store.get(this.parcoursKey, {}) || {}; };
+
+  Player.prototype.markModuleDone = function () {
+    if (!this.parcours.n || this.mode !== 'standalone') return;
+    var done = this.modulesDone();
+    done[this.parcours.n] = true;
+    MLS.store.set(this.parcoursKey, done);
+  };
+
+  /** Pastilles de progression du parcours (modules faits / en cours / à faire). */
+  Player.prototype.pathHtml = function (atEnd) {
+    var pc = this.parcours, done = this.modulesDone(), t = this.t, html = '';
+    for (var k = 1; k <= pc.total; k++) {
+      var isCur = k === pc.n, isDone = done[k] || (atEnd && isCur);
+      var state = isDone ? 'done' : isCur ? 'current' : 'todo';
+      html += '<li class="mls-path-' + state + '"' + (isCur ? ' aria-current="step"' : '') + '>' +
+        '<span class="mls-sr">' + U.escapeHtml(t('p.path.' + state, { n: k })) + '</span>' +
+        '<span aria-hidden="true">' + (isDone ? '<i class="bi bi-check-lg"></i>' : k) + '</span></li>';
+    }
+    return '<div class="mls-path-wrap"><div class="mls-path-label">' + U.escapeHtml(t('p.courseProgress')) + '</div>' +
+      '<ol class="mls-path" style="--n:' + pc.total + '">' + html + '</ol></div>';
+  };
+
+  /** Encadré « À suivre » : lien sur le web, message en SCORM (c'est le LMS qui enchaîne). */
+  Player.prototype.nextHtml = function () {
+    var nx = this.parcours.next;
+    if (!nx) return '';
+    var html = '<div class="mls-next"><div class="mls-next-label"><i class="bi bi-signpost-split"></i> ' + U.escapeHtml(this.t('p.upNext')) + '</div>' +
+      (nx.title ? '<div class="mls-next-title">' + U.escapeHtml(nx.title) + '</div>' : '');
+    if (MLS.scorm.isActive()) {
+      html += '<p class="mls-next-hint">' + U.escapeHtml(this.t('p.backToLms')) + '</p>';
+    } else if (nx.url) {
+      html += '<a class="mls-btn" href="' + U.escapeHtml(nx.url) + '"' + (this.mode === 'standalone' ? '' : ' target="_blank" rel="noopener"') + '>' +
+        U.escapeHtml(this.t('p.goNext')) + ' <i class="bi bi-arrow-right"></i></a>';
+    } else {
+      html += '<p class="mls-next-hint">' + U.escapeHtml(this.t('p.nextNoLink')) + '</p>';
+    }
+    return html + '</div>';
+  };
+
   /* ----------------------------------------------------- Écran de fin */
 
   Player.prototype.openEnd = function () {
@@ -780,13 +893,20 @@
     var pct = total ? Math.round(ok / total * 100) : 100;
     var end = this.$('.mls-end');
     var mentor = this.course.roles[0] ? this.character(this.course.roles[0].role, pct >= 50 ? 'happy' : 'encouraging') : null;
+    var pc = this.parcours;
+    this.markModuleDone();
+    var lastModule = pc.total && pc.n === pc.total;
+    var endTitle = lastModule ? this.t('p.courseDone') : pc.n ? this.t('p.moduleDone', { n: pc.n, total: pc.total || '?' }) : this.t('p.endTitle');
     end.innerHTML =
       '<div class="mls-welcome-card mls-end-card" role="dialog" aria-modal="true" aria-labelledby="mls-et">' +
       (mentor ? '<div class="mls-end-avatar">' + mentor.avatar + '</div>' : '<div class="mls-end-icon"><i class="bi bi-trophy"></i></div>') +
-      '<h1 id="mls-et">' + this.t('p.endTitle') + '</h1>' +
+      '<h1 id="mls-et">' + U.escapeHtml(endTitle) + '</h1>' +
+      (pc.name ? '<p class="mls-end-course">' + U.escapeHtml(pc.name) + '</p>' : '') +
       (total ? '<div class="mls-score" style="--p:' + pct + '"><span>' + ok + '<small>/' + total + '</small></span></div>' +
         '<p>' + this.t(pct === 100 ? 'p.endPerfect' : pct >= 50 ? 'p.endGood' : 'p.endLow') + '</p>'
         : '<p>' + this.t('p.endThanks') + '</p>') +
+      (pc.total > 1 ? this.pathHtml(true) : '') +
+      this.nextHtml() +
       '<div class="mls-welcome-actions">' +
       '<button type="button" class="mls-btn mls-btn-ghost" data-e="review"><i class="bi bi-arrow-counterclockwise"></i> ' + this.t('p.review') + '</button>' +
       '<button type="button" class="mls-btn" data-e="close"><i class="bi bi-check-lg"></i> ' + this.t('p.close') + '</button>' +

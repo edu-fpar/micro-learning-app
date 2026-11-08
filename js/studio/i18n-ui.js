@@ -12,7 +12,7 @@
     'c.deviceGroup': 'Type d’écran', 'c.tablet': 'Tablette', 'c.resize': 'Redimensionner les panneaux',
     'c.custom': 'perso', 'c.modified': 'modifié', 'c.dateLocale': 'fr-FR',
     // studio : barre
-    's.file': 'Fichier', 's.new': 'Nouveau cours', 's.open': 'Ouvrir un fichier .md…', 's.sample': 'Charger le cours d’exemple',
+    's.file': 'Fichier', 's.new': 'Nouveau cours', 's.open': 'Ouvrir un fichier .md…', 's.sample': 'Charger le cours d’exemple', 's.sampleDiagrams': 'Exemple : schémas interactifs (test)', 's.confirmSampleDiagrams': 'Charger l’exemple « schémas interactifs » ? Le brouillon actuel sera sauvegardé dans l’historique.',
     's.downloadMd': 'Télécharger le Markdown', 's.version': 'Version', 's.versionTitle': 'Enregistrer une version (Ctrl+S)',
     's.history': 'Historique', 's.historyTitle': 'Historique des versions', 's.export': 'Exporter',
     's.tabEdit': 'Édition', 's.tabPreview': 'Aperçu',
@@ -30,6 +30,7 @@
     // avertissements du parseur
     'w.frontmatter': 'Front-matter illisible : {msg}', 'w.unknownFormat': 'Format inconnu « {format} » (rendu en format-content).',
     'w.unknownRole': 'Rôle « {role} » non déclaré dans le front-matter (characters).', 'w.noSlides': 'Aucune slide : séparez vos slides par une ligne « --- ».',
+    'w.moduleRange': 'En-tête : module ({n}) est supérieur à modules ({total}).',
     // versions
     's.historyIntro': 'Les versions sont enregistrées dans ce navigateur (localStorage). Pensez à télécharger le Markdown pour une sauvegarde durable.',
     's.snapTitle': 'Enregistrer une version', 's.snapLabel': 'Nom de la version', 's.snapHelp': 'Ex. : « Relecture client », « Ajout du quiz final »…',
@@ -90,7 +91,7 @@
     'c.desktop': 'Desktop', 'c.deviceDesktop': 'Desktop view', 'c.deviceTablet': 'Tablet view', 'c.deviceMobile': 'Mobile view', 'c.mobile': 'Mobile',
     'c.deviceGroup': 'Screen type', 'c.tablet': 'Tablet', 'c.resize': 'Resize panels',
     'c.custom': 'custom', 'c.modified': 'modified', 'c.dateLocale': 'en-GB',
-    's.file': 'File', 's.new': 'New course', 's.open': 'Open a .md file…', 's.sample': 'Load the sample course',
+    's.file': 'File', 's.new': 'New course', 's.open': 'Open a .md file…', 's.sample': 'Load the sample course', 's.sampleDiagrams': 'Sample: interactive diagrams (test)', 's.confirmSampleDiagrams': 'Load the “interactive diagrams” sample? The current draft will be saved in the history.',
     's.downloadMd': 'Download the Markdown', 's.version': 'Version', 's.versionTitle': 'Save a version (Ctrl+S)',
     's.history': 'History', 's.historyTitle': 'Version history', 's.export': 'Export',
     's.tabEdit': 'Edit', 's.tabPreview': 'Preview',
@@ -105,6 +106,7 @@
     's.iframe': 'Module preview', 's.popupBlocked': 'The browser blocked the window. Allow pop-ups for this site.',
     'w.frontmatter': 'Unreadable front matter: {msg}', 'w.unknownFormat': 'Unknown format “{format}” (rendered as format-content).',
     'w.unknownRole': 'Role “{role}” is not declared in the front matter (characters).', 'w.noSlides': 'No slides: separate your slides with a “---” line.',
+    'w.moduleRange': 'Header: module ({n}) is greater than modules ({total}).',
     's.historyIntro': 'Versions are stored in this browser (localStorage). Download the Markdown for a durable backup.',
     's.snapTitle': 'Save a version', 's.snapLabel': 'Version name', 's.snapHelp': 'E.g. “Client review”, “Final quiz added”…',
     's.snapDefault': 'Version of {date}', 's.snapSaved': 'Version “{label}” saved.', 's.snapFull': 'Browser storage is full: delete older versions.',

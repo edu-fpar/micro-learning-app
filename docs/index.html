@@ -52,6 +52,7 @@
         <li><a href="#formats">Les formats de slides</a></li>
         <li><a href="#personnages">Les personnages</a></li>
         <li><a href="#audio">Lecture à voix haute</a></li>
+        <li><a href="#parcours">Parcours et chapitres</a></li>
         <li><a href="#versions">Versions et sauvegarde</a></li>
         <li><a href="#export">Exporter le module</a></li>
         <li><a href="#lab">Créer ses propres formats</a></li>
@@ -155,7 +156,25 @@ Une phrase d'accroche.
       <p class="mb-0">Réglages enseignant : dans l'en-tête, <code>lang: fr</code>, <code>audio-min: 80</code> (seuil) ou <code>audio: off</code> ; dans une slide, <code>&lt;!-- audio: all --&gt;</code> ou <code>&lt;!-- audio: off --&gt;</code>.</p>
     </div>
 
-    <h2 id="versions"><i class="bi bi-clock-history"></i> 7. Versions et sauvegarde</h2>
+    <h2 id="parcours"><i class="bi bi-signpost-split"></i> 7. Parcours et chapitres</h2>
+    <div class="docs-card">
+      <p><strong>Chapitres</strong> (un seul fichier) : chaque slide <code>format-title</code> ouvre un chapitre ; on peut aussi écrire <code>&lt;!-- chapter: Nom --&gt;</code> sur n'importe quelle slide. L'apprenant·e voit « Chapitre 2/3 » sous le titre, des repères sur la barre de progression et un sommaire groupé par chapitre.</p>
+      <p><strong>Parcours</strong> (plusieurs modules, un fichier chacun) : ajoutez dans l'en-tête de chaque module :</p>
+<pre>course: "Accessibilité numérique"   # nom du parcours, identique partout
+module: 2                           # position de ce module
+modules: 4                          # nombre total de modules
+next:
+  title: "Les contrastes"
+  url: "../les-contrastes/index.html" # facultatif, pour le web</pre>
+      <ul class="mb-0">
+        <li>L'accueil et la barre du haut affichent « Module 2 / 4 » ; l'écran de fin montre les modules terminés et le module suivant.</li>
+        <li><strong>Web, clé USB, intranet</strong> : exportez chaque module en ZIP et placez les dossiers côte à côte ; le nom du dossier correspond au titre du module (ex. <code>les-contrastes</code>), d'où <code>url: "../les-contrastes/index.html"</code>.</li>
+        <li><strong>SCORM</strong> : le lien est ignoré, l'écran de fin invite à revenir sur la plateforme, qui gère l'enchaînement des modules.</li>
+        <li>Les modules terminés sont mémorisés dans le navigateur de l'apprenant·e.</li>
+      </ul>
+    </div>
+
+    <h2 id="versions"><i class="bi bi-clock-history"></i> 8. Versions et sauvegarde</h2>
     <div class="docs-card">
       <ul class="mb-0">
         <li>Le brouillon est <strong>enregistré automatiquement</strong> dans votre navigateur.</li>
@@ -164,7 +183,7 @@ Une phrase d'accroche.
       </ul>
     </div>
 
-    <h2 id="export"><i class="bi bi-box-arrow-down"></i> 8. Exporter le module</h2>
+    <h2 id="export"><i class="bi bi-box-arrow-down"></i> 9. Exporter le module</h2>
     <div class="docs-card">
       <ul class="mb-0">
         <li><strong>Paquet ZIP</strong> : un dossier à décompresser ; ouvrez <code>index.html</code>. Idéal pour une clé USB, un intranet ou un site web.</li>
@@ -174,7 +193,7 @@ Une phrase d'accroche.
       <p class="mt-2 mb-0 small text-secondary">Les modules exportés fonctionnent sans Internet. L'export lui-même nécessite que le Studio soit ouvert via une adresse web (http/https), pas en double-cliquant sur le fichier.</p>
     </div>
 
-    <h2 id="lab"><i class="bi bi-palette"></i> 9. Créer ses propres formats</h2>
+    <h2 id="lab"><i class="bi bi-palette"></i> 10. Créer ses propres formats</h2>
     <div class="docs-card">
       <p class="mb-0">Le <a href="../lab.html">Format Lab</a> permet de modifier les formats existants ou d'en créer de nouveaux (gabarit HTML, CSS, script, textes FR/EN), avec un test en direct sur bureau et mobile et dans chaque langue. Les formats enregistrés apparaissent aussitôt dans le Studio et sont inclus dans les exports. L'onglet <em>Aide</em> du Lab détaille tout ce qui est disponible.</p>
     </div>
@@ -194,6 +213,7 @@ Une phrase d'accroche.
         <li><a href="#formats-en">Slide formats</a></li>
         <li><a href="#characters-en">Characters</a></li>
         <li><a href="#audio-en">Read aloud</a></li>
+        <li><a href="#course-en">Courses and chapters</a></li>
         <li><a href="#versions-en">Versions and backup</a></li>
         <li><a href="#export-en">Export the module</a></li>
         <li><a href="#lab-en">Create your own formats</a></li>
@@ -297,7 +317,25 @@ A catchy sentence.
       <p class="mb-0">Teacher settings: in the header, <code>lang: en</code>, <code>audio-min: 80</code> (threshold) or <code>audio: off</code>; in a slide, <code>&lt;!-- audio: all --&gt;</code> or <code>&lt;!-- audio: off --&gt;</code>.</p>
     </div>
 
-    <h2 id="versions-en"><i class="bi bi-clock-history"></i> 7. Versions and backup</h2>
+    <h2 id="course-en"><i class="bi bi-signpost-split"></i> 7. Courses and chapters</h2>
+    <div class="docs-card">
+      <p><strong>Chapters</strong> (one file): every <code>format-title</code> slide starts a chapter; you can also write <code>&lt;!-- chapter: Name --&gt;</code> on any slide. Learners see “Chapter 2/3” under the title, markers on the progress bar and a table of contents grouped by chapter.</p>
+      <p><strong>Course</strong> (several modules, one file each): add to the header of each module:</p>
+<pre>course: "Digital accessibility"     # course name, identical everywhere
+module: 2                           # position of this module
+modules: 4                          # total number of modules
+next:
+  title: "Contrast"
+  url: "../contrast/index.html"     # optional, for the web</pre>
+      <ul class="mb-0">
+        <li>The welcome screen and top bar show “Module 2 / 4”; the end screen shows completed modules and the next one.</li>
+        <li><strong>Web, USB stick, intranet</strong>: export each module as a ZIP and put the folders side by side; the folder name matches the module title (e.g. <code>contrast</code>), hence <code>url: "../contrast/index.html"</code>.</li>
+        <li><strong>SCORM</strong>: the link is ignored; the end screen invites learners back to the platform, which handles the module sequence.</li>
+        <li>Completed modules are remembered in the learner's browser.</li>
+      </ul>
+    </div>
+
+    <h2 id="versions-en"><i class="bi bi-clock-history"></i> 8. Versions and backup</h2>
     <div class="docs-card">
       <ul class="mb-0">
         <li>The draft is <strong>saved automatically</strong> in your browser.</li>
@@ -306,7 +344,7 @@ A catchy sentence.
       </ul>
     </div>
 
-    <h2 id="export-en"><i class="bi bi-box-arrow-down"></i> 8. Export the module</h2>
+    <h2 id="export-en"><i class="bi bi-box-arrow-down"></i> 9. Export the module</h2>
     <div class="docs-card">
       <ul class="mb-0">
         <li><strong>ZIP package</strong>: a folder to unzip; open <code>index.html</code>. Ideal for a USB stick, an intranet or a website.</li>
@@ -316,7 +354,7 @@ A catchy sentence.
       <p class="mt-2 mb-0 small text-secondary">Exported modules work without Internet. Exporting itself requires the Studio to be opened through a web address (http/https), not by double-clicking the file.</p>
     </div>
 
-    <h2 id="lab-en"><i class="bi bi-palette"></i> 9. Create your own formats</h2>
+    <h2 id="lab-en"><i class="bi bi-palette"></i> 10. Create your own formats</h2>
     <div class="docs-card">
       <p class="mb-0">The <a href="../lab.html">Format Lab</a> lets you edit the existing formats or create new ones (HTML template, CSS, script, FR/EN texts), with a live test on desktop and mobile and in each language. Saved formats appear straight away in the Studio and are included in exports. The Lab <em>Help</em> tab describes everything available.</p>
     </div>

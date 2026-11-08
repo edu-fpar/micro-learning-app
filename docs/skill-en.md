@@ -18,6 +18,8 @@
 
 Write the course in the requested language (by default, the language of the content provided) and set it in `lang`. The examples on this page are in English, but the syntax is identical in French: only the texts change; format, role and expression identifiers always stay in English/lowercase.
 
+**Long course?** Beyond about 20 slides, split it: either into **chapters** within one module (one `format-title` slide per chapter), or into **several modules** (see § 2b) if the teacher asks for it or the content exceeds 30 to 40 slides.
+
 If the teacher gives instructions (duration, audience, tone, number of slides, preferred formats), they take precedence over the recommendations on this page. Never change the **syntax**.
 
 ---
@@ -65,6 +67,9 @@ Text…
 | `characters` | recommended | Character **roles** and their displayed label (see § 5). |
 | `audio` | no | `off` to disable read-aloud for the whole module. |
 | `audio-min` | no | Length (in characters) from which a text gets a listen icon. Default: `120`. |
+| `course` | no | Name of the **course** when the training has several modules. |
+| `module` / `modules` | no | Position of this module and total number of modules in the course, e.g. `module: 2` and `modules: 4`. |
+| `next` | no | Next module: `title` (and an optional `url`, for web publishing; ignored in SCORM). |
 
 ### Mandatory rules
 
@@ -74,6 +79,45 @@ Text…
 - `<!-- … -->` comments are not displayed: they are settings.
 - Everything else is standard Markdown: **bold**, *italic*, lists, links, tables, `code`.
 - Do **not invent any image path**. Only use an image (`![alt text](path)`) if the teacher gives you its path or URL; otherwise choose a format that does not need one. Always provide a descriptive alt text.
+
+### 2b. A course in several modules
+
+Each module is a complete, self-contained Markdown document (its own header, its own slides). **You number the modules and link them together.**
+
+**Procedure:**
+
+1. First plan the split: list the N modules in order, each with a short, distinct title (5 to 15 slides per module).
+2. In the header of **every** module, set:
+   - `course`: the **same course name** in all modules (copy it exactly, character for character);
+   - `module`: the position of the module, from `1` to N;
+   - `modules`: N, **identical in all modules**;
+   - `next` → `title`: the **exact** `title` of the next module (module k+1);
+   - the same `lang`, the same roles in `characters` and the same `theme` in all modules, for a consistent experience.
+3. **Last module** (module N): no `next` field.
+4. Each module starts with a `format-title` slide (with, for example, `<!-- eyebrow: Module k -->`) and ends with a short closing slide that announces the next module.
+5. `url`: **only add it if the teacher says the modules will be published on the web, an intranet or a USB stick.** In that case use `url: "../<folder>/index.html"`, where `<folder>` is the next module's title in lowercase, without accents, with every run of characters other than letters and digits replaced by a hyphen, and no hyphen at the start or end (e.g. "Contrast and colour" → `contrast-and-colour`). This is the folder name created by the ZIP export. Never add a `url` for SCORM delivery.
+
+**Example: module 2 of a 3-module course**
+
+```markdown
+---
+title: "Accessible forms"
+course: "Digital accessibility"
+module: 2
+modules: 3
+next:
+  title: "Contrast and colour"
+lang: en
+theme: ocean
+characters:
+  mentor: "The Guide"
+  peer: "The Colleague"
+---
+```
+
+Module 1 would have `module: 1` and `next` → `title: "Accessible forms"`; module 3, `module: 3` and no `next`.
+
+The end screen of each module shows progress through the course ("Module 2 / 3") and presents the next module.
 
 ---
 
@@ -89,6 +133,7 @@ Text…
 | `<!-- badge: Tip -->` | Badge text (Tip format). |
 | `<!-- audio: all -->` | Listen icon on every text of the slide, even short ones. |
 | `<!-- audio: off -->` | No read-aloud on this slide (e.g. when hearing the text would spoil the exercise). |
+| `<!-- chapter: Chapter name -->` | Starts a chapter on this slide. Every `format-title` slide already starts one automatically (`<!-- chapter: no -->` to prevent it). |
 
 **Available expressions**: `neutral`, `happy`, `encouraging`, `thinking`, `surprised`, `concerned`.
 
@@ -255,7 +300,7 @@ Click the points to explore the leaf.
 
 ## 7. Format of your answer
 
-1. Return **the whole course in a single Markdown code block** (tagged ```` ```markdown ````), from the first `---` of the header to the last slide, so the teacher can copy it in one click.
+1. Return **each module in its own Markdown code block** (a single block if the course fits in one module), in order, each preceded by a line "Module k / N: title" outside the block (tagged ```` ```markdown ````), from the first `---` of the header to the last slide, so the teacher can copy it in one click.
 2. If a code example must appear *inside* a slide, use tildes `~~~` for that inner block (so as not to break your answer block).
 3. **After** the block, add at most 5 lines: number of slides, formats used, points for the teacher to check (images to provide, coordinates to adjust, debatable teaching choices).
 4. Put no other text in the code block.
@@ -270,11 +315,14 @@ Click the points to explore the leaf.
 - [ ] Cards and timeline steps use `**Term** :: text`.
 - [ ] All roles used are declared in `characters`.
 - [ ] No invented image; every image has alt text.
+- [ ] Several modules: same `course` (exactly) and same `modules` everywhere; `module` numbered 1 to N with no gap; `next.title` = exact `title` of the next module; no `next` in the last one; `url` only if web delivery was requested.
 
 ---
 
 ## 8. Sentence for the teacher to use
 
 > "Read the instructions at [address of this page] and format the following course for MicroLearn: …"
+>
+> For a multi-module course: "… and split it into 3 modules (web delivery): …"
 
 *Source of truth for the syntax: MicroLearn Studio. This page describes version 1.0.*

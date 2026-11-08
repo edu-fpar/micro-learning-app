@@ -297,6 +297,14 @@
       renderHistory();
     });
   });
+  $('act-sample-diagrams').addEventListener('click', function () {
+    ui.confirm(T('s.confirmSampleDiagrams'), { ok: T('s.sampleDiagrams') }).then(function (ok) {
+      if (!ok) return;
+      MLS.versions.save(editor.value, T('s.beforeSample'), { auto: true });
+      setContent(MLS.samples.diagrams);
+      renderHistory();
+    });
+  });
   $('act-open').addEventListener('click', function () {
     ui.readFile('.md,.markdown,.txt,text/markdown').then(function (f) {
       MLS.versions.save(editor.value, T('s.beforeOpen', { name: f.name }), { auto: true });
