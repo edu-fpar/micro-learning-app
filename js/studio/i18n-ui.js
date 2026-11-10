@@ -13,7 +13,10 @@
     'c.custom': 'perso', 'c.modified': 'modifié', 'c.dateLocale': 'fr-FR',
     // studio : barre
     's.file': 'Fichier', 's.new': 'Nouveau cours', 's.open': 'Ouvrir un fichier .md…', 's.sample': 'Charger le cours d’exemple', 's.sampleDiagrams': 'Test : schémas interactifs (FR)', 's.sampleDiagramsEn': 'Test : schémas interactifs (EN)', 's.confirmSampleDiagrams': 'Charger l’exemple « schémas interactifs » ? Le brouillon actuel sera sauvegardé dans l’historique.',
-    's.downloadMd': 'Télécharger le Markdown', 's.version': 'Version', 's.versionTitle': 'Enregistrer une version (Ctrl+S)',
+    's.downloadMd': 'Télécharger le Markdown',
+    's.drop': 'Glissez-déposez un fichier <strong>.md</strong> ici ou <u>parcourez</u>', 's.dropTitle': 'Ouvrir un fichier Markdown (le brouillon actuel est gardé dans l’historique)', 's.dropRelease': 'Déposez le fichier pour l’ouvrir', 's.dropBad': 'Ce fichier n’est pas un fichier texte Markdown (.md).',
+    's.share': 'Lien « vue apprenant »…', 's.viewPage': 'Ouvrir la page « vue apprenant »',
+    's.shareTitle': 'Lien vers la vue apprenant', 's.shareIntro': 'Ce lien contient tout le cours (compressé). Il s’ouvre directement en mode apprenant, sans le Studio, et rien n’est envoyé à un serveur.', 's.shareCopy': 'Copier le lien', 's.shareOpen': 'Ouvrir', 's.shareCopied': 'Lien copié', 's.shareLength': 'Longueur : {n} caractères.', 's.shareLong': 'Ce lien est très long : certaines messageries ou plateformes risquent de le couper. Pour un cours long, déposez plutôt le fichier .md dans le dossier courses/ et partagez son code court.', 's.shareUnsupported': 'Ce navigateur ne sait pas compresser le lien. Essayez avec une version récente de Chrome, Edge, Firefox ou Safari.', 's.version': 'Version', 's.versionTitle': 'Enregistrer une version (Ctrl+S)',
     's.history': 'Historique', 's.historyTitle': 'Historique des versions', 's.export': 'Exporter',
     's.tabEdit': 'Édition', 's.tabPreview': 'Aperçu',
     // studio : éditeur
@@ -94,7 +97,10 @@
     'c.deviceGroup': 'Screen type', 'c.tablet': 'Tablet', 'c.resize': 'Resize panels',
     'c.custom': 'custom', 'c.modified': 'modified', 'c.dateLocale': 'en-GB',
     's.file': 'File', 's.new': 'New course', 's.open': 'Open a .md file…', 's.sample': 'Load the sample course', 's.sampleDiagrams': 'Test: interactive diagrams (FR)', 's.sampleDiagramsEn': 'Test: interactive diagrams (EN)', 's.confirmSampleDiagrams': 'Load the “interactive diagrams” sample? The current draft will be saved in the history.',
-    's.downloadMd': 'Download the Markdown', 's.version': 'Version', 's.versionTitle': 'Save a version (Ctrl+S)',
+    's.downloadMd': 'Download the Markdown',
+    's.drop': 'Drag and drop a <strong>.md</strong> file here or <u>browse</u>', 's.dropTitle': 'Open a Markdown file (the current draft is kept in the history)', 's.dropRelease': 'Drop the file to open it', 's.dropBad': 'This file is not a Markdown text file (.md).',
+    's.share': 'Learner view link…', 's.viewPage': 'Open the learner view page',
+    's.shareTitle': 'Link to the learner view', 's.shareIntro': 'This link contains the whole course (compressed). It opens directly in learner mode, without the Studio, and nothing is sent to a server.', 's.shareCopy': 'Copy the link', 's.shareOpen': 'Open', 's.shareCopied': 'Link copied', 's.shareLength': 'Length: {n} characters.', 's.shareLong': 'This link is very long: some messaging tools or platforms may cut it. For a long course, put the .md file in the courses/ folder instead and share its short code.', 's.shareUnsupported': 'This browser cannot compress the link. Try a recent version of Chrome, Edge, Firefox or Safari.', 's.version': 'Version', 's.versionTitle': 'Save a version (Ctrl+S)',
     's.history': 'History', 's.historyTitle': 'Version history', 's.export': 'Export',
     's.tabEdit': 'Edit', 's.tabPreview': 'Preview',
     's.editorAria': 'Markdown editor', 's.insert': 'Insert a slide', 's.editorTheme': 'Light/dark editor theme',

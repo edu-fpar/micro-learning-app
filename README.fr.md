@@ -15,11 +15,17 @@ Transformez un cours écrit en Markdown structuré en **slideshow interactif et 
 ## Fonctionnalités
 
 **Studio** (`index.html`) : l'espace de rédaction
-- Éditeur Markdown avec aperçu en direct, synchronisé avec la position du curseur
+- Éditeur Markdown avec aperçu en direct, synchronisé avec la position du curseur ; glisser-déposer d'un fichier `.md` pour l'ouvrir
 - Aperçu bureau / tablette / mobile
 - Versions (« snapshots ») et historique, enregistrés dans le navigateur
 - Avertissements : format inconnu, rôle non déclaré, numérotation de modules incohérente
 - Export en un clic : dossier **ZIP**, **fichier HTML unique** ou paquet **SCORM 1.2**
+
+**Vue apprenant** (`view.html`) : le diaporama seul, sans le Studio
+- `view.html?c=1234` ouvre `courses/id_1234_<nom>.md` (code court pour vos propres cours publiés)
+- `view.html?src=<adresse d'un fichier .md>` ouvre un fichier Markdown à partir de son adresse
+- Un **lien de partage** généré par le Studio contient tout le cours, compressé, dans l'URL (rien n'est envoyé à un serveur)
+- Sans paramètre : saisir un code ou une adresse, déposer un fichier `.md` ou choisir un cours dans la liste
 
 **Format Lab** (`lab.html`) : créez vos propres formats de slides
 - Un format = gabarit HTML + CSS + script + Markdown d'exemple + textes FR/EN
@@ -106,8 +112,10 @@ Puis ouvrez http://localhost:8765/. Aucune installation, pas de `npm install`.
 
 ```
 index.html          Studio
+view.html           Vue apprenant (ouvre un cours par code, adresse de fichier ou lien de partage)
 lab.html            Format Lab
 player.html         Coque d'aperçu (pilotée par le Studio/Lab via postMessage)
+courses/            Cours publiés (id_<code>_<nom>.md) + index.json
 docs/               Documentation (FR/EN), pages pour les IA, formats bêta
 css/                player.css (slideshow), studio.css (Studio/Lab)
 js/core/            Moteur partagé avec les exports : parseur, gabarits, player, i18n, voix, schémas, SCORM
@@ -115,7 +123,7 @@ js/formats/         Formats de slides intégrés
 js/studio/, js/lab/ Interfaces d'édition, générateur ZIP, export, cours d'exemple
 assets/characters/  Personnages (un SVG par expression) + catalog.js
 vendor/             Bootstrap 5.3, Bootstrap Icons 1.11, marked 12 (tout en local)
-tools/              Script de développement facultatif (générateur d'avatars, Node)
+tools/              Scripts Node facultatifs (index des cours, générateur d'avatars)
 ```
 
 ## Technologies

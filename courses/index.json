@@ -1,0 +1,28 @@
+{
+  "courses": [
+    {
+      "id": "0001",
+      "file": "id_0001_accessibilite-fr.md",
+      "title": "Introduction à l'accessibilité UX",
+      "lang": "fr"
+    },
+    {
+      "id": "0002",
+      "file": "id_0002_accessibility-en.md",
+      "title": "Introduction to Accessible UX",
+      "lang": "en"
+    },
+    {
+      "id": "0003",
+      "file": "id_0003_apprendre-a-apprendre-fr.md",
+      "title": "Apprendre à apprendre",
+      "lang": "fr"
+    },
+    {
+      "id": "0004",
+      "file": "id_0004_learning-to-learn-en.md",
+      "title": "Learning to learn",
+      "lang": "en"
+    }
+  ]
+}

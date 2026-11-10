@@ -65,6 +65,7 @@
         <li><a href="#parcours">Parcours et chapitres</a></li>
         <li><a href="#versions">Versions et sauvegarde</a></li>
         <li><a href="#export">Exporter le module</a></li>
+        <li><a href="#vue">Vue apprenant et partage</a></li>
         <li><a href="#lab">Créer ses propres formats</a></li>
       </ol>
     </div>
@@ -89,7 +90,7 @@
     <h2 id="demarrer"><i class="bi bi-rocket-takeoff"></i> 2. Démarrer en 3 étapes</h2>
     <div class="docs-card">
       <ol class="mb-0">
-        <li class="mb-2"><strong>Écrivez</strong> (ou collez) votre cours dans l'éditeur de gauche du <a href="../index.html">Studio</a>. Un cours d'exemple est chargé au premier lancement.</li>
+        <li class="mb-2"><strong>Écrivez</strong> (ou collez) votre cours dans l'éditeur de gauche du <a href="../index.html">Studio</a>. Vous pouvez aussi glisser-déposer un fichier <code>.md</code> au-dessus de l'éditeur. Un cours d'exemple est chargé au premier lancement.</li>
         <li class="mb-2"><strong>Vérifiez</strong> le rendu dans l'aperçu à droite. Basculez entre les vues <i class="bi bi-display"></i> bureau, <i class="bi bi-tablet"></i> tablette et <i class="bi bi-phone"></i> mobile. L'aperçu suit la slide où se trouve votre curseur. Le bouton <i class="bi bi-plus-square"></i> <em>Insérer une slide</em> ajoute un modèle prêt à remplir.</li>
         <li><strong>Exportez</strong> avec le bouton <i class="bi bi-box-arrow-down"></i> <em>Exporter</em> et partagez le module.</li>
       </ol>
@@ -206,7 +207,18 @@ next:
       <p class="mt-2 mb-0 small text-secondary">Les modules exportés fonctionnent sans Internet. L'export lui-même nécessite que le Studio soit ouvert via une adresse web (http/https), pas en double-cliquant sur le fichier.</p>
     </div>
 
-    <h2 id="lab"><i class="bi bi-palette"></i> 10. Créer ses propres formats</h2>
+    <h2 id="vue"><i class="bi bi-mortarboard"></i> 10. Vue apprenant et partage</h2>
+    <div class="docs-card">
+      <p>La page <a href="../view.html?lang=fr">vue apprenant</a> (<code>view.html</code>) ouvre un cours <strong>directement en mode diaporama</strong>, sans le Studio. Trois façons d'y donner accès :</p>
+      <ul>
+        <li><strong>Lien complet</strong> : dans le Studio, <em>Fichier → Lien « vue apprenant »</em>. Le cours entier est compressé dans le lien, sans rien envoyer à un serveur. Idéal pour un cours court ; au-delà d'environ 8 000 caractères, certaines messageries risquent de couper le lien.</li>
+        <li><strong>Adresse d'un fichier</strong> : <code>view.html?src=https://…/mon-cours.md</code>. Le fichier doit être sur le même site, ou sur un site qui autorise sa lecture (GitHub, par exemple, via <code>raw.githubusercontent.com</code>).</li>
+        <li><strong>Code court</strong> : déposez le fichier dans le dossier <code>courses/</code> sous le nom <code>id_1234_accessibilite-fr.md</code>, puis partagez <code>view.html?c=1234</code>. Après chaque ajout, regénérez la liste avec <code>node tools/build-courses-index.js</code> ; sans liste, le nom complet fonctionne toujours (<code>?c=1234_accessibilite-fr</code>).</li>
+      </ul>
+      <p class="mb-0">Sans paramètre, la page affiche un champ pour saisir un code ou une adresse, une zone pour déposer un fichier <code>.md</code> et la liste des cours du dossier. Par sécurité, le HTML écrit dans le cours y est nettoyé (pas de script).</p>
+    </div>
+
+    <h2 id="lab"><i class="bi bi-palette"></i> 11. Créer ses propres formats</h2>
     <div class="docs-card">
       <p class="mb-0">Le <a href="../lab.html">Format Lab</a> permet de modifier les formats existants ou d'en créer de nouveaux (gabarit HTML, CSS, script, textes FR/EN), avec un test en direct sur bureau et mobile et dans chaque langue. Les formats enregistrés apparaissent aussitôt dans le Studio et sont inclus dans les exports. L'onglet <em>Aide</em> du Lab détaille tout ce qui est disponible.</p>
       <figure class="docs-shot"><img src="images/lab-fr.webp" alt="Le Format Lab : liste des formats, code du gabarit et test en direct" loading="lazy" width="1440" height="900"><figcaption>Le Format Lab : la liste des formats, le gabarit HTML du format « Couverture » et son test en direct.</figcaption></figure>
@@ -230,6 +242,7 @@ next:
         <li><a href="#course-en">Courses and chapters</a></li>
         <li><a href="#versions-en">Versions and backup</a></li>
         <li><a href="#export-en">Export the module</a></li>
+        <li><a href="#view-en">Learner view and sharing</a></li>
         <li><a href="#lab-en">Create your own formats</a></li>
       </ol>
     </div>
@@ -254,7 +267,7 @@ next:
     <h2 id="start-en"><i class="bi bi-rocket-takeoff"></i> 2. Get started in 3 steps</h2>
     <div class="docs-card">
       <ol class="mb-0">
-        <li class="mb-2"><strong>Write</strong> (or paste) your course in the left-hand editor of the <a href="../index.html">Studio</a>. A sample course is loaded the first time.</li>
+        <li class="mb-2"><strong>Write</strong> (or paste) your course in the left-hand editor of the <a href="../index.html">Studio</a>. You can also drag and drop a <code>.md</code> file above the editor. A sample course is loaded the first time.</li>
         <li class="mb-2"><strong>Check</strong> the result in the preview on the right. Switch between <i class="bi bi-display"></i> desktop, <i class="bi bi-tablet"></i> tablet and <i class="bi bi-phone"></i> mobile views. The preview follows the slide where your cursor is. The <i class="bi bi-plus-square"></i> <em>Insert a slide</em> button adds a ready-to-fill template.</li>
         <li><strong>Export</strong> with the <i class="bi bi-box-arrow-down"></i> <em>Export</em> button and share the module.</li>
       </ol>
@@ -371,7 +384,18 @@ next:
       <p class="mt-2 mb-0 small text-secondary">Exported modules work without Internet. Exporting itself requires the Studio to be opened through a web address (http/https), not by double-clicking the file.</p>
     </div>
 
-    <h2 id="lab-en"><i class="bi bi-palette"></i> 10. Create your own formats</h2>
+    <h2 id="view-en"><i class="bi bi-mortarboard"></i> 10. Learner view and sharing</h2>
+    <div class="docs-card">
+      <p>The <a href="../view.html?lang=en">learner view</a> page (<code>view.html</code>) opens a course <strong>directly as a slideshow</strong>, without the Studio. Three ways to give access to it:</p>
+      <ul>
+        <li><strong>Full link</strong>: in the Studio, <em>File → Learner view link</em>. The whole course is compressed into the link, and nothing is sent to a server. Ideal for a short course; beyond about 8,000 characters, some messaging tools may cut the link.</li>
+        <li><strong>File address</strong>: <code>view.html?src=https://…/my-course.md</code>. The file must be on the same site, or on a site that allows it to be read (GitHub, for example, through <code>raw.githubusercontent.com</code>).</li>
+        <li><strong>Short code</strong>: put the file in the <code>courses/</code> folder as <code>id_1234_accessibility-en.md</code>, then share <code>view.html?c=1234</code>. After each addition, rebuild the list with <code>node tools/build-courses-index.js</code>; without the list, the full name always works (<code>?c=1234_accessibility-en</code>).</li>
+      </ul>
+      <p class="mb-0">Without a parameter, the page shows a field to enter a code or an address, an area to drop a <code>.md</code> file, and the list of courses in the folder. For safety, any HTML written in the course is cleaned there (no scripts).</p>
+    </div>
+
+    <h2 id="lab-en"><i class="bi bi-palette"></i> 11. Create your own formats</h2>
     <div class="docs-card">
       <p class="mb-0">The <a href="../lab.html">Format Lab</a> lets you edit the existing formats or create new ones (HTML template, CSS, script, FR/EN texts), with a live test on desktop and mobile and in each language. Saved formats appear straight away in the Studio and are included in exports. The Lab <em>Help</em> tab describes everything available.</p>
       <figure class="docs-shot"><img src="images/lab-en.webp" alt="The Format Lab: format list, template code and live test" loading="lazy" width="1440" height="900"><figcaption>The Format Lab: the format list, the HTML template of the “Cover” format and its live test.</figcaption></figure>

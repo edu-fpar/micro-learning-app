@@ -31,6 +31,9 @@
           <li><button class="dropdown-item" id="act-sample-diagrams-en"><i class="bi bi-diagram-3 me-2"></i><span data-i18n="s.sampleDiagramsEn"></span></button></li>
           <li><hr class="dropdown-divider"></li>
           <li><button class="dropdown-item" id="act-save-md"><i class="bi bi-filetype-md me-2"></i><span data-i18n="s.downloadMd"></span></button></li>
+          <li><hr class="dropdown-divider"></li>
+          <li><button class="dropdown-item" id="act-share"><i class="bi bi-mortarboard me-2"></i><span data-i18n="s.share"></span></button></li>
+          <li><a class="dropdown-item" href="view.html" target="_blank" rel="noopener"><i class="bi bi-journal-bookmark me-2"></i><span data-i18n="s.viewPage"></span></a></li>
         </ul>
       </div>
       <button class="btn btn-sm btn-st" id="act-snapshot" data-i18n-title="s.versionTitle"><i class="bi bi-camera"></i> <span class="st-hide-sm" data-i18n="s.version"></span></button>
@@ -58,7 +61,11 @@
         </div>
         <button class="btn btn-sm btn-outline-secondary" id="act-theme" data-i18n-title="s.editorTheme" data-i18n-aria="s.editorTheme"><i class="bi bi-circle-half"></i></button>
       </div>
+      <button type="button" class="st-drop" id="drop-zone" data-i18n-title="s.dropTitle">
+        <i class="bi bi-cloud-arrow-up"></i> <span data-i18n-html="s.drop"></span>
+      </button>
       <div class="st-editor-wrap">
+        <div class="st-drop-overlay" id="drop-overlay" hidden><i class="bi bi-filetype-md"></i><span data-i18n="s.dropRelease"></span></div>
         <textarea id="editor" class="st-code" spellcheck="false" data-i18n-aria="s.editorTextarea"></textarea>
       </div>
       <div class="st-diag" id="diag"></div>
@@ -179,6 +186,7 @@
   <script src="js/studio/sample-en.js"></script>
   <script src="js/studio/sample-diagrams.js"></script>
   <script src="js/studio/sample-diagrams-en.js"></script>
+  <script src="js/core/share.js"></script>
   <script src="js/studio/ui.js"></script>
   <script src="js/studio/versions.js"></script>
   <script src="js/studio/zip.js"></script>

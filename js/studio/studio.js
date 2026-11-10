@@ -325,13 +325,70 @@
   }
   $('act-sample-diagrams').addEventListener('click', function () { loadTest(MLS.samples.diagrams, T('s.sampleDiagrams')); });
   $('act-sample-diagrams-en').addEventListener('click', function () { loadTest(MLS.samples.diagramsEn, T('s.sampleDiagramsEn')); });
-  $('act-open').addEventListener('click', function () {
-    ui.readFile('.md,.markdown,.txt,text/markdown').then(function (f) {
-      MLS.versions.save(editor.value, T('s.beforeOpen', { name: f.name }), { auto: true });
-      setContent(f.text.replace(/\r\n?/g, '\n'));
-      renderHistory();
-      ui.toast('<i class="bi bi-folder2-open"></i> ' + esc(T('s.opened', { name: f.name })), 'primary');
+  function openText(f) {
+    MLS.versions.save(editor.value, T('s.beforeOpen', { name: f.name }), { auto: true });
+    setContent(f.text.replace(/^﻿/, '').replace(/\r\n?/g, '\n'));
+    renderHistory();
+    ui.toast('<i class="bi bi-folder2-open"></i> ' + esc(T('s.opened', { name: f.name })), 'primary');
+  }
+  function browseFile() { ui.readFile('.md,.markdown,.txt,text/markdown').then(openText); }
+  $('act-open').addEventListener('click', browseFile);
+
+  /* Glisser-déposer d'un fichier .md : sur la zone dédiée ou n'importe où sur l'éditeur. */
+  (function () {
+    var zone = $('drop-zone'), overlay = $('drop-overlay'), pane = document.querySelector('.st-pane-editor'), depth = 0;
+    zone.addEventListener('click', browseFile);
+    function hasFiles(e) { return e.dataTransfer && [].indexOf.call(e.dataTransfer.types || [], 'Files') >= 0; }
+    function show(on) { overlay.hidden = !on; zone.classList.toggle('is-over', on); }
+    pane.addEventListener('dragenter', function (e) { if (!hasFiles(e)) return; e.preventDefault(); depth++; show(true); });
+    pane.addEventListener('dragover', function (e) { if (!hasFiles(e)) return; e.preventDefault(); e.dataTransfer.dropEffect = 'copy'; });
+    pane.addEventListener('dragleave', function (e) { if (!hasFiles(e)) return; depth = Math.max(0, depth - 1); if (!depth) show(false); });
+    pane.addEventListener('drop', function (e) {
+      if (!hasFiles(e)) return;
+      e.preventDefault(); depth = 0; show(false);
+      var file = e.dataTransfer.files[0];
+      if (!file) return;
+      if (!/\.(md|markdown|txt)$/i.test(file.name) && !/^text\//.test(file.type || '')) { ui.toast(esc(T('s.dropBad')), 'danger'); return; }
+      var r = new FileReader();
+      r.onload = function () { openText({ name: file.name, text: String(r.result) }); };
+      r.readAsText(file, 'utf-8');
     });
+    // Évite que le navigateur ouvre le fichier s'il est lâché à côté de la zone.
+    window.addEventListener('dragover', function (e) { if (hasFiles(e)) e.preventDefault(); });
+    window.addEventListener('drop', function (e) { if (hasFiles(e)) e.preventDefault(); });
+  })();
+
+  /* Lien « vue apprenant » : le cours complet, compressé dans l'ancre de l'URL. */
+  $('act-share').addEventListener('click', function () {
+    if (!MLS.share.supported()) { ui.toast(esc(T('s.shareUnsupported')), 'danger'); return; }
+    MLS.share.encode(editor.value).then(function (z) {
+      var url = MLS.share.viewUrl() + '#z=' + z;
+      var el = document.createElement('div');
+      el.className = 'modal fade'; el.tabIndex = -1;
+      el.innerHTML = '<div class="modal-dialog modal-dialog-centered modal-lg"><div class="modal-content">' +
+        '<div class="modal-header"><h5 class="modal-title"><i class="bi bi-mortarboard"></i> ' + esc(T('s.shareTitle')) + '</h5>' +
+        '<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="' + esc(T('c.close')) + '"></button></div>' +
+        '<div class="modal-body"><p>' + esc(T('s.shareIntro')) + '</p>' +
+        '<textarea class="form-control font-monospace small" rows="4" readonly aria-label="URL"></textarea>' +
+        '<div class="form-text">' + esc(T('s.shareLength', { n: url.length.toLocaleString() })) + '</div>' +
+        (url.length > 8000 ? '<div class="alert alert-warning small mt-2 mb-0"><i class="bi bi-exclamation-triangle"></i> ' + esc(T('s.shareLong')) + '</div>' : '') +
+        '</div><div class="modal-footer">' +
+        '<a class="btn btn-light" target="_blank" rel="noopener"><i class="bi bi-box-arrow-up-right"></i> ' + esc(T('s.shareOpen')) + '</a>' +
+        '<button type="button" class="btn btn-accent" data-copy><i class="bi bi-clipboard"></i> ' + esc(T('s.shareCopy')) + '</button></div></div></div>';
+      el.querySelector('textarea').value = url;
+      el.querySelector('a').href = url;
+      el.querySelector('[data-copy]').addEventListener('click', function () {
+        var ta = el.querySelector('textarea');
+        var done = function () { ui.toast('<i class="bi bi-clipboard-check"></i> ' + esc(T('s.shareCopied')), 'success'); };
+        var fallback = function () { ta.select(); document.execCommand('copy'); done(); };
+        if (navigator.clipboard) navigator.clipboard.writeText(url).then(done, fallback); else fallback();
+      });
+      document.body.appendChild(el);
+      var m = new bootstrap.Modal(el);
+      el.addEventListener('hidden.bs.modal', function () { m.dispose(); el.remove(); });
+      el.addEventListener('shown.bs.modal', function () { el.querySelector('textarea').select(); });
+      m.show();
+    }, function () { ui.toast(esc(T('s.shareUnsupported')), 'danger'); });
   });
   $('act-save-md').addEventListener('click', function () {
     var c = state.course || MLS.parser.parseCourse(editor.value);

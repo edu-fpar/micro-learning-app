@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>MicroLearn</title>
+  <meta name="description" content="MicroLearn learner view: open an interactive micro-learning module from a Markdown file, a link or a course code. Vue apprenant MicroLearn.">
+  <meta property="og:title" content="MicroLearn">
+  <meta property="og:description" content="Open an interactive micro-learning module from a Markdown file, a link or a course code.">
+  <link rel="stylesheet" href="vendor/bootstrap/css/bootstrap.min.css">
+  <link rel="stylesheet" href="vendor/bootstrap-icons/bootstrap-icons.min.css">
+  <link rel="stylesheet" href="css/player.css">
+  <style>
+    .vw-home { min-height: 100vh; min-height: 100dvh; display: flex; align-items: center; justify-content: center; padding: 1.5rem 1rem;
+      background: linear-gradient(135deg, #6d4aff 0%, #b05ad0 55%, #ff7a59 100%); font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
+    .vw-home[hidden] { display: none; }
+    .vw-card { background: #fff; border-radius: 24px; box-shadow: 0 30px 60px rgba(20, 10, 60, .3); width: 100%; max-width: 620px; padding: 2rem 1.6rem; }
+    .vw-brand { display: flex; align-items: center; gap: .55rem; font-weight: 800; color: #1c1a36; margin-bottom: 1.2rem; }
+    .vw-brand .logo { width: 34px; height: 34px; border-radius: 10px; display: grid; place-items: center; color: #fff; background: linear-gradient(135deg, #7c5cff, #ff7a59); }
+    .vw-brand .vw-lang { margin-left: auto; display: flex; gap: .2rem; }
+    .vw-brand .vw-lang a { font-size: .8rem; font-weight: 700; color: #6b6f85; text-decoration: none; padding: .15rem .5rem; border-radius: 6px; }
+    .vw-brand .vw-lang a[aria-current] { background: #1c1a36; color: #fff; }
+    .vw-card h1 { font-size: 1.6rem; font-weight: 800; color: #1c1a36; }
+    .vw-card .lead { font-size: 1rem; color: #5c6078; }
+    .vw-drop { display: flex; align-items: center; justify-content: center; gap: .5rem; width: 100%; margin-top: 1rem; padding: .9rem; border: 2px dashed #c6c9da;
+      border-radius: 14px; background: #f8f8fd; color: #5c6078; font-size: .92rem; }
+    .vw-drop i { font-size: 1.3rem; color: #7c5cff; }
+    .vw-drop u { color: #7c5cff; }
+    .vw-drop:hover, .vw-drop:focus-visible, .vw-drop.is-over { border-color: #7c5cff; background: #f1edff; color: #3b2f86; }
+    .vw-list { list-style: none; padding: 0; margin: .5rem 0 0; display: grid; gap: .4rem; }
+    .vw-list a { display: flex; align-items: center; gap: .6rem; padding: .6rem .8rem; border: 1px solid #e3e5ef; border-radius: 12px; text-decoration: none; color: #1c1a36; }
+    .vw-list a:hover, .vw-list a:focus-visible { border-color: #7c5cff; background: #f6f3ff; }
+    .vw-list code { margin-left: auto; color: #7c5cff; font-size: .8rem; }
+    .vw-list .vw-lng { font-size: .7rem; font-weight: 700; text-transform: uppercase; background: #eef0f6; color: #5c6078; border-radius: 6px; padding: .1rem .4rem; }
+    .vw-foot { margin-top: 1.4rem; font-size: .85rem; color: #6b6f85; display: flex; flex-wrap: wrap; gap: .3rem 1rem; }
+    .vw-foot a { color: #5b3fd6; }
+    .vw-loading { min-height: 100vh; display: grid; place-items: center; color: #6b6f85; font-family: system-ui, sans-serif; }
+    .vw-loading[hidden] { display: none; }
+  </style>
+</head>
+<body class="mls-body">
+  <div class="vw-loading" id="vw-loading" role="status"><div class="spinner-border text-secondary" aria-hidden="true"></div></div>
+  <main class="vw-home" id="vw-home" hidden></main>
+  <div id="player"></div>
+  <noscript><p style="padding:2rem;font-family:sans-serif">MicroLearn nécessite JavaScript. · MicroLearn requires JavaScript.</p></noscript>
+
+  <script src="vendor/marked/marked.min.js"></script>
+  <script src="js/core/mls.js"></script>
+  <script src="js/core/i18n.js"></script>
+  <script src="js/core/yaml.js"></script>
+  <script src="js/core/template.js"></script>
+  <script src="js/core/parser.js"></script>
+  <script src="js/core/scorm.js"></script>
+  <script src="js/core/speech.js"></script>
+  <script src="js/core/diagram.js"></script>
+  <script src="js/core/player.js"></script>
+  <script src="js/core/formats.js"></script>
+  <script src="js/formats/title.js"></script>
+  <script src="js/formats/content.js"></script>
+  <script src="js/formats/dialogue.js"></script>
+  <script src="js/formats/conseil.js"></script>
+  <script src="js/formats/quiz.js"></script>
+  <script src="js/formats/flashcards.js"></script>
+  <script src="js/formats/timeline.js"></script>
+  <script src="js/formats/hotspots.js"></script>
+  <script src="js/formats/tabs.js"></script>
+  <script src="js/formats/diagrams.js"></script>
+  <script src="assets/characters/catalog.js"></script>
+  <script src="js/core/share.js"></script>
+  <script src="js/view.js"></script>
+</body>
+</html>
