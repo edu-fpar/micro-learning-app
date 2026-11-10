@@ -115,7 +115,8 @@ index.html          Studio
 view.html           Vue apprenant (ouvre un cours par code, adresse de fichier ou lien de partage)
 lab.html            Format Lab
 player.html         Coque d'aperçu (pilotée par le Studio/Lab via postMessage)
-courses/            Cours publiés (id_<code>_<nom>.md) + index.json
+courses/            Cours publiés (id_<code>_<nom>.md) ; index.json est régénéré par une action GitHub
+.github/workflows/  courses-index.yml (index automatique des cours)
 docs/               Documentation (FR/EN), pages pour les IA, formats bêta
 css/                player.css (slideshow), studio.css (Studio/Lab)
 js/core/            Moteur partagé avec les exports : parseur, gabarits, player, i18n, voix, schémas, SCORM

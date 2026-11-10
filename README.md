@@ -115,7 +115,8 @@ index.html          Studio
 view.html           Learner view (open a course by code, file address or share link)
 lab.html            Format Lab
 player.html         Preview shell (driven by the Studio/Lab through postMessage)
-courses/            Published courses (id_<code>_<name>.md) + index.json
+courses/            Published courses (id_<code>_<name>.md); index.json is rebuilt by a GitHub Action
+.github/workflows/  courses-index.yml (automatic course index)
 docs/               Documentation (FR/EN), AI skill pages, beta formats
 css/                player.css (slideshow), studio.css (Studio/Lab)
 js/core/            Engine shared with exports: parser, templates, player, i18n, speech, diagrams, SCORM

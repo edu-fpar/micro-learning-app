@@ -213,7 +213,7 @@ next:
       <ul>
         <li><strong>Lien complet</strong> : dans le Studio, <em>Fichier → Lien « vue apprenant »</em>. Le cours entier est compressé dans le lien, sans rien envoyer à un serveur. Idéal pour un cours court ; au-delà d'environ 8 000 caractères, certaines messageries risquent de couper le lien.</li>
         <li><strong>Adresse d'un fichier</strong> : <code>view.html?src=https://…/mon-cours.md</code>. Le fichier doit être sur le même site, ou sur un site qui autorise sa lecture (GitHub, par exemple, via <code>raw.githubusercontent.com</code>).</li>
-        <li><strong>Code court</strong> : déposez le fichier dans le dossier <code>courses/</code> sous le nom <code>id_1234_accessibilite-fr.md</code>, puis partagez <code>view.html?c=1234</code>. Après chaque ajout, regénérez la liste avec <code>node tools/build-courses-index.js</code> ; sans liste, le nom complet fonctionne toujours (<code>?c=1234_accessibilite-fr</code>).</li>
+        <li><strong>Code court</strong> : déposez le fichier dans le dossier <code>courses/</code> sous le nom <code>id_1234_accessibilite-fr.md</code>, puis partagez <code>view.html?c=1234</code>. Rien d'autre à faire : sur GitHub, la liste des cours (<code>courses/index.json</code>) se met à jour toute seule après chaque commit, et le cours est trouvé même avant.</li>
       </ul>
       <p class="mb-0">Sans paramètre, la page affiche un champ pour saisir un code ou une adresse, une zone pour déposer un fichier <code>.md</code> et la liste des cours du dossier. Par sécurité, le HTML écrit dans le cours y est nettoyé (pas de script).</p>
     </div>
@@ -390,7 +390,7 @@ next:
       <ul>
         <li><strong>Full link</strong>: in the Studio, <em>File → Learner view link</em>. The whole course is compressed into the link, and nothing is sent to a server. Ideal for a short course; beyond about 8,000 characters, some messaging tools may cut the link.</li>
         <li><strong>File address</strong>: <code>view.html?src=https://…/my-course.md</code>. The file must be on the same site, or on a site that allows it to be read (GitHub, for example, through <code>raw.githubusercontent.com</code>).</li>
-        <li><strong>Short code</strong>: put the file in the <code>courses/</code> folder as <code>id_1234_accessibility-en.md</code>, then share <code>view.html?c=1234</code>. After each addition, rebuild the list with <code>node tools/build-courses-index.js</code>; without the list, the full name always works (<code>?c=1234_accessibility-en</code>).</li>
+        <li><strong>Short code</strong>: put the file in the <code>courses/</code> folder as <code>id_1234_accessibility-en.md</code>, then share <code>view.html?c=1234</code>. Nothing else to do: on GitHub, the course list (<code>courses/index.json</code>) updates itself after each commit, and the course is found even before that.</li>
       </ul>
       <p class="mb-0">Without a parameter, the page shows a field to enter a code or an address, an area to drop a <code>.md</code> file, and the list of courses in the folder. For safety, any HTML written in the course is cleaned there (no scripts).</p>
     </div>

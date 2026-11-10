@@ -1,0 +1,37 @@
+# Régénère courses/index.json quand un cours est ajouté, renommé ou supprimé dans courses/.
+# Aucune action manuelle : déposez simplement le fichier id_<code>_<nom>.md et commitez.
+name: Index des cours
+
+on:
+  push:
+    paths:
+      - 'courses/**.md'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: courses-index
+  cancel-in-progress: false
+
+jobs:
+  index:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Régénérer courses/index.json
+        run: node tools/build-courses-index.js
+
+      - name: Commiter l'index s'il a changé
+        run: |
+          if git diff --quiet -- courses/index.json; then
+            echo "Index déjà à jour."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add courses/index.json
+          git commit -m "Mise à jour automatique de courses/index.json"
+          git push

@@ -128,14 +128,15 @@
     });
   }
 
-  var listCache = null;
-  /** Liste des fichiers du dossier courses/ : index.json, sinon page d'index du serveur, sinon API GitHub (GitHub Pages). */
-  function listCourses() {
-    if (listCache) return listCache;
-    function norm(arr) {
-      return (arr || []).map(function (x) { return typeof x === 'string' ? { file: x } : x; })
-        .filter(function (x) { return x && /^[\w.-]+\.md$/i.test(x.file || ''); });
-    }
+  /* Trois sources pour connaître les cours du dossier courses/, de la plus rapide à la plus lente :
+   * index.json (régénéré automatiquement par l'action GitHub), la page d'index du serveur
+   * (serveur local, Apache…), puis l'API GitHub (GitHub Pages). Un index en retard n'empêche
+   * donc pas d'ouvrir un cours tout juste ajouté : on passe à la source suivante. */
+  function norm(arr) {
+    return (arr || []).map(function (x) { return typeof x === 'string' ? { file: x } : x; })
+      .filter(function (x) { return x && /^[\w.-]+\.md$/i.test(x.file || ''); });
+  }
+  var SOURCES = (function () {
     function fromIndex() {
       return fetch(COURSES_DIR + 'index.json', { cache: 'no-cache' }).then(function (r) {
         if (!r.ok) throw new Error('no index');
@@ -164,24 +165,39 @@
         return r.json();
       }).then(function (arr) { return norm(arr.map(function (x) { return x.name; })); });
     }
-    listCache = fromIndex().catch(fromListing).catch(fromGitHub).catch(function () { listCache = null; return null; });
-    return listCache;
+    var all = [fromIndex, fromListing, fromGitHub], cache = [];
+    return {
+      count: all.length,
+      /** Liste donnée par la source n° i (Promise, rejetée si la source est indisponible). */
+      get: function (i) { return cache[i] || (cache[i] = all[i]()); }
+    };
+  })();
+
+  /** Liste des cours pour la page d'accueil : la première source disponible. */
+  function listCourses(i) {
+    i = i || 0;
+    if (i >= SOURCES.count) return Promise.resolve(null);
+    return SOURCES.get(i).catch(function () { return listCourses(i + 1); });
   }
 
   function idOf(file) { var m = /^id_([^_]+)_/i.exec(file); return m ? m[1] : null; }
   function codeOf(file) { return file.replace(/^id_/i, '').replace(/\.md$/i, ''); }
 
-  /** Code court → adresse du fichier .md dans courses/. */
+  /** Code court → adresse du fichier .md dans courses/ (chaque source est essayée jusqu'à trouver le code). */
   function resolveCode(code) {
     code = String(code).trim().replace(/^id_/i, '').replace(/\.md$/i, '');
     if (!/^[\w-]+$/.test(code)) return Promise.reject(fail('badCode'));
     if (code.indexOf('_') > 0) return Promise.resolve(COURSES_DIR + 'id_' + code + '.md');
-    return listCourses().then(function (list) {
-      if (!list) throw fail('errList');
-      var hit = list.filter(function (c) { return (idOf(c.file) || '').toLowerCase() === code.toLowerCase() || codeOf(c.file).toLowerCase() === code.toLowerCase(); })[0];
-      if (!hit) throw fail('errCode', { code: code });
-      return COURSES_DIR + hit.file;
-    });
+    var low = code.toLowerCase(), anyList = false;
+    function tryFrom(i) {
+      if (i >= SOURCES.count) return Promise.reject(fail(anyList ? 'errCode' : 'errList', { code: code }));
+      return SOURCES.get(i).then(function (list) {
+        anyList = true;
+        var hit = list.filter(function (c) { return (idOf(c.file) || '').toLowerCase() === low || codeOf(c.file).toLowerCase() === low; })[0];
+        return hit ? COURSES_DIR + hit.file : tryFrom(i + 1);
+      }, function () { return tryFrom(i + 1); });
+    }
+    return tryFrom(0);
   }
 
   /** Le module suivant (en-tête next.url) peut désigner un autre .md : on le rouvre dans la vue apprenant. */
