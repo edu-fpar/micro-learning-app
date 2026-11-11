@@ -6,7 +6,7 @@ Turn a structured Markdown course into an **interactive, responsive slideshow** 
 
 100% client-side · no backend · no build step · no CDN at runtime · hostable on GitHub Pages.
 
-**▶ Try it:** https://fxpar.github.io/micro-learning-app/ &nbsp;·&nbsp; [Documentation](https://fxpar.github.io/micro-learning-app/docs/?lang=en) &nbsp;·&nbsp; [AI skill page](docs/skill-en.md)
+**▶ Try it:** https://edu-fpar.github.io/micro-learning-app/ &nbsp;·&nbsp; [Documentation](https://edu-fpar.github.io/micro-learning-app/docs/?lang=en) &nbsp;·&nbsp; [AI skill page](docs/skill-en.md)
 
 ![The Studio: Markdown on the left, live preview of the slide under the cursor on the right](docs/images/studio-en.webp)
 
@@ -90,7 +90,7 @@ Slides are separated by a `---` line; each slide declares its format with `<!-- 
 
 Teachers don't need to learn the syntax. Give any AI (ChatGPT, Claude, Gemini, Mistral, Copilot…) the address of the skill page and your content:
 
-> Read the instructions at https://fxpar.github.io/micro-learning-app/docs/skill-en.md and format the following course for MicroLearn: …
+> Read the instructions at https://edu-fpar.github.io/micro-learning-app/docs/skill-en.md and format the following course for MicroLearn: …
 
 French version: [docs/skill.md](docs/skill.md). The [`llms.txt`](llms.txt) file at the root points AIs to these pages.
 

@@ -6,7 +6,7 @@ Transformez un cours écrit en Markdown structuré en **slideshow interactif et 
 
 100 % navigateur · sans serveur · sans étape de compilation · sans CDN à l'exécution · hébergeable sur GitHub Pages.
 
-**▶ Essayer :** https://fxpar.github.io/micro-learning-app/ &nbsp;·&nbsp; [Documentation](https://fxpar.github.io/micro-learning-app/docs/?lang=fr) &nbsp;·&nbsp; [Page pour les IA](docs/skill.md)
+**▶ Essayer :** https://edu-fpar.github.io/micro-learning-app/ &nbsp;·&nbsp; [Documentation](https://edu-fpar.github.io/micro-learning-app/docs/?lang=fr) &nbsp;·&nbsp; [Page pour les IA](docs/skill.md)
 
 ![Le Studio : le Markdown à gauche, l'aperçu en direct de la slide sous le curseur à droite](docs/images/studio-fr.webp)
 
@@ -90,7 +90,7 @@ Les slides sont séparées par une ligne `---` ; chaque slide indique son format
 
 Pas besoin d'apprendre la syntaxe. Donnez à n'importe quelle IA (ChatGPT, Claude, Gemini, Mistral, Copilot…) l'adresse de la page « skill » et votre contenu :
 
-> Lis les instructions sur https://fxpar.github.io/micro-learning-app/docs/skill.md et mets en forme le cours suivant pour MicroLearn : …
+> Lis les instructions sur https://edu-fpar.github.io/micro-learning-app/docs/skill.md et mets en forme le cours suivant pour MicroLearn : …
 
 Version anglaise : [docs/skill-en.md](docs/skill-en.md). Le fichier [`llms.txt`](llms.txt) à la racine indique ces pages aux IA.
 
