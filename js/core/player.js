@@ -93,6 +93,13 @@
         else self.speakEls([target]);
         return;
       }
+      // lien interne [texte](#id) : mène à la slide <!-- id: … --> ou <!-- branch: … -->
+      var ln = e.target.closest('a[href^="#"]');
+      if (ln && self.root.contains(ln) && self.slideIdx(ln.getAttribute('href').slice(1)) != null) {
+        e.preventDefault();
+        self.go(ln.getAttribute('href').slice(1));
+        return;
+      }
       var b = e.target.closest('[data-act]');
       if (!b || !self.root.contains(b)) return;
       var act = b.getAttribute('data-act');
@@ -189,7 +196,7 @@
     o = o || {};
     if (o.formats) this.setFormats(o.formats);
     var keep = this.index;
-    this.course = MLS.parser.parseCourse(markdown, { formats: Object.keys(this.formatsById) });
+    this.course = MLS.parser.parseCourse(markNames(markdown), { formats: Object.keys(this.formatsById) });
     var fm = this.course.meta;
     this.courseKey = 'course.' + (U.slugify(this.course.title) || 'sans-titre');
     this.lang = String(fm.lang || 'fr');
@@ -213,8 +220,11 @@
     if (this.mode === 'standalone') document.title = this.course.title;
 
     this.scores = {}; this.gradable = {}; this.state = {}; this.hooks = {};
+    this.setupBranches(); // avant le rendu : les formats (menu) interrogent ctx.seen / ctx.go
     this.renderSlides();
+    this.branchChapters();
     this.computeChapters();
+    this.applyName();
     this.renderToc();
 
     var idx = o.index != null ? o.index : (o.keepIndex ? keep : 0);
@@ -434,6 +444,11 @@
       announce: function (text) { self.announce(text); },
       speak: function (el) { self.speakOnReveal(el, index); },
       autoplay: function () { return self.dialogueAutoplay(index); },
+      go: function (id) { self.go(id); },
+      finish: function () { self.finish(); },
+      seen: function (id) { return self.isSeen(id); },
+      learnerName: function () { return self.learnerName(); },
+      setLearnerName: function (n) { return self.setLearnerName(n); },
       overlayOpen: function () { return self.overlayOpen(); },
       audioMode: function () { return self.audioMode(); },
       speakable: function (el) { self.decorateSpeech(el, index); },
@@ -589,10 +604,15 @@
     this.updateSubtitle(i);
     this.$('[data-act="prev"]').disabled = i === 0;
     var nextBtn = this.$('[data-act="next"]');
-    var last = i === n - 1;
-    nextBtn.querySelector('span').textContent = this.t(last ? 'p.finish' : 'p.next');
-    nextBtn.querySelector('i').className = 'bi ' + (last ? 'bi-flag' : 'bi-arrow-right');
-    nextBtn.disabled = last && this.mode === 'lab';
+    this.markSeen(i);
+    var bt = this.branchNext(i);
+    var toMenu = typeof bt === 'number' && bt !== i + 1 && this.course.slides[bt] && this.course.slides[bt].format === 'format-menu' &&
+      this.course.slides[i].format !== 'format-menu';
+    var last = bt === 'finish' || (bt == null && i === n - 1);
+    nextBtn.querySelector('span').textContent = this.t(last ? 'p.finish' : toMenu ? 'p.backToMenu' : 'p.next');
+    nextBtn.querySelector('i').className = 'bi ' + (last ? 'bi-flag' : toMenu ? 'bi-signpost-split' : 'bi-arrow-right');
+    nextBtn.disabled = last && this.mode === 'lab' && bt !== 'finish';
+    this.$('[data-act="prev"]').disabled = i === 0 && this.branchPrev(i) == null;
 
     if (!o.silent && o.focus !== false) {
       var h = cur.querySelector('h1, h2, h3');
@@ -611,10 +631,127 @@
 
   Player.prototype.next = function () {
     if (!this.course) return;
+    var target = this.branchNext(this.index);
+    if (target === 'finish') return this.finish();
+    if (target != null) return this.goTo(target);
     if (this.index >= this.slideEls.length - 1) { if (this.mode !== 'lab') this.openEnd(); return; }
     this.goTo(this.index + 1);
   };
-  Player.prototype.prev = function () { this.goTo(this.index - 1); };
+  Player.prototype.prev = function () {
+    var target = this.branchPrev(this.index);
+    this.goTo(target != null ? target : this.index - 1);
+  };
+
+  /* ------------------------------------------------ Menus à branches
+     format-menu : chaque élément « - [Libellé](#id) :: description » mène à la slide
+     <!-- branch: id -->. Une partie s'arrête à la slide qui ouvre une autre partie, à un menu
+     ou à une slide <!-- id: … --> ; « Suivant » à sa fin (et « Précédent » à son début) ramène
+     au menu parent (<!-- parent: id -->, sinon le dernier menu rencontré). Sur un menu,
+     « Suivant » mène à la première partie pas encore vue, puis à la fin (<!-- id: fin -->). */
+  var END_IDS = ['fin', 'end'];
+
+  Player.prototype.setupBranches = function () {
+    var slides = this.course.slides, byId = {}, owner = [], cur = null, lastMenu = null, firstMenu = null, any = false;
+    slides.forEach(function (s, i) {
+      var isMenu = s.format === 'format-menu';
+      if (isMenu) {
+        s.menuId = s.meta.branch || s.meta.id || ('menu-' + (i + 1));
+        if (byId[s.menuId] == null) byId[s.menuId] = i;
+        any = true;
+      }
+      [s.meta.branch, s.meta.id].forEach(function (id) { if (id && byId[id] == null) byId[id] = i; });
+      if (isMenu || (s.meta.id && !s.meta.branch)) cur = null;
+      if (s.meta.branch) { cur = { id: s.meta.branch, parent: s.meta.parent || lastMenu, start: i }; any = true; }
+      owner[i] = cur;
+      if (isMenu) { lastMenu = s.menuId; if (!firstMenu) firstMenu = s.menuId; }
+    });
+    this.branching = any ? { byId: byId, owner: owner, firstMenu: firstMenu } : null;
+    this.slideIds = byId;
+    this.seenSet = MLS.store.get(this.courseKey + '.seen', {}) || {};
+  };
+
+  /** Chaque partie et chaque menu ouvrent une entrée du sommaire (sauf <!-- chapter: … --> explicite). */
+  Player.prototype.branchChapters = function () {
+    if (!this.branching) return;
+    this.course.slides.forEach(function (s) {
+      if (!s.meta.chapter && (s.meta.branch || s.format === 'format-menu')) s.meta.chapter = s.title || s.meta.branch || s.menuId;
+    });
+  };
+
+  Player.prototype.slideIdx = function (id) {
+    var m = this.slideIds && this.slideIds[id];
+    return m == null ? null : m;
+  };
+  Player.prototype.go = function (id) { var i = this.slideIdx(id); if (i != null) this.goTo(i); };
+  Player.prototype.isSeen = function (id) { return !!(this.seenSet && this.seenSet[id]); };
+  Player.prototype.markSeen = function (i) {
+    var o = this.branching && this.branching.owner[i];
+    if (!o || this.seenSet[o.id]) return;
+    this.seenSet[o.id] = 1;
+    if (this.mode === 'standalone') MLS.store.set(this.courseKey + '.seen', this.seenSet);
+  };
+  /** « J'ai fini » : slide <!-- id: fin --> (ou end) si elle existe, sinon l'écran de fin. */
+  Player.prototype.finish = function () {
+    for (var k = 0; k < END_IDS.length; k++) { var i = this.slideIdx(END_IDS[k]); if (i != null && i !== this.index) return this.goTo(i); }
+    if (this.mode !== 'lab') this.openEnd();
+  };
+
+  /** Cible de « Suivant » quand des menus sont en jeu : index, 'finish', ou null (suite linéaire). */
+  Player.prototype.branchNext = function (i) {
+    var b = this.branching;
+    if (!b) return null;
+    var s = this.course.slides[i], self = this;
+    if (END_IDS.indexOf(s.meta.id) !== -1) return 'finish';
+    if (s.format === 'format-menu') {
+      var el = this.slideEls[i];
+      var todo = [].slice.call(el.querySelectorAll('[data-go]')).map(function (x) { return x.getAttribute('data-go'); })
+        .filter(function (id) { return !self.isSeen(id) && self.slideIdx(id) != null; })[0];
+      if (todo) return this.slideIdx(todo);
+      if (s.meta.parent && this.slideIdx(s.meta.parent) != null) return this.slideIdx(s.meta.parent);
+      return 'finish';
+    }
+    var o = b.owner[i];
+    if (o && o.parent && (i + 1 >= this.course.slides.length || b.owner[i + 1] !== o)) return this.slideIdx(o.parent);
+    return null;
+  };
+
+  Player.prototype.branchPrev = function (i) {
+    var b = this.branching;
+    if (!b) return null;
+    var s = this.course.slides[i], o = b.owner[i];
+    if (END_IDS.indexOf(s.meta.id) !== -1 && b.firstMenu) return this.slideIdx(b.firstMenu);
+    if (s.format === 'format-menu' && s.meta.parent) return this.slideIdx(s.meta.parent);
+    if (o && o.parent && o.start === i) return this.slideIdx(o.parent);
+    return null;
+  };
+
+  /* ------------------------------------------------ Prénom de l'apprenant
+     {prenom} ou {name} dans le texte des slides ; {, prenom} -> « , Camille » (la ponctuation
+     disparaît avec la marque quand il n'y a pas de prénom). Saisi avec format-prenom, gardé
+     dans le navigateur (jamais envoyé). */
+  var NAME_RE = /\{([^{}\n]{0,6}?)(prenom|prénom|name)([^{}\n]{0,6}?)\}/gi;
+  function markNames(md) {
+    md = String(md || '');
+    var fm = /^﻿?---\r?\n[\s\S]*?\r?\n---[ \t]*(\r?\n|$)/.exec(md);
+    var head = fm ? fm[0] : '', body = md.slice(head.length);
+    return head + body.replace(NAME_RE, function (m, pre, w, post) {
+      return '<span class="mls-learner-name" data-pre="' + U.escapeHtml(pre) + '" data-post="' + U.escapeHtml(post) + '"></span>';
+    });
+  }
+  Player.prototype.learnerName = function () { return String(MLS.store.get('learner.name', '') || ''); };
+  Player.prototype.setLearnerName = function (name) {
+    name = String(name || '').trim().replace(/\s+/g, ' ').slice(0, 40);
+    if (name) name = name.charAt(0).toUpperCase() + name.slice(1);
+    if (name) MLS.store.set('learner.name', name); else MLS.store.remove('learner.name');
+    this.applyName();
+    return name;
+  };
+  Player.prototype.applyName = function () {
+    var name = this.learnerName();
+    this.root.querySelectorAll('.mls-learner-name').forEach(function (s) {
+      s.textContent = name ? (s.getAttribute('data-pre') || '') + name + (s.getAttribute('data-post') || '') : '';
+    });
+  };
 
   /* ------------------------------------------------ Lecture à voix haute */
 

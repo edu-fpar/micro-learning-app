@@ -175,6 +175,8 @@ next:
             <tr><td><i class="bi bi-file-earmark-text"></i> <code>format-content</code></td><td>exposer une notion</td><td>texte, listes, image</td></tr>
             <tr><td><i class="bi bi-chat-quote"></i> <code>format-dialogue</code></td><td>mettre en situation</td><td><code>&gt; réplique</code>, <code>&gt; @peer: …</code></td></tr>
             <tr><td><i class="bi bi-chat-dots"></i> <code>format-sms</code></td><td>un échange façon messagerie</td><td>comme le dialogue : <code>&gt; @peer(happy): …</code></td></tr>
+            <tr><td><i class="bi bi-person-vcard"></i> <code>format-prenom</code></td><td>demander le prénom</td><td><code>&gt; question</code>, puis <code>{prenom}</code> dans le texte</td></tr>
+            <tr><td><i class="bi bi-signpost-split"></i> <code>format-menu</code></td><td>un parcours à la carte</td><td><code>- [📌 Partie](#id) :: description</code></td></tr>
             <tr><td><i class="bi bi-lightbulb"></i> <code>format-conseil</code></td><td>donner une astuce</td><td>personnage + texte</td></tr>
             <tr><td><i class="bi bi-patch-question"></i> <code>format-quiz</code></td><td>évaluer</td><td><code>- [x] juste</code>, <code>- [ ] faux :: explication</code></td></tr>
             <tr><td><i class="bi bi-front"></i> <code>format-flashcards</code></td><td>le vocabulaire</td><td><code>- **Terme** :: définition</code></td></tr>
@@ -189,6 +191,25 @@ next:
       <ul class="mb-0">
         <li>Défilement automatique par défaut ; <code>&lt;!-- autoplay: off --&gt;</code> sur une slide, ou <code>dialogue-autoplay: off</code> dans l'en-tête, le fait passer « au clic » : un bouton <em>Suite</em> fait apparaître la réplique suivante.</li>
         <li>L'apprenant·e peut choisir <em>Automatique</em> ou <em>Au clic</em> dans ses réglages (bouton <i class="bi bi-people"></i>) : ce choix est mémorisé et passe avant celui du cours (accessibilité).</li>
+      </ul>
+      <p class="mt-3"><strong>Prénom (<code>format-prenom</code>)</strong> : le personnage pose la question (citation <code>&gt;</code>), l'apprenant·e tape son prénom ou continue sans. Le prénom reste dans son navigateur (rien n'est envoyé) et sert à tous les cours. Il remplace ensuite <code>{prenom}</code> partout dans le texte des slides ; préférez <code>{, prenom}</code> : « Bienvenue{, prenom} ! » donne « Bienvenue, Camille ! », ou « Bienvenue ! » sans prénom.</p>
+      <p><strong>Parcours à la carte (<code>format-menu</code>)</strong> : chaque élément <code>- [📌 Libellé](#id) :: description</code> devient un bouton qui mène à la <strong>partie</strong> commençant par la slide <code>&lt;!-- branch: id --&gt;</code>.</p>
+<pre>&lt;!-- slide: format-menu --&gt;
+&lt;!-- id: menu --&gt;
+&lt;!-- character-role: mentor --&gt;
+### Par quoi on commence ?
+&gt; Choisis une partie, je t'y emmène.        (1re visite)
+&gt; On continue ? Les parties vues sont cochées. (au retour)
+&gt; Tu as tout vu, bravo !                      (tout est vu)
+
+- [🛎️ L'accueil](#accueil) :: Là où tout commence
+- [🚐 Les réservations](#reservations "featured") :: Mise en avant</pre>
+      <ul class="mb-0">
+        <li>Une partie s'arrête à la slide qui ouvre une autre partie, à un menu ou à une slide <code>&lt;!-- id: … --&gt;</code>. À sa fin, le bouton devient <em>Retour au menu</em> ; « Précédent » au début d'une partie y ramène aussi.</li>
+        <li>Les parties vues sont cochées (mémorisé dans le navigateur) ; sur le menu, « Suivant » mène à la première partie pas encore vue.</li>
+        <li><em>J'ai terminé</em> (ou « Suivant » quand tout est vu) mène à la slide <code>&lt;!-- id: fin --&gt;</code>, sinon à l'écran de fin.</li>
+        <li>Sous-menu : un <code>format-menu</code> qui porte lui-même <code>&lt;!-- branch: … --&gt;</code> et <code>&lt;!-- parent: menu --&gt;</code> (bouton <em>Retour au menu</em>). Une partie revient par défaut au dernier menu qui la précède ; <code>&lt;!-- parent: id --&gt;</code> en choisit un autre.</li>
+        <li>Partout dans un cours, un lien <code>[texte](#id)</code> mène à la slide <code>&lt;!-- id: … --&gt;</code> ou <code>&lt;!-- branch: … --&gt;</code>.</li>
       </ul>
       <figure class="docs-shot"><div class="docs-shots"><img class="wide" src="images/quiz-fr.webp" alt="Un quiz sur ordinateur, avec la réponse et son explication" loading="lazy" width="1280" height="800"><img class="phone" src="images/mobile-cards-fr.webp" alt="Des cartes à retourner sur téléphone" loading="lazy" width="780" height="1410"></div><figcaption>Le même module sur ordinateur (quiz) et sur téléphone (cartes à retourner).</figcaption></figure>
     </div>
@@ -255,7 +276,7 @@ next:
       <ul>
         <li><strong>Lien complet</strong> : dans le Studio, <em>Fichier → Lien « vue apprenant »</em>. Le cours entier est compressé dans le lien, sans rien envoyer à un serveur. Idéal pour un cours court ; au-delà d'environ 8 000 caractères, certaines messageries risquent de couper le lien.</li>
         <li><strong>Adresse d'un fichier</strong> : <code>view.html?src=https://…/mon-cours.md</code>. Le fichier doit être sur le même site, ou sur un site qui autorise sa lecture (GitHub, par exemple, via <code>raw.githubusercontent.com</code>).</li>
-        <li><strong>Code court</strong> : déposez le fichier dans le dossier <code>courses/</code> sous le nom <code>id_1234_accessibilite-fr.md</code>, puis partagez <code>view.html?c=1234</code>. Rien d'autre à faire : sur GitHub, la liste des cours (<code>courses/index.json</code>) se met à jour toute seule après chaque commit, et le cours est trouvé même avant.</li>
+        <li><strong>Code court</strong> : déposez le fichier dans le dossier <code>courses/</code> sous le nom <code>id_1234_accessibilite-fr.md</code>, puis partagez <code>view.html?c=1234</code>. Rien d'autre à faire : sur GitHub, la liste des cours (<code>courses/index.json</code>) se met à jour toute seule après chaque commit, et le cours est trouvé même avant. Dans le Studio, <em>Fichier → Lien court (code du cours)</em> donne ce lien pour le cours ouvert (reconnu par le nom du fichier ouvert ou par son titre) ; s'il n'est pas encore dans le dossier, il propose le prochain code libre et un bouton pour télécharger le fichier sous le bon nom.</li>
       </ul>
       <p class="mb-0">Sans paramètre, la page affiche un champ pour saisir un code ou une adresse, une zone pour déposer un fichier <code>.md</code> et la liste des cours du dossier. Par sécurité, le HTML écrit dans le cours y est nettoyé (pas de script).</p>
     </div>
@@ -393,6 +414,8 @@ next:
             <tr><td><i class="bi bi-file-earmark-text"></i> <code>format-content</code></td><td>presenting a notion</td><td>text, lists, image</td></tr>
             <tr><td><i class="bi bi-chat-quote"></i> <code>format-dialogue</code></td><td>setting the scene</td><td><code>&gt; line</code>, <code>&gt; @peer: …</code></td></tr>
             <tr><td><i class="bi bi-chat-dots"></i> <code>format-sms</code></td><td>a chat-style exchange</td><td>like the dialogue: <code>&gt; @peer(happy): …</code></td></tr>
+            <tr><td><i class="bi bi-person-vcard"></i> <code>format-prenom</code></td><td>asking for the first name</td><td><code>&gt; question</code>, then <code>{name}</code> in the text</td></tr>
+            <tr><td><i class="bi bi-signpost-split"></i> <code>format-menu</code></td><td>a pick-your-path course</td><td><code>- [📌 Part](#id) :: description</code></td></tr>
             <tr><td><i class="bi bi-lightbulb"></i> <code>format-conseil</code></td><td>giving a tip</td><td>character + text</td></tr>
             <tr><td><i class="bi bi-patch-question"></i> <code>format-quiz</code></td><td>assessing</td><td><code>- [x] right</code>, <code>- [ ] wrong :: explanation</code></td></tr>
             <tr><td><i class="bi bi-front"></i> <code>format-flashcards</code></td><td>vocabulary</td><td><code>- **Term** :: definition</code></td></tr>
@@ -407,6 +430,25 @@ next:
       <ul class="mb-0">
         <li>Automatic playback by default; <code>&lt;!-- autoplay: off --&gt;</code> on a slide, or <code>dialogue-autoplay: off</code> in the header, switches to “on click”: a <em>Continue</em> button shows the next line.</li>
         <li>Learners can choose <em>Automatic</em> or <em>On click</em> in their settings (<i class="bi bi-people"></i> button): this choice is remembered and overrides the course's (accessibility).</li>
+      </ul>
+      <p class="mt-3"><strong>First name (<code>format-prenom</code>)</strong>: the character asks the question (<code>&gt;</code> quote), the learner types their first name or continues without. It stays in their browser (nothing is sent) and is used by every course. It then replaces <code>{name}</code> (or <code>{prenom}</code>) everywhere in the slides' text; prefer <code>{, name}</code>: “Welcome{, name}!” gives “Welcome, Sam!”, or “Welcome!” without a name.</p>
+      <p><strong>Pick-your-path course (<code>format-menu</code>)</strong>: each <code>- [📌 Label](#id) :: description</code> item becomes a button leading to the <strong>part</strong> that starts with the <code>&lt;!-- branch: id --&gt;</code> slide.</p>
+<pre>&lt;!-- slide: format-menu --&gt;
+&lt;!-- id: menu --&gt;
+&lt;!-- character-role: mentor --&gt;
+### Where shall we start?
+&gt; Pick a part, I'll take you there.           (first visit)
+&gt; Shall we go on? Parts seen are ticked.      (on return)
+&gt; You've seen everything, well done!          (all seen)
+
+- [🛎️ The front desk](#desk) :: Where it all starts
+- [🚐 Reservations](#reservations "featured") :: Highlighted</pre>
+      <ul class="mb-0">
+        <li>A part ends at the slide that opens another part, at a menu or at an <code>&lt;!-- id: … --&gt;</code> slide. At its end, the button becomes <em>Back to menu</em>; “Previous” at the start of a part also leads back.</li>
+        <li>Parts already seen are ticked (remembered in the browser); on the menu, “Next” goes to the first part not yet seen.</li>
+        <li><em>I'm done</em> (or “Next” once everything is seen) goes to the <code>&lt;!-- id: end --&gt;</code> (or <code>fin</code>) slide, otherwise to the end screen.</li>
+        <li>Sub-menu: a <code>format-menu</code> that itself carries <code>&lt;!-- branch: … --&gt;</code> and <code>&lt;!-- parent: menu --&gt;</code> (<em>Back to menu</em> button). A part returns by default to the last menu before it; <code>&lt;!-- parent: id --&gt;</code> picks another.</li>
+        <li>Anywhere in a course, a <code>[text](#id)</code> link leads to the <code>&lt;!-- id: … --&gt;</code> or <code>&lt;!-- branch: … --&gt;</code> slide.</li>
       </ul>
       <figure class="docs-shot"><div class="docs-shots"><img class="wide" src="images/quiz-en.webp" alt="A quiz on a computer, with the answer and its explanation" loading="lazy" width="1280" height="800"><img class="phone" src="images/mobile-cards-en.webp" alt="Flip cards on a phone" loading="lazy" width="780" height="1410"></div><figcaption>The same module on a computer (quiz) and on a phone (flip cards).</figcaption></figure>
     </div>
@@ -473,7 +515,7 @@ next:
       <ul>
         <li><strong>Full link</strong>: in the Studio, <em>File → Learner view link</em>. The whole course is compressed into the link, and nothing is sent to a server. Ideal for a short course; beyond about 8,000 characters, some messaging tools may cut the link.</li>
         <li><strong>File address</strong>: <code>view.html?src=https://…/my-course.md</code>. The file must be on the same site, or on a site that allows it to be read (GitHub, for example, through <code>raw.githubusercontent.com</code>).</li>
-        <li><strong>Short code</strong>: put the file in the <code>courses/</code> folder as <code>id_1234_accessibility-en.md</code>, then share <code>view.html?c=1234</code>. Nothing else to do: on GitHub, the course list (<code>courses/index.json</code>) updates itself after each commit, and the course is found even before that.</li>
+        <li><strong>Short code</strong>: put the file in the <code>courses/</code> folder as <code>id_1234_accessibility-en.md</code>, then share <code>view.html?c=1234</code>. Nothing else to do: on GitHub, the course list (<code>courses/index.json</code>) updates itself after each commit, and the course is found even before that. In the Studio, <em>File → Short link (course code)</em> gives this link for the open course (recognised by the opened file name or by its title); if it is not in the folder yet, it suggests the next free code and a button to download the file under the right name.</li>
       </ul>
       <p class="mb-0">Without a parameter, the page shows a field to enter a code or an address, an area to drop a <code>.md</code> file, and the list of courses in the folder. For safety, any HTML written in the course is cleaned there (no scripts).</p>
     </div>

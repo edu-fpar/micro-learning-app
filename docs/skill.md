@@ -141,6 +141,9 @@ L'écran de fin de chaque module affiche la progression dans le parcours (« Mod
 | `<!-- badge: Astuce -->` | Texte du badge (format Conseil). |
 | `<!-- audio: all -->` | Icône d'écoute sur tous les textes de la slide, même courts. |
 | `<!-- audio: off -->` | Aucune lecture à voix haute sur cette slide (ex. quand le texte lu gâcherait l'exercice). |
+| `<!-- id: menu -->` | Identifiant de la slide, cible d'un lien `[texte](#menu)` (voir `format-menu`). `<!-- id: fin -->` = conclusion d'un parcours à la carte. |
+| `<!-- branch: accueil -->` | Début de la partie `accueil` d'un menu (`format-menu`). |
+| `<!-- parent: menu -->` | Menu auquel revient la partie (par défaut : le dernier menu qui la précède). |
 | `<!-- autoplay: off -->` | Dialogue façon messagerie (`format-sms`) : répliques au clic plutôt qu'automatiques. |
 | `<!-- chapter: Nom du chapitre -->` | Ouvre un chapitre sur cette slide. Chaque slide `format-title` en ouvre déjà un automatiquement (`<!-- chapter: no -->` pour l'éviter). |
 
@@ -210,6 +213,58 @@ Même syntaxe que `format-dialogue` (`> @role(expression): texte`), mais présen
 ```
 
 Idéal pour : un échange informel, une question pratique, une mise en situation du quotidien. Pas plus d'un ou deux par module.
+
+### `format-prenom` — Demander le prénom
+Le personnage pose une question (une citation `>`), l'apprenant·e tape son prénom (facultatif). Ensuite, `{prenom}` est remplacé par ce prénom dans le texte de toutes les slides. **Écris toujours `{, prenom}`** (« Bienvenue{, prenom} ! ») : sans prénom, la marque disparaît avec sa virgule. À utiliser seulement si l'enseignant·e le demande ou pour une visite très conviviale, en 2e slide.
+
+```markdown
+<!-- slide: format-prenom -->
+<!-- character-role: mentor -->
+<!-- character-expression: happy -->
+### Faisons connaissance
+> Bonjour ! Avant de commencer, comment t'appelles-tu ?
+```
+
+### `format-menu` — Parcours à la carte
+Un menu dont chaque bouton mène à une **partie**. Chaque élément : `- [emoji Libellé](#identifiant) :: description courte`. La partie commence par une slide portant `<!-- branch: identifiant -->` et s'arrête à la slide qui ouvre une autre partie, à un menu ou à une slide `<!-- id: … -->`. À la fin d'une partie, le lecteur ramène au menu ; les parties vues sont cochées. Les citations `>` sont les répliques du guide : la 1re au premier passage, la 2e au retour, la 3e quand tout a été vu. `[Libellé](#id "featured")` met un élément en avant. Termine par une slide de conclusion `<!-- id: fin -->`, atteinte par le bouton « J'ai terminé ».
+
+```markdown
+<!-- slide: format-menu -->
+<!-- id: menu -->
+<!-- character-role: mentor -->
+### Par quoi on commence ?
+> Choisis une partie, je t'y emmène. Tu reviendras ici à la fin de chacune.
+
+> On continue ? Les parties déjà vues sont cochées.
+
+> Tu as tout vu, bravo ! Tu peux terminer ou revoir une partie.
+
+- [🛎️ L'accueil](#accueil) :: Là où tout commence
+- [📚 Le vocabulaire](#mots) :: Les mots de la maison
+
+---
+
+<!-- slide: format-dialogue -->
+<!-- branch: accueil -->
+### L'accueil
+> …
+
+---
+
+<!-- slide: format-flashcards -->
+<!-- branch: mots -->
+### Le vocabulaire
+- **Cote** :: …
+
+---
+
+<!-- slide: format-dialogue -->
+<!-- id: fin -->
+### On récapitule
+> …
+```
+
+À utiliser seulement pour une visite, une formation « à la carte » ou si l'enseignant·e le demande, avec 3 à 8 parties indépendantes (l'ordre ne doit pas compter). Chaque `#identifiant` du menu doit avoir sa slide `<!-- branch: identifiant -->`. Dans n'importe quelle slide, un lien `[texte](#id)` mène aussi à la slide `<!-- id: … -->` ou `<!-- branch: … -->`.
 
 ### `format-conseil` — Conseil porté par un personnage
 Encadré « astuce » avec le personnage en grand. Une citation `>` à l'intérieur est mise en valeur.
@@ -373,6 +428,7 @@ Utilise-les quand la **structure de l'idée** correspond à la forme, au plus un
 - [ ] Les cartes et les étapes de frise utilisent `**Terme** :: texte`.
 - [ ] Tous les rôles utilisés sont déclarés dans `characters`, celui qui guide en premier.
 - [ ] L'en-tête contient une liste `jobs` de métiers cohérente avec le cours.
+- [ ] Menu à branches : chaque `[…](#id)` du menu a sa slide `<!-- branch: id -->`, et une slide `<!-- id: fin -->` conclut ; le prénom s'écrit `{, prenom}`.
 - [ ] Aucune image inventée ; chaque image a un texte alternatif.
 - [ ] Plusieurs modules : même `course` (à l'identique) et même `modules` partout ; `module` numéroté de 1 à N sans trou ; `next.title` = `title` exact du module suivant ; pas de `next` dans le dernier ; `url` seulement si une diffusion web est demandée.
 

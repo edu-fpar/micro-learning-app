@@ -43,7 +43,44 @@ Cinq minutes pour découvrir les lieux et les bons réflexes, comme si on se pro
 
 ---
 
+<!-- slide: format-prenom -->
+<!-- character-role: guide -->
+<!-- character-expression: happy -->
+### Faisons connaissance
+> Salut ! C'est moi qui te fais visiter. On se tutoie ? Dis-moi comment tu t'appelles.
+
+---
+
+<!-- slide: format-sms -->
+### Un message avant l'ouverture
+> @collegue: Coucou{, prenom} ! J'arrive à 9 h 50, c'est trop juste pour l'ouverture ?
+
+> @guide(thinking): Un peu : on ouvre les portes à 10 h, mais il faut allumer les postes et vider la boîte de retours avant.
+
+> @collegue(concerned): Ah… je ne savais pas pour la boîte de retours.
+
+> @guide(happy): Pas de souci, c'est ta première semaine ! Viens à 9 h 30 demain, je te montrerai.
+
+---
+
+<!-- slide: format-menu -->
+<!-- id: menu -->
+<!-- character-role: guide -->
+### Par quoi on commence ?
+> @guide(happy): Alors{, prenom}, choisis une partie : je t'y emmène. Tu reviendras ici à la fin de chacune.
+
+> @guide(encouraging): On continue ? Les parties déjà vues sont cochées.
+
+> @guide(happy): Tu as tout vu, bravo ! Tu peux terminer la visite ou revoir une partie.
+
+- [🛎️ L'accueil](#accueil) :: Là où tout commence
+- [📚 Les mots de la maison](#mots) :: Cote, fantôme, désherbage…
+- [🚐 Les réservations](#reservations "featured") :: Faire venir un livre d'une autre médiathèque
+
+---
+
 <!-- slide: format-dialogue -->
+<!-- branch: accueil -->
 <!-- character-role: collegue -->
 <!-- character-expression: thinking -->
 ### Par où commencer ?
@@ -54,30 +91,6 @@ Cinq minutes pour découvrir les lieux et les bons réflexes, comme si on se pro
 > @collegue(surprised): Même les questions sur les ordinateurs ?
 
 > @guide(encouraging): Oui, l'accueil oriente vers l'espace numérique. Tu verras, on se relaie.
-
----
-
-<!-- slide: format-sms -->
-### Un message avant l'ouverture
-> @collegue: Coucou ! J'arrive à 9 h 50, c'est trop juste pour l'ouverture ?
-
-> @guide(thinking): Un peu : on ouvre les portes à 10 h, mais il faut allumer les postes et vider la boîte de retours avant.
-
-> @collegue(concerned): Ah… je ne savais pas pour la boîte de retours.
-
-> @guide(happy): Pas de souci, c'est ta première semaine ! Viens à 9 h 30 demain, je te montrerai.
-
-> @collegue(happy): Parfait, merci !
-
----
-
-<!-- slide: format-flashcards -->
-### Les mots de la maison
-Retourne chaque carte pour découvrir le sens du mot.
-
-- **Cote** :: L'étiquette au dos du livre qui indique où le ranger.
-- **Fantôme** :: Le carton qu'on laisse à la place d'un document sorti du rayon.
-- **Désherbage** :: Retirer des rayons les documents abîmés ou périmés.
 
 ---
 
@@ -93,7 +106,19 @@ Retourne chaque carte pour découvrir le sens du mot.
 
 ---
 
+<!-- slide: format-flashcards -->
+<!-- branch: mots -->
+### Les mots de la maison
+Retourne chaque carte pour découvrir le sens du mot.
+
+- **Cote** :: L'étiquette au dos du livre qui indique où le ranger.
+- **Fantôme** :: Le carton qu'on laisse à la place d'un document sorti du rayon.
+- **Désherbage** :: Retirer des rayons les documents abîmés ou périmés.
+
+---
+
 <!-- slide: format-sms -->
+<!-- branch: reservations -->
 <!-- autoplay: off -->
 ### Une question de dernière minute
 > @collegue(thinking): Dernière question : si un lecteur me demande un livre qu'on n'a pas ?
@@ -107,7 +132,8 @@ Retourne chaque carte pour découvrir le sens du mot.
 ---
 
 <!-- slide: format-dialogue -->
+<!-- id: fin -->
 <!-- character-role: guide -->
 <!-- character-expression: happy -->
 ### On récapitule
-> L'accueil oriente, les documents abîmés vont aux réparations, et la navette rend presque tout possible. Bienvenue parmi nous !
+> L'accueil oriente, les documents abîmés vont aux réparations, et la navette rend presque tout possible. Bienvenue parmi nous{, prenom} !

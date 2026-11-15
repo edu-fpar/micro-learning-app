@@ -162,6 +162,7 @@
   ui.codeArea(editor);
 
   function setContent(md) {
+    MLS.store.remove('studio.file');
     editor.value = md;
     state.cursorSlide = 0;
     editor.setSelectionRange(0, 0);
@@ -328,6 +329,8 @@
   function openText(f) {
     MLS.versions.save(editor.value, T('s.beforeOpen', { name: f.name }), { auto: true });
     setContent(f.text.replace(/^﻿/, '').replace(/\r\n?/g, '\n'));
+    // mémorise le nom du fichier (lien court : id_1234_nom.md -> view.html?c=1234)
+    MLS.store.set('studio.file', { name: f.name, title: (state.course || MLS.parser.parseCourse(editor.value)).title });
     renderHistory();
     ui.toast('<i class="bi bi-folder2-open"></i> ' + esc(T('s.opened', { name: f.name })), 'primary');
   }
@@ -359,36 +362,95 @@
   })();
 
   /* Lien « vue apprenant » : le cours complet, compressé dans l'ancre de l'URL. */
+  /** Fenêtre « lien à copier » : o = { icon, title, body (HTML), url, rows, extra (bouton HTML, facultatif) }. */
+  function linkModal(o) {
+    var el = document.createElement('div');
+    el.className = 'modal fade'; el.tabIndex = -1;
+    el.innerHTML = '<div class="modal-dialog modal-dialog-centered modal-lg"><div class="modal-content">' +
+      '<div class="modal-header"><h5 class="modal-title"><i class="bi ' + o.icon + '"></i> ' + esc(o.title) + '</h5>' +
+      '<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="' + esc(T('c.close')) + '"></button></div>' +
+      '<div class="modal-body">' + o.body +
+      '<textarea class="form-control font-monospace small" rows="' + (o.rows || 4) + '" readonly aria-label="URL"></textarea>' +
+      (o.after || '') +
+      '</div><div class="modal-footer">' + (o.extra || '') +
+      '<a class="btn btn-light" target="_blank" rel="noopener"><i class="bi bi-box-arrow-up-right"></i> ' + esc(T('s.shareOpen')) + '</a>' +
+      '<button type="button" class="btn btn-accent" data-copy><i class="bi bi-clipboard"></i> ' + esc(T('s.shareCopy')) + '</button></div></div></div>';
+    el.querySelector('textarea').value = o.url;
+    el.querySelector('a').href = o.url;
+    el.querySelector('[data-copy]').addEventListener('click', function () {
+      var ta = el.querySelector('textarea');
+      var done = function () { ui.toast('<i class="bi bi-clipboard-check"></i> ' + esc(T('s.shareCopied')), 'success'); };
+      var fallback = function () { ta.select(); document.execCommand('copy'); done(); };
+      if (navigator.clipboard) navigator.clipboard.writeText(o.url).then(done, fallback); else fallback();
+    });
+    document.body.appendChild(el);
+    var m = new bootstrap.Modal(el);
+    el.addEventListener('hidden.bs.modal', function () { m.dispose(); el.remove(); });
+    el.addEventListener('shown.bs.modal', function () { el.querySelector('textarea').select(); });
+    m.show();
+    return el;
+  }
+
   $('act-share').addEventListener('click', function () {
     if (!MLS.share.supported()) { ui.toast(esc(T('s.shareUnsupported')), 'danger'); return; }
     MLS.share.encode(editor.value).then(function (z) {
       var url = MLS.share.viewUrl() + '#z=' + z;
-      var el = document.createElement('div');
-      el.className = 'modal fade'; el.tabIndex = -1;
-      el.innerHTML = '<div class="modal-dialog modal-dialog-centered modal-lg"><div class="modal-content">' +
-        '<div class="modal-header"><h5 class="modal-title"><i class="bi bi-mortarboard"></i> ' + esc(T('s.shareTitle')) + '</h5>' +
-        '<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="' + esc(T('c.close')) + '"></button></div>' +
-        '<div class="modal-body"><p>' + esc(T('s.shareIntro')) + '</p>' +
-        '<textarea class="form-control font-monospace small" rows="4" readonly aria-label="URL"></textarea>' +
-        '<div class="form-text">' + esc(T('s.shareLength', { n: url.length.toLocaleString() })) + '</div>' +
-        (url.length > 8000 ? '<div class="alert alert-warning small mt-2 mb-0"><i class="bi bi-exclamation-triangle"></i> ' + esc(T('s.shareLong')) + '</div>' : '') +
-        '</div><div class="modal-footer">' +
-        '<a class="btn btn-light" target="_blank" rel="noopener"><i class="bi bi-box-arrow-up-right"></i> ' + esc(T('s.shareOpen')) + '</a>' +
-        '<button type="button" class="btn btn-accent" data-copy><i class="bi bi-clipboard"></i> ' + esc(T('s.shareCopy')) + '</button></div></div></div>';
-      el.querySelector('textarea').value = url;
-      el.querySelector('a').href = url;
-      el.querySelector('[data-copy]').addEventListener('click', function () {
-        var ta = el.querySelector('textarea');
-        var done = function () { ui.toast('<i class="bi bi-clipboard-check"></i> ' + esc(T('s.shareCopied')), 'success'); };
-        var fallback = function () { ta.select(); document.execCommand('copy'); done(); };
-        if (navigator.clipboard) navigator.clipboard.writeText(url).then(done, fallback); else fallback();
+      linkModal({
+        icon: 'bi-mortarboard', title: T('s.shareTitle'), url: url,
+        body: '<p>' + esc(T('s.shareIntro')) + '</p>',
+        after: '<div class="form-text">' + esc(T('s.shareLength', { n: url.length.toLocaleString() })) + '</div>' +
+          (url.length > 8000 ? '<div class="alert alert-warning small mt-2 mb-0"><i class="bi bi-exclamation-triangle"></i> ' + esc(T('s.shareLong')) + '</div>' : '')
       });
-      document.body.appendChild(el);
-      var m = new bootstrap.Modal(el);
-      el.addEventListener('hidden.bs.modal', function () { m.dispose(); el.remove(); });
-      el.addEventListener('shown.bs.modal', function () { el.querySelector('textarea').select(); });
-      m.show();
     }, function () { ui.toast(esc(T('s.shareUnsupported')), 'danger'); });
+  });
+
+  /* Lien court « view.html?c=1234 » : code du fichier id_1234_nom.md du dossier courses/.
+     Le cours actif est reconnu par le nom du fichier ouvert, sinon par son titre dans courses/index.json. */
+  $('act-short').addEventListener('click', function () {
+    var c = state.course || MLS.parser.parseCourse(editor.value);
+    var opened = MLS.store.get('studio.file', null); // oublié dès qu'un autre cours est chargé (setContent)
+    fetch('courses/index.json', { cache: 'no-cache' }).then(function (r) { return r.ok ? r.json() : { courses: [] }; })
+      .catch(function () { return { courses: [] }; })
+      .then(function (idx) {
+        var list = (idx && idx.courses) || [];
+        var hit = null, how = '';
+        var m = opened && /^id_([^_]+)_/i.exec(opened.name);
+        if (m) {
+          hit = list.filter(function (e) { return e.id === m[1]; })[0] || { id: m[1], file: opened.name, unlisted: true };
+          how = 'file';
+        }
+        if (!hit) {
+          var same = list.filter(function (e) { return e.title && e.title === c.title; });
+          if (same.length) { hit = same[0]; how = 'title'; }
+        }
+        if (hit) {
+          var url = new URL('view.html?c=' + encodeURIComponent(hit.id), location.href).href;
+          linkModal({
+            icon: 'bi-123', title: T('s.shortTitle'), url: url, rows: 1,
+            body: '<p>' + T('s.shortIntro', { code: '<strong>' + esc(hit.id) + '</strong>', file: '<code>courses/' + esc(hit.file) + '</code>' }) + '</p>' +
+              (how === 'title' ? '<p class="small text-secondary">' + esc(T('s.shortByTitle')) + '</p>' : ''),
+            after: hit.unlisted ? '<div class="alert alert-warning small mt-2 mb-0"><i class="bi bi-exclamation-triangle"></i> ' +
+              T('s.shortUnlisted', { file: '<code>' + esc(hit.file) + '</code>' }) + '</div>' : ''
+          });
+          return;
+        }
+        // pas encore publié : on propose un nom de fichier avec le premier code libre
+        var max = 0;
+        list.forEach(function (e) { var n = parseInt(e.id, 10); if (n > max) max = n; });
+        var code = String(max + 1).padStart(4, '0');
+        var name = 'id_' + code + '_' + (U.slugify(c.title) || 'cours').slice(0, 40) + '.md';
+        var future = new URL('view.html?c=' + code, location.href).href;
+        var el = linkModal({
+          icon: 'bi-123', title: T('s.shortTitle'), url: future, rows: 1,
+          body: '<div class="alert alert-info small"><i class="bi bi-info-circle"></i> ' +
+            T('s.shortNone', { file: '<code>' + esc(name) + '</code>' }) + '</div>',
+          extra: '<button type="button" class="btn btn-outline-secondary me-auto" data-dl><i class="bi bi-filetype-md"></i> ' + esc(T('s.shortDownload')) + '</button>'
+        });
+        el.querySelector('[data-dl]').addEventListener('click', function () {
+          ui.downloadText(editor.value, name, 'text/markdown;charset=utf-8');
+          MLS.store.set('studio.file', { name: name, title: c.title });
+        });
+      });
   });
   $('act-save-md').addEventListener('click', function () {
     var c = state.course || MLS.parser.parseCourse(editor.value);

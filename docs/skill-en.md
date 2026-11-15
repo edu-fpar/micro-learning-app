@@ -141,6 +141,9 @@ The end screen of each module shows progress through the course ("Module 2 / 3")
 | `<!-- badge: Tip -->` | Badge text (Tip format). |
 | `<!-- audio: all -->` | Listen icon on every text of the slide, even short ones. |
 | `<!-- audio: off -->` | No read-aloud on this slide (e.g. when hearing the text would spoil the exercise). |
+| `<!-- id: menu -->` | Slide identifier, target of a `[text](#menu)` link (see `format-menu`). `<!-- id: end -->` = conclusion of a pick-your-path course. |
+| `<!-- branch: desk -->` | Start of the `desk` part of a menu (`format-menu`). |
+| `<!-- parent: menu -->` | Menu the part returns to (default: the last menu before it). |
 | `<!-- autoplay: off -->` | Chat-style dialogue (`format-sms`): lines on click rather than automatic. |
 | `<!-- chapter: Chapter name -->` | Starts a chapter on this slide. Every `format-title` slide already starts one automatically (`<!-- chapter: no -->` to prevent it). |
 
@@ -210,6 +213,58 @@ Same syntax as `format-dialogue` (`> @role(expression): text`), but shown as a p
 ```
 
 Ideal for: an informal exchange, a practical question, an everyday situation. No more than one or two per module.
+
+### `format-prenom` — Ask for the first name
+The character asks a question (a `>` quote), the learner types their first name (optional). Then `{name}` is replaced by that name in the text of every slide. **Always write `{, name}`** ("Welcome{, name}!"): without a name, the marker disappears with its comma. Use it only if the teacher asks for it or for a very friendly tour, as the 2nd slide.
+
+```markdown
+<!-- slide: format-prenom -->
+<!-- character-role: mentor -->
+<!-- character-expression: happy -->
+### Let's get acquainted
+> Hello! Before we start, what's your name?
+```
+
+### `format-menu` — Pick-your-path course
+A menu where each button leads to a **part**. Each item: `- [emoji Label](#identifier) :: short description`. The part starts with a slide carrying `<!-- branch: identifier -->` and ends at the slide that opens another part, at a menu or at an `<!-- id: … -->` slide. At the end of a part, the player leads back to the menu; parts already seen are ticked. `>` quotes are the guide's lines: the 1st on the first visit, the 2nd on return, the 3rd when everything has been seen. `[Label](#id "featured")` highlights an item. Finish with a conclusion slide `<!-- id: end -->`, reached with the "I'm done" button.
+
+```markdown
+<!-- slide: format-menu -->
+<!-- id: menu -->
+<!-- character-role: mentor -->
+### Where shall we start?
+> Pick a part and I'll take you there. You'll come back here at the end of each one.
+
+> Shall we go on? Parts you have seen are ticked.
+
+> You've seen everything, well done! You can finish or review a part.
+
+- [🛎️ The front desk](#desk) :: Where it all starts
+- [📚 Vocabulary](#words) :: The words of the trade
+
+---
+
+<!-- slide: format-dialogue -->
+<!-- branch: desk -->
+### The front desk
+> …
+
+---
+
+<!-- slide: format-flashcards -->
+<!-- branch: words -->
+### Vocabulary
+- **Shelf mark** :: …
+
+---
+
+<!-- slide: format-dialogue -->
+<!-- id: end -->
+### Let's recap
+> …
+```
+
+Use it only for a tour, a pick-your-path training or if the teacher asks for it, with 3 to 8 independent parts (order must not matter). Each `#identifier` in the menu needs its `<!-- branch: identifier -->` slide. In any slide, a `[text](#id)` link also leads to the `<!-- id: … -->` or `<!-- branch: … -->` slide.
 
 ### `format-conseil` — Character tip
 A "tip" box with the character shown large. A `>` quote inside is highlighted.
@@ -373,6 +428,7 @@ Use them when the **structure of the idea** matches the shape, at most one or tw
 - [ ] Cards and timeline steps use `**Term** :: text`.
 - [ ] All roles used are declared in `characters`, the guiding one first.
 - [ ] The header contains a `jobs` list that fits the course.
+- [ ] Branching menu: every `[…](#id)` in the menu has its `<!-- branch: id -->` slide, and an `<!-- id: end -->` slide concludes; the first name is written `{, name}`.
 - [ ] No invented image; every image has alt text.
 - [ ] Several modules: same `course` (exactly) and same `modules` everywhere; `module` numbered 1 to N with no gap; `next.title` = exact `title` of the next module; no `next` in the last one; `url` only if web delivery was requested.
 
