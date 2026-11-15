@@ -13,7 +13,7 @@
 2. **Split it into short slides**: one idea per slide, 40 to 80 words of text at most. A module usually has 8 to 20 slides.
 3. **For each slide, choose the most engaging format** (see § 4). Vary the formats: avoid more than two "Content" slides in a row.
 4. **Add interactivity**: at least one quiz every 4 to 6 slides, cards for vocabulary, a timeline for dates, a dialogue to introduce a situation.
-5. **Let characters speak** (roles `mentor` and `peer` by default) in dialogues, tips and quizzes.
+5. **Let characters speak** (roles `mentor` and `peer` by default) in dialogues, tips and quizzes, and **suggest a list of jobs** (`jobs`, see § 5) that fits the course.
 6. **Return your answer** in the format described in § 7.
 
 Write the course in the requested language (by default, the language of the content provided) and set it in `lang`. The examples on this page are in English, but the syntax is identical in French: only the texts change; format, role and expression identifiers always stay in English/lowercase.
@@ -37,6 +37,7 @@ duration: 10 min
 author: "Teacher's name"
 lang: en
 theme: violet
+jobs: [teacher, careers adviser, school librarian]
 characters:
   mentor: "The Guide"
   peer: "The Colleague"
@@ -69,7 +70,14 @@ Text…
 | `audio-min` | no | Length (in characters) from which a text gets a listen icon. Default: `120`. |
 | `course` | no | Name of the **course** when the training has several modules. |
 | `module` / `modules` | no | Position of this module and total number of modules in the course, e.g. `module: 2` and `modules: 4`. |
-| `next` | no | Next module: `title` (and an optional `url`, for web publishing; ignored in SCORM). |
+| `next` | no | Next module: `title` (and an optional `url`, for web publishing; ignored in SCORM). `label` changes the button text (default "Next module"). |
+| `jobs` | **recommended** | Jobs given to the characters, see § 5. E.g. `jobs: [nurse, care assistant, ward manager]`. |
+| `color` / `accent` | no | Main / secondary colour, e.g. `color: "#1f7a8c"`; backgrounds derive from it. Only if the teacher gives a colour (brand, tool). |
+| `address` | no | French only: `tu` makes the player's interface use the informal "tu". |
+| `score` | no | `off`: no score on the end screen (tour, discovery, ungraded module). |
+| `exit` / `exit-label` | no | Address and text of an "Exit" button (only if the teacher gives the return address). |
+| `labels` | no | Replaces interface texts, e.g. `p.slide: "Step {n}"`, `p.endTitle: "Tour complete!"` (one indented line per text). Only on request. |
+| `dialogue-autoplay` | no | `off`: chat-style dialogues (`format-sms`) advance on click instead of playing on their own. |
 
 ### Mandatory rules
 
@@ -133,6 +141,7 @@ The end screen of each module shows progress through the course ("Module 2 / 3")
 | `<!-- badge: Tip -->` | Badge text (Tip format). |
 | `<!-- audio: all -->` | Listen icon on every text of the slide, even short ones. |
 | `<!-- audio: off -->` | No read-aloud on this slide (e.g. when hearing the text would spoil the exercise). |
+| `<!-- autoplay: off -->` | Chat-style dialogue (`format-sms`): lines on click rather than automatic. |
 | `<!-- chapter: Chapter name -->` | Starts a chapter on this slide. Every `format-title` slide already starts one automatically (`<!-- chapter: no -->` to prevent it). |
 
 **Available expressions**: `neutral`, `happy`, `encouraging`, `thinking`, `surprised`, `concerned`.
@@ -182,6 +191,25 @@ Each `>` quote is a line, shown one at a time. To change speaker, put a `charact
 ```
 
 Ideal for: introducing a situation, raising a problem, closing the module (a single line is enough).
+
+The first role declared in `characters` (usually `mentor`) always speaks on the left, the others on the right: declare the guiding character first.
+
+### `format-sms` — Chat-style dialogue
+Same syntax as `format-dialogue` (`> @role(expression): text`), but shown as a phone conversation: lines arrive on their own, one by one, after a "…" indicator. Keep lines short (one or two sentences, 25 words at most) and use 3 to 7 lines. Add `<!-- autoplay: off -->` if learners should read at their own pace (long or important lines).
+
+```markdown
+<!-- slide: format-sms -->
+### A message before the lab
+> @peer(thinking): Hi! Do we really have to hand in the report tonight?
+
+> @mentor: Yes, before 8 pm on the platform.
+
+> @peer(concerned): What if I haven't finished the measurements?
+
+> @mentor(encouraging): Hand in what you have and explain what is missing. Better than nothing!
+```
+
+Ideal for: an informal exchange, a practical question, an everyday situation. No more than one or two per module.
 
 ### `format-conseil` — Character tip
 A "tip" box with the character shown large. A `>` quote inside is highlighted.
@@ -312,6 +340,7 @@ Use them when the **structure of the idea** matches the shape, at most one or tw
 - Every role used in a slide **must be declared** in the header.
 - Two roles are usually enough: `mentor` (the person who guides) and `peer` (a colleague or classmate who asks the learner's questions). You may add more (e.g. `client: "The Client"`).
 - Characters address the learner in a warm, simple tone. Keep the same level of formality throughout the module.
+- **Jobs (`jobs`)**: by default, each character in the set has a job unrelated to your course (engineer, lawyer…). **Always suggest** in the header a `jobs` list of 3 to 6 jobs **that fit the course and its audience** (the people met in that field): `jobs: [librarian, storekeeper, digital facilitator]`. They are shared out among the characters; their visible traits (age, disability, hijab…) stay visible. For a school audience, school roles or students (`year 9 student`, `biology teacher`) work well. `jobs: off` shows only the traits. (In French courses, write masculine/feminine forms separated by `/`.)
 
 ---
 
@@ -342,7 +371,8 @@ Use them when the **structure of the idea** matches the shape, at most one or tw
 - [ ] Each slide has exactly one `###` heading.
 - [ ] Each quiz has at least one `[x]` answer.
 - [ ] Cards and timeline steps use `**Term** :: text`.
-- [ ] All roles used are declared in `characters`.
+- [ ] All roles used are declared in `characters`, the guiding one first.
+- [ ] The header contains a `jobs` list that fits the course.
 - [ ] No invented image; every image has alt text.
 - [ ] Several modules: same `course` (exactly) and same `modules` everywhere; `module` numbered 1 to N with no gap; `next.title` = exact `title` of the next module; no `next` in the last one; `url` only if web delivery was requested.
 

@@ -58,7 +58,7 @@
       <ol class="mb-0 mt-2">
         <li><a href="#ia">Préparer son cours avec une IA</a></li>
         <li><a href="#demarrer">Démarrer en 3 étapes</a></li>
-        <li><a href="#syntaxe">La syntaxe en bref</a></li>
+        <li><a href="#syntaxe">La syntaxe en bref</a> et les <a href="#reglages">réglages de l'en-tête</a></li>
         <li><a href="#formats">Les formats de slides</a></li>
         <li><a href="#personnages">Les personnages</a></li>
         <li><a href="#audio">Lecture à voix haute</a></li>
@@ -131,6 +131,40 @@ Une phrase d'accroche.
       <p class="mb-0">Thèmes de couleurs : <code>violet</code>, <code>ocean</code>, <code>sunset</code>, <code>forest</code>, <code>night</code>. La référence complète de la syntaxe est la <a href="skill.md">page pour les IA</a>.</p>
     </div>
 
+    <h3 id="reglages" class="h4 mt-4">Réglages facultatifs de l'en-tête</h3>
+    <div class="docs-card">
+      <p>Ils adaptent le lecteur à votre public : une visite guidée entre collègues ne se présente pas comme un module noté.</p>
+<pre>color: "#1f7a8c"               # couleur principale (les fonds en dérivent)
+accent: "#e9b44c"              # couleur secondaire
+address: tu                    # tutoiement dans les textes du lecteur
+score: off                     # pas de note sur l'écran de fin
+exit: "../index.html"          # bouton « Quitter » dans la barre du haut
+exit-label: "Revenir à l'outil"
+labels:                        # remplacer n'importe quel texte du lecteur
+  p.slide: "Étape {n}"
+  p.endTitle: "Visite terminée !"
+next:
+  title: "La suite"
+  label: "Ouvrir la suite"     # texte du bouton (défaut « Module suivant »)</pre>
+      <div class="table-responsive">
+        <table class="table align-middle">
+          <thead><tr><th>Champ</th><th>Effet</th></tr></thead>
+          <tbody>
+            <tr><td><code>color</code>, <code>accent</code></td><td>Couleurs principale et secondaire (ex. <code>"#1f7a8c"</code>). Les fonds, le texte et les ombres en dérivent : plus de violet résiduel.</td></tr>
+            <tr><td><code>address: tu</code></td><td>Tutoiement dans les consignes, l'écran d'accueil et l'écran de fin (français seulement). Par défaut : vouvoiement.</td></tr>
+            <tr><td><code>labels</code></td><td>Remplace un texte de l'interface : une ligne <code>clé: "texte"</code> par texte (voir les clés ci-dessous). Les marques <code>{n}</code> et <code>{total}</code> sont remplacées par les nombres.</td></tr>
+            <tr><td><code>score: off</code></td><td>Pas de note sur l'écran de fin : les quiz restent corrigés, et en SCORM la note est toujours transmise à la plateforme.</td></tr>
+            <tr><td><code>next</code> → <code>label</code></td><td>Texte du bouton qui ouvre le module suivant (avec <code>url</code>).</td></tr>
+            <tr><td><code>exit</code>, <code>exit-label</code></td><td>Adresse et texte d'un bouton « Quitter » dans la barre du haut (icône seule sur téléphone) et d'un lien sous l'écran d'accueil. Adresse relative à la page du module ; dans l'aperçu du Studio, le lien s'ouvre dans un nouvel onglet.</td></tr>
+            <tr><td><code>jobs</code></td><td>Métiers des personnages (voir <a href="#personnages">§ 5</a>).</td></tr>
+            <tr><td><code>dialogue-autoplay</code></td><td><code>on</code> (défaut) ou <code>off</code> : défilement des dialogues façon messagerie (<code>format-sms</code>, voir <a href="#formats">§ 4</a>).</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p><strong>Clés utiles pour <code>labels</code></strong> : <code>p.slide</code> (« Slide {n} »), <code>p.slideOf</code> (« Slide {n} sur {total} »), <code>p.slidesCount</code> (« {n} slides »), <code>p.resume</code> (« Reprendre (slide {n}) »), <code>p.moduleEyebrow</code> (« Module de formation »), <code>p.chooseCast</code>, <code>p.chooseCastHint</code>, <code>p.start</code> (« Commencer »), <code>p.endTitle</code> (« Module terminé ! »), <code>p.endThanks</code>, <code>p.review</code> (« Revoir le module »), <code>p.upNext</code> (« À suivre »), <code>p.goNext</code> (« Module suivant »), <code>p.exit</code> (« Quitter »), <code>p.exitWelcome</code> (« Quitter sans commencer »), <code>p.prev</code>, <code>p.next</code>, <code>p.finish</code>. Les textes des formats aussi : <code>more</code> (bouton « Suite » des dialogues) ou, pour un seul format, <code>format-quiz.validate</code>. Liste complète : <code>js/core/i18n.js</code>, et les textes de chaque format dans le Format Lab.</p>
+      <p class="mb-0 small text-secondary">Sur téléphone (moins de 640 px de large), le bouton plein écran est masqué pour laisser la place aux autres.</p>
+    </div>
+
     <h2 id="formats"><i class="bi bi-grid-1x2"></i> 4. Les formats de slides</h2>
     <div class="docs-card">
       <div class="table-responsive">
@@ -140,6 +174,7 @@ Une phrase d'accroche.
             <tr><td><i class="bi bi-easel2"></i> <code>format-title</code></td><td>ouvrir le module ou un chapitre</td><td>titre + accroche</td></tr>
             <tr><td><i class="bi bi-file-earmark-text"></i> <code>format-content</code></td><td>exposer une notion</td><td>texte, listes, image</td></tr>
             <tr><td><i class="bi bi-chat-quote"></i> <code>format-dialogue</code></td><td>mettre en situation</td><td><code>&gt; réplique</code>, <code>&gt; @peer: …</code></td></tr>
+            <tr><td><i class="bi bi-chat-dots"></i> <code>format-sms</code></td><td>un échange façon messagerie</td><td>comme le dialogue : <code>&gt; @peer(happy): …</code></td></tr>
             <tr><td><i class="bi bi-lightbulb"></i> <code>format-conseil</code></td><td>donner une astuce</td><td>personnage + texte</td></tr>
             <tr><td><i class="bi bi-patch-question"></i> <code>format-quiz</code></td><td>évaluer</td><td><code>- [x] juste</code>, <code>- [ ] faux :: explication</code></td></tr>
             <tr><td><i class="bi bi-front"></i> <code>format-flashcards</code></td><td>le vocabulaire</td><td><code>- **Terme** :: définition</code></td></tr>
@@ -150,6 +185,11 @@ Une phrase d'accroche.
         </table>
       </div>
       <p class="mt-3 mb-0"><span class="badge text-bg-warning">bêta</span> <strong>Nouveau :</strong> 7 schémas interactifs (puzzle, pyramide, entonnoir, cycle, processus, matrice, concept central). <a href="beta.html?lang=fr">Découvrir les formats bêta <i class="bi bi-arrow-right"></i></a></p>
+      <p class="mt-3"><strong>Dialogue façon messagerie (<code>format-sms</code>)</strong> : les répliques arrivent une à une, précédées de « … » et de l'avatar de la personne qui écrit. Chacune reste affichée selon sa longueur (0,7 s + 0,26 s par mot, entre 1,4 et 8 s ; une fois et demie plus quand la voix lit les répliques). Boutons <em>Pause</em> / <em>Reprendre</em> et <em>Tout afficher</em>. Le défilement démarre après l'écran d'accueil et s'arrête quand on quitte la slide.</p>
+      <ul class="mb-0">
+        <li>Défilement automatique par défaut ; <code>&lt;!-- autoplay: off --&gt;</code> sur une slide, ou <code>dialogue-autoplay: off</code> dans l'en-tête, le fait passer « au clic » : un bouton <em>Suite</em> fait apparaître la réplique suivante.</li>
+        <li>L'apprenant·e peut choisir <em>Automatique</em> ou <em>Au clic</em> dans ses réglages (bouton <i class="bi bi-people"></i>) : ce choix est mémorisé et passe avant celui du cours (accessibilité).</li>
+      </ul>
       <figure class="docs-shot"><div class="docs-shots"><img class="wide" src="images/quiz-fr.webp" alt="Un quiz sur ordinateur, avec la réponse et son explication" loading="lazy" width="1280" height="800"><img class="phone" src="images/mobile-cards-fr.webp" alt="Des cartes à retourner sur téléphone" loading="lazy" width="780" height="1410"></div><figcaption>Le même module sur ordinateur (quiz) et sur téléphone (cartes à retourner).</figcaption></figure>
     </div>
 
@@ -157,6 +197,8 @@ Une phrase d'accroche.
     <div class="docs-card">
       <p>Dans votre cours, vous ne choisissez pas un personnage précis mais un <strong>rôle</strong> (<code>mentor</code>, <code>peer</code>…), déclaré dans l'en-tête. Au lancement du module, <strong>chaque apprenant·e choisit</strong> l'apparence de ses personnages parmi un répertoire varié (genre, âge, origine, handicap).</p>
       <p class="mb-0">Dans une slide : <code>&lt;!-- character-role: mentor --&gt;</code> et <code>&lt;!-- character-expression: happy --&gt;</code>. Expressions : <code>neutral</code>, <code>happy</code>, <code>encouraging</code>, <code>thinking</code>, <code>surprised</code>, <code>concerned</code>. Dans l'aperçu du Studio, le bouton <i class="bi bi-people"></i> permet de tester d'autres personnages.</p>
+      <p><strong>Côtés des dialogues</strong> : le premier rôle déclaré dans <code>characters</code> parle toujours à gauche, les autres à droite, d'une slide à l'autre (dans <code>format-dialogue</code> comme dans <code>format-sms</code>).</p>
+      <p class="mb-0"><strong>Métiers</strong> : chaque personnage du répertoire a un métier (« Ingénieure ») et des traits visibles (« porte un hijab »). Pour coller à votre cours, donnez la liste des métiers du domaine : ils sont répartis entre les personnages, toujours de la même façon, et les traits restent affichés. Exemple : <code>jobs: [bibliothécaire, magasinier/magasinière, médiateur/médiatrice numérique]</code> (forme féminine après « / »). Avec <code>jobs: off</code>, seuls les traits sont affichés.</p>
     </div>
 
     <h2 id="audio"><i class="bi bi-volume-up"></i> 6. Lecture à voix haute</h2>
@@ -235,7 +277,7 @@ next:
       <ol class="mb-0 mt-2">
         <li><a href="#ai-en">Prepare your course with an AI</a></li>
         <li><a href="#start-en">Get started in 3 steps</a></li>
-        <li><a href="#syntax-en">Syntax at a glance</a></li>
+        <li><a href="#syntax-en">Syntax at a glance</a> and <a href="#settings-en">header settings</a></li>
         <li><a href="#formats-en">Slide formats</a></li>
         <li><a href="#characters-en">Characters</a></li>
         <li><a href="#audio-en">Read aloud</a></li>
@@ -308,6 +350,39 @@ A catchy sentence.
       <p class="mb-0">Colour themes: <code>violet</code>, <code>ocean</code>, <code>sunset</code>, <code>forest</code>, <code>night</code>. The full syntax reference is the <a href="skill-en.md">page for AI</a>.</p>
     </div>
 
+    <h3 id="settings-en" class="h4 mt-4">Optional header settings</h3>
+    <div class="docs-card">
+      <p>They adapt the player to your audience: a guided tour among colleagues should not look like a graded module.</p>
+<pre>color: "#1f7a8c"               # main colour (backgrounds derive from it)
+accent: "#e9b44c"              # secondary colour
+score: off                     # no score on the end screen
+exit: "../index.html"          # "Exit" button in the top bar
+exit-label: "Back to the tool"
+labels:                        # replace any player text
+  p.slide: "Step {n}"
+  p.endTitle: "Tour complete!"
+next:
+  title: "What's next"
+  label: "Open the next part"  # button text (default "Next module")</pre>
+      <div class="table-responsive">
+        <table class="table align-middle">
+          <thead><tr><th>Field</th><th>Effect</th></tr></thead>
+          <tbody>
+            <tr><td><code>color</code>, <code>accent</code></td><td>Main and secondary colours (e.g. <code>"#1f7a8c"</code>). Backgrounds, text and shadows derive from them: no leftover violet.</td></tr>
+            <tr><td><code>address: tu</code></td><td>French only: informal “tu” in the player's instructions, welcome and end screens. Default: formal “vous”.</td></tr>
+            <tr><td><code>labels</code></td><td>Replaces an interface text: one <code>key: "text"</code> line per text (see the keys below). The <code>{n}</code> and <code>{total}</code> markers are replaced by numbers.</td></tr>
+            <tr><td><code>score: off</code></td><td>No score on the end screen: quizzes are still corrected, and in SCORM the score is still sent to the platform.</td></tr>
+            <tr><td><code>next</code> → <code>label</code></td><td>Text of the button that opens the next module (with <code>url</code>).</td></tr>
+            <tr><td><code>exit</code>, <code>exit-label</code></td><td>Address and text of an “Exit” button in the top bar (icon only on phones) and of a link under the welcome screen. The address is relative to the module page; in the Studio preview, the link opens in a new tab.</td></tr>
+            <tr><td><code>jobs</code></td><td>Characters' jobs (see <a href="#characters-en">§ 5</a>).</td></tr>
+            <tr><td><code>dialogue-autoplay</code></td><td><code>on</code> (default) or <code>off</code>: playback of chat-style dialogues (<code>format-sms</code>, see <a href="#formats-en">§ 4</a>).</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p><strong>Useful <code>labels</code> keys</strong>: <code>p.slide</code> (“Slide {n}”), <code>p.slideOf</code> (“Slide {n} of {total}”), <code>p.slidesCount</code> (“{n} slides”), <code>p.resume</code> (“Resume (slide {n})”), <code>p.moduleEyebrow</code> (“Learning module”), <code>p.chooseCast</code>, <code>p.chooseCastHint</code>, <code>p.start</code> (“Start”), <code>p.endTitle</code> (“Module complete!”), <code>p.endThanks</code>, <code>p.review</code> (“Review the module”), <code>p.upNext</code> (“Up next”), <code>p.goNext</code> (“Next module”), <code>p.exit</code> (“Exit”), <code>p.exitWelcome</code> (“Leave without starting”), <code>p.prev</code>, <code>p.next</code>, <code>p.finish</code>. Format texts too: <code>more</code> (the dialogues' “Continue” button) or, for a single format, <code>format-quiz.validate</code>. Full list: <code>js/core/i18n.js</code>, and each format's texts in the Format Lab.</p>
+      <p class="mb-0 small text-secondary">On phones (under 640 px wide), the full-screen button is hidden to make room for the others.</p>
+    </div>
+
     <h2 id="formats-en"><i class="bi bi-grid-1x2"></i> 4. Slide formats</h2>
     <div class="docs-card">
       <div class="table-responsive">
@@ -317,6 +392,7 @@ A catchy sentence.
             <tr><td><i class="bi bi-easel2"></i> <code>format-title</code></td><td>opening the module or a chapter</td><td>title + hook</td></tr>
             <tr><td><i class="bi bi-file-earmark-text"></i> <code>format-content</code></td><td>presenting a notion</td><td>text, lists, image</td></tr>
             <tr><td><i class="bi bi-chat-quote"></i> <code>format-dialogue</code></td><td>setting the scene</td><td><code>&gt; line</code>, <code>&gt; @peer: …</code></td></tr>
+            <tr><td><i class="bi bi-chat-dots"></i> <code>format-sms</code></td><td>a chat-style exchange</td><td>like the dialogue: <code>&gt; @peer(happy): …</code></td></tr>
             <tr><td><i class="bi bi-lightbulb"></i> <code>format-conseil</code></td><td>giving a tip</td><td>character + text</td></tr>
             <tr><td><i class="bi bi-patch-question"></i> <code>format-quiz</code></td><td>assessing</td><td><code>- [x] right</code>, <code>- [ ] wrong :: explanation</code></td></tr>
             <tr><td><i class="bi bi-front"></i> <code>format-flashcards</code></td><td>vocabulary</td><td><code>- **Term** :: definition</code></td></tr>
@@ -327,6 +403,11 @@ A catchy sentence.
         </table>
       </div>
       <p class="mt-3 mb-0"><span class="badge text-bg-warning">beta</span> <strong>New:</strong> 7 interactive diagrams (puzzle, pyramid, funnel, cycle, process, matrix, central concept). <a href="beta.html?lang=en">Discover the beta formats <i class="bi bi-arrow-right"></i></a></p>
+      <p class="mt-3"><strong>Chat-style dialogue (<code>format-sms</code>)</strong>: lines arrive one by one, after a “…” indicator with the avatar of the person typing. Each line stays on screen according to its length (0.7 s + 0.26 s per word, between 1.4 and 8 s; one and a half times longer when the voice reads the lines). <em>Pause</em> / <em>Resume</em> and <em>Show all</em> buttons. Playback starts after the welcome screen and stops when you leave the slide.</p>
+      <ul class="mb-0">
+        <li>Automatic playback by default; <code>&lt;!-- autoplay: off --&gt;</code> on a slide, or <code>dialogue-autoplay: off</code> in the header, switches to “on click”: a <em>Continue</em> button shows the next line.</li>
+        <li>Learners can choose <em>Automatic</em> or <em>On click</em> in their settings (<i class="bi bi-people"></i> button): this choice is remembered and overrides the course's (accessibility).</li>
+      </ul>
       <figure class="docs-shot"><div class="docs-shots"><img class="wide" src="images/quiz-en.webp" alt="A quiz on a computer, with the answer and its explanation" loading="lazy" width="1280" height="800"><img class="phone" src="images/mobile-cards-en.webp" alt="Flip cards on a phone" loading="lazy" width="780" height="1410"></div><figcaption>The same module on a computer (quiz) and on a phone (flip cards).</figcaption></figure>
     </div>
 
@@ -334,6 +415,8 @@ A catchy sentence.
     <div class="docs-card">
       <p>In your course you do not pick a specific character but a <strong>role</strong> (<code>mentor</code>, <code>peer</code>…), declared in the header. When the module starts, <strong>each learner chooses</strong> what their characters look like from a diverse set (gender, age, origin, disability).</p>
       <p class="mb-0">In a slide: <code>&lt;!-- character-role: mentor --&gt;</code> and <code>&lt;!-- character-expression: happy --&gt;</code>. Expressions: <code>neutral</code>, <code>happy</code>, <code>encouraging</code>, <code>thinking</code>, <code>surprised</code>, <code>concerned</code>. In the Studio preview, the <i class="bi bi-people"></i> button lets you try other characters.</p>
+      <p><strong>Dialogue sides</strong>: the first role declared in <code>characters</code> always speaks on the left, the others on the right, from one slide to the next (in <code>format-dialogue</code> and <code>format-sms</code>).</p>
+      <p class="mb-0"><strong>Jobs</strong>: each character in the set has a job (“Engineer”) and visible traits (“wears a hijab”). To match your course, list the jobs of the field: they are shared out among the characters, always in the same way, and the traits stay visible. Example: <code>jobs: [librarian, storekeeper, digital facilitator]</code> (in French, the feminine form goes after “/”). With <code>jobs: off</code>, only the traits are shown.</p>
     </div>
 
     <h2 id="audio-en"><i class="bi bi-volume-up"></i> 6. Read aloud</h2>

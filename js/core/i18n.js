@@ -8,6 +8,7 @@
   'use strict';
 
   var dict = { fr: {}, en: {} };
+  var variants = {};
   var NAMES = { fr: 'Français', en: 'English' };
   var FALLBACK = 'en';
 
@@ -39,6 +40,12 @@
     },
     pick: pick,
     t: t,
+    /** Jeux de textes de remplacement (ex. « tu » : tutoiement en français), appliqués par le player selon l'en-tête du cours. */
+    addVariant: function (name, obj) {
+      variants[name] = variants[name] || {};
+      Object.keys(obj).forEach(function (k) { variants[name][k] = obj[k]; });
+    },
+    variant: function (name) { return variants[name] || null; },
     format: fmt,
     translator: function (lang) { return function (key, vars) { return t(lang, key, vars); }; },
     /** Dictionnaire complet (clés -> textes) pour une langue, avec repli sur le français. */
@@ -146,6 +153,13 @@
     'p.goNext': 'Module suivant',
     'p.backToLms': 'Retournez à votre plateforme de formation pour ouvrir le module suivant.',
     'p.nextNoLink': 'Ouvrez-le depuis votre espace de formation.',
+    'p.exit': 'Quitter',
+    'p.exitWelcome': 'Quitter sans commencer',
+    'p.dlgTitle': 'Dialogues façon messagerie',
+    'p.dlgHint': 'Les répliques peuvent arriver seules, l’une après l’autre, ou seulement quand vous cliquez sur « Suite ». Ce choix est mémorisé.',
+    'p.dlgAria': 'Défilement des dialogues',
+    'p.dlg.auto': 'Automatique',
+    'p.dlg.click': 'Au clic',
     // audio
     'a.title': 'Lecture à voix haute',
     'a.hint': 'Pour écouter les textes un peu longs plutôt que de les lire. Cet outil de confort ne remplace pas votre lecteur d’écran et n’interfère pas avec lui.',
@@ -240,6 +254,13 @@
     'p.goNext': 'Next module',
     'p.backToLms': 'Go back to your learning platform to open the next module.',
     'p.nextNoLink': 'Open it from your learning space.',
+    'p.exit': 'Exit',
+    'p.exitWelcome': 'Leave without starting',
+    'p.dlgTitle': 'Chat-style dialogues',
+    'p.dlgHint': 'Lines can appear on their own, one after another, or only when you click “Continue”. This choice is remembered.',
+    'p.dlgAria': 'Dialogue playback',
+    'p.dlg.auto': 'Automatic',
+    'p.dlg.click': 'On click',
     'a.title': 'Read aloud',
     'a.hint': 'Listen to longer texts instead of reading them. This convenience tool does not replace your screen reader and does not interfere with it.',
     'a.modeAria': 'Read-aloud mode',
@@ -265,5 +286,23 @@
     'a.stop': 'Stop reading',
     'a.testNarrator': 'Hello! This is the voice that will read the texts of this module.',
     'a.testRole': 'Hello, I am {name}, {label}.'
+  });
+  /* Tutoiement (en-tête du cours : address: tu) — seuls les textes qui vouvoient sont repris. */
+  MLS.i18n.addVariant('tu', {
+    'p.chooseCast': 'Choisis tes personnages',
+    'p.chooseCastHint': 'Ils t’accompagneront tout au long du module. Tu pourras les changer à tout moment avec le bouton <i class="bi bi-people"></i>.',
+    'p.endPerfect': 'Parfait, toutes tes réponses sont justes.',
+    'p.endGood': 'Bien joué ! Tu peux revoir les points manqués.',
+    'p.endLow': 'Revois le module pour consolider tes acquis.',
+    'p.backToLms': 'Retourne sur ta plateforme de formation pour ouvrir le module suivant.',
+    'p.nextNoLink': 'Ouvre-le depuis ton espace de formation.',
+    'p.dlgHint': 'Les répliques peuvent arriver seules, l’une après l’autre, ou seulement quand tu cliques sur « Suite ». Ce choix est mémorisé.',
+    'dg.hint': 'Clique sur chaque partie pour la découvrir.',
+    'dg.hintPuzzle': 'Reconstitue le puzzle : clique sur chaque pièce pour la mettre en place.',
+    'a.hint': 'Pour écouter les textes un peu longs plutôt que de les lire. Cet outil de confort ne remplace pas ton lecteur d’écran et n’interfère pas avec lui.',
+    'a.hint.click': 'Une icône <i class="bi bi-volume-up-fill"></i> apparaît à côté des textes longs : touche-la pour les écouter.',
+    'a.hint.interact': 'Icônes, et lecture quand tu ouvres un élément : point d’une image, carte, étape, onglet, réplique, correction de quiz…',
+    'a.hint.auto': 'Les textes longs et les dialogues sont lus dès l’affichage de chaque slide, ainsi que les éléments que tu ouvres.',
+    'a.testRole': 'Salut, je suis {name}, {label}.'
   });
 })(window.MLS);

@@ -17,6 +17,9 @@ Retournez chaque carte pour découvrir sa définition.
       "found": "découvertes",
       "allFound": "Toutes les cartes ont été découvertes."
     },
+    "tu": {
+      "hint": "Touche une carte pour la retourner"
+    },
     "en": {
       "hint": "Tap a card to flip it",
       "found": "discovered",

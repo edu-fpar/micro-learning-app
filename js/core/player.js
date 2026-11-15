@@ -65,6 +65,7 @@
       '    <button type="button" class="mls-icon-btn mls-stop-speech" data-act="stop-speech" data-pt-label="p.stopAudio" hidden><i class="bi bi-stop-circle-fill"></i></button>' +
       '    <button type="button" class="mls-icon-btn" data-act="cast" data-pt-label="p.castAudio"><i class="bi bi-people"></i></button>' +
       '    <button type="button" class="mls-icon-btn" data-act="fullscreen" data-pt-label="p.fullscreen"><i class="bi bi-arrows-fullscreen"></i></button>' +
+      '    <a class="mls-icon-btn mls-exit" hidden><i class="bi bi-box-arrow-right" aria-hidden="true"></i><span></span></a>' +
       '  </div>' +
       '  <div class="mls-progress" role="progressbar" data-pt-aria="p.progress" aria-valuemin="0" aria-valuemax="100"><span></span></div>' +
       '</header>' +
@@ -143,9 +144,40 @@
     var out = MLS.i18n.table(this.lang);
     var tr = (fmt && fmt.i18n) || {};
     var l = MLS.i18n.pick(this.lang);
-    [tr.fr || {}, tr[l] || {}].forEach(function (d) { Object.keys(d).forEach(function (k) { if (k.charAt(0) !== '$') out[k] = d[k]; }); });
+    var tu = this.tu;
+    var layers = [tu || {}, tr.fr || {}, tr[l] || {}, (tu && tr.tu) || {}];
+    layers.forEach(function (d) { Object.keys(d).forEach(function (k) { if (k.charAt(0) !== '$') out[k] = d[k]; }); });
+    // labels: de l'en-tête — « clé » pour tous les formats, « format-id.clé » pour un seul
+    var labels = this.labels || {}, id = fmt && fmt.id;
+    Object.keys(labels).forEach(function (k) { if (k.indexOf('format-') !== 0) out[k] = labels[k]; });
+    if (id) Object.keys(labels).forEach(function (k) { if (k.indexOf(id + '.') === 0) out[k.slice(id.length + 1)] = labels[k]; });
     return out;
   };
+
+  /**
+   * Traducteur du player pour le cours chargé : labels de l'en-tête, puis tutoiement
+   * (address: tu, en français), puis dictionnaire de la langue du cours.
+   */
+  Player.prototype.makeTranslator = function () {
+    var fm = this.course.meta, lang = this.lang;
+    var tu = MLS.i18n.pick(lang) === 'fr' && /^(tu|tutoiement|informal)$/i.test(String(fm.address || '')) ? MLS.i18n.variant('tu') : null;
+    var labels = {};
+    if (fm.labels && typeof fm.labels === 'object' && !Array.isArray(fm.labels)) {
+      Object.keys(fm.labels).forEach(function (k) {
+        var v = fm.labels[k];
+        if (v != null && typeof v !== 'object') labels[k] = String(v);
+      });
+    }
+    this.tu = tu;
+    this.labels = labels;
+    return function (key, vars) {
+      var s = labels[key];
+      if (s == null && tu) s = tu[key];
+      return s == null ? MLS.i18n.t(lang, key, vars) : MLS.i18n.format(s, vars);
+    };
+  };
+
+  function isOff(v) { return v === false || /^(off|non|no|none|aucune?|false|hide|masqu[ée]e?)$/i.test(String(v == null ? '' : v).trim()); }
 
   Player.prototype.overlayOpen = function () {
     return !this.$('.mls-welcome').hidden || !this.$('.mls-end').hidden;
@@ -161,19 +193,22 @@
     var fm = this.course.meta;
     this.courseKey = 'course.' + (U.slugify(this.course.title) || 'sans-titre');
     this.lang = String(fm.lang || 'fr');
-    this.t = MLS.i18n.translator(this.lang);
+    this.t = this.makeTranslator();
     this.root.setAttribute('lang', MLS.i18n.pick(this.lang));
     this.translateChrome();
     this.loadCast();
     this.setupAudio();
+    this.scoreOff = isOff(fm.score);
 
-    // thème
+    // thème : avec color / accent, les fonds et le texte en dérivent (color-mix, voir player.css)
     var r = this.root;
     r.className = r.className.replace(/\bmls-theme-\S+/g, '').trim();
     r.classList.add('mls-theme-' + U.slugify(fm.theme || 'violet'));
     if (fm.color) r.style.setProperty('--mls-primary', fm.color); else r.style.removeProperty('--mls-primary');
     if (fm.accent) r.style.setProperty('--mls-secondary', fm.accent); else r.style.removeProperty('--mls-secondary');
+    r.classList.toggle('mls-custom-color', !!(fm.color || fm.accent));
     this.$('.mls-ct-main').textContent = this.course.title;
+    this.setupExit();
     this.setupParcours();
     if (this.mode === 'standalone') document.title = this.course.title;
 
@@ -219,6 +254,31 @@
     });
   };
 
+  /**
+   * Description d'un personnage : métier + traits visibles.
+   *   jobs: [bibliothécaire, magasinier/magasinière]  métiers du cours, attribués par rotation
+   *         selon la place du personnage dans le catalogue (forme féminine après « / ») ;
+   *   jobs: off                                       traits seuls ;
+   *   sans jobs                                       description du catalogue.
+   */
+  Player.prototype.charDescription = function (c) {
+    if (!c) return '';
+    var fm = (this.course && this.course.meta) || {}, lang = this.lang;
+    var jobs = fm.jobs, job;
+    if (typeof jobs === 'string' && !isOff(jobs)) jobs = jobs.split(',');
+    if (Array.isArray(jobs)) jobs = jobs.map(function (j) { return String(j == null ? '' : j).trim(); }).filter(Boolean);
+    var traits = MLS.i18n.local(c.traits, lang);
+    if (isOff(jobs)) job = '';
+    else if (Array.isArray(jobs) && jobs.length) {
+      var k = Math.max(0, this.chars().indexOf(c));
+      var forms = jobs[k % jobs.length].split(/\s*\/\s*/);
+      var tags = c.tags || [];
+      job = forms.length === 2 ? (tags.indexOf('femme') !== -1 ? forms[1] : tags.indexOf('homme') !== -1 ? forms[0] : forms.join('/')) : forms.join('/');
+    } else return MLS.i18n.local(c.description, lang) || [MLS.i18n.local(c.job, lang), traits].filter(Boolean).join(', ');
+    var s = [job, traits].filter(Boolean).join(', ');
+    return s ? s.charAt(0).toUpperCase() + s.slice(1) + (/[.!?…]$/.test(s) ? '' : '.') : '';
+  };
+
   Player.prototype.saveCast = function () {
     MLS.store.set(this.courseKey + '.cast', this.cast);
     MLS.store.set('cast', this.cast);
@@ -251,7 +311,7 @@
     var img = (c.images && (c.images[expression] || c.images.neutral)) || '';
     var alt = c.name + ' (' + label + ')';
     return {
-      role: role, label: label, id: c.id, name: c.name, description: MLS.i18n.local(c.description, this.lang),
+      role: role, label: label, id: c.id, name: c.name, description: this.charDescription(c),
       img: img, alt: alt, expression: expression,
       avatar: '<img class="mls-avatar" src="' + U.escapeHtml(img) + '" alt="' + U.escapeHtml(alt) + '" data-mls-role="' +
         U.escapeHtml(role) + '" data-mls-expr="' + U.escapeHtml(expression) + '">',
@@ -288,11 +348,15 @@
     data.course = { title: this.course.title, meta: this.course.meta };
     data.total = this.course.slides.length;
     data.character = data.role ? this.character(data.role, data.expression) : null;
+    // côtés stables d'une slide à l'autre : le 1er rôle déclaré dans characters à gauche, les autres à droite
+    // (sans rôles déclarés : alternance selon l'ordre d'apparition dans la slide)
+    var first = this.course.roles[0] ? this.course.roles[0].role : null;
     var sides = {}, n = 0;
     data.quotes.forEach(function (q) {
       q.character = q.role ? self.character(q.role, q.expression) : data.character;
-      var key = q.role || '_';
-      if (!(key in sides)) sides[key] = (n++ % 2 === 0) ? 'left' : 'right';
+      var who = q.role || data.role;
+      var key = who || '_';
+      if (!(key in sides)) sides[key] = first && who ? (who === first ? 'left' : 'right') : (n++ % 2 === 0) ? 'left' : 'right';
       q.side = sides[key];
       q.right = q.side === 'right';
     });
@@ -369,6 +433,9 @@
       setExpression: function (img, expr) { self.setExpression(img, expr); },
       announce: function (text) { self.announce(text); },
       speak: function (el) { self.speakOnReveal(el, index); },
+      autoplay: function () { return self.dialogueAutoplay(index); },
+      overlayOpen: function () { return self.overlayOpen(); },
+      audioMode: function () { return self.audioMode(); },
       speakable: function (el) { self.decorateSpeech(el, index); },
       onEnter: function (fn) { (self.hooks[index] = self.hooks[index] || { enter: [], leave: [] }).enter.push(fn); },
       onLeave: function (fn) { (self.hooks[index] = self.hooks[index] || { enter: [], leave: [] }).leave.push(fn); },
@@ -420,6 +487,70 @@
     }
   };
 
+  /** Bouton « Quitter » de l'en-tête (exit: url, exit-label: texte) ; icône seule sur téléphone. */
+  Player.prototype.setupExit = function () {
+    var fm = this.course.meta, a = this.$('.mls-exit');
+    var url = fm.exit && typeof fm.exit !== 'object' ? String(fm.exit).trim() : '';
+    if (/^(javascript|vbscript|data):/i.test(url.replace(/[\u0000- ]+/g, ''))) url = '';
+    this.exitUrl = url;
+    this.exitLabel = fm['exit-label'] ? String(fm['exit-label']) : '';
+    a.hidden = !url;
+    if (!url) { a.removeAttribute('href'); return; }
+    var label = this.exitLabel || this.t('p.exit');
+    a.href = url;
+    a.title = label;
+    a.setAttribute('aria-label', label);
+    a.querySelector('span').textContent = label;
+    // dans le Studio ou le Lab, ne pas quitter l'éditeur : nouvel onglet
+    if (this.mode === 'standalone') { a.removeAttribute('target'); a.removeAttribute('rel'); }
+    else { a.target = '_blank'; a.rel = 'noopener'; }
+  };
+
+  Player.prototype.exitLinkHtml = function () {
+    if (!this.exitUrl) return '';
+    return '<p class="mls-exit-link"><a href="' + U.escapeHtml(this.exitUrl) + '"' + (this.mode === 'standalone' ? '' : ' target="_blank" rel="noopener"') + '>' +
+      '<i class="bi bi-arrow-left" aria-hidden="true"></i> ' + U.escapeHtml(this.exitLabel || this.t('p.exitWelcome')) + '</a></p>';
+  };
+
+  /**
+   * Défilement automatique des dialogues façon messagerie (format-sms) pour une slide :
+   * préférence de l'apprenant (panneau de réglages), sinon <!-- autoplay: … --> de la slide,
+   * sinon dialogue-autoplay de l'en-tête, sinon automatique.
+   */
+  Player.prototype.dialogueAutoplay = function (index) {
+    var pref = MLS.store.get('dialogue.autoplay', null);
+    if (pref === 'auto' || pref === 'click') return pref === 'auto';
+    var s = this.course && this.course.slides[index];
+    var v = s && s.meta.autoplay;
+    if (v == null || v === '') v = this.course && this.course.meta['dialogue-autoplay'];
+    return !isOff(v) && !/^(click|clic|manual|manuel)$/i.test(String(v == null ? '' : v));
+  };
+
+  Player.prototype.hasFormat = function (id) {
+    return !!this.course && this.course.slides.some(function (s) { return s.format === id; });
+  };
+
+  Player.prototype.dialogueSettingsHtml = function () {
+    var pref = MLS.store.get('dialogue.autoplay', null), t = this.t, self = this;
+    var cur = pref === 'auto' || pref === 'click' ? pref : null;
+    if (!cur) {
+      // sans préférence : on montre le réglage du cours s'il est le même pour toutes les slides concernées
+      var modes = {};
+      this.course.slides.forEach(function (s, i) { if (s.format === 'format-sms') modes[self.dialogueAutoplay(i) ? 'auto' : 'click'] = 1; });
+      var k = Object.keys(modes);
+      cur = k.length === 1 ? k[0] : null;
+    }
+    return '<section class="mls-audio mls-dlg-pref">' +
+      '<h2 class="mls-welcome-h2"><i class="bi bi-chat-dots"></i> ' + t('p.dlgTitle') + '</h2>' +
+      '<p class="mls-welcome-hint">' + t('p.dlgHint') + '</p>' +
+      '<div class="mls-filters" role="group" aria-label="' + U.escapeHtml(t('p.dlgAria')) + '">' +
+      [['auto', 'bi-play-circle'], ['click', 'bi-hand-index']].map(function (m) {
+        var on = m[0] === cur;
+        return '<button type="button" class="mls-chip' + (on ? ' is-on' : '') + '" data-dlg="' + m[0] + '" aria-pressed="' + on + '">' +
+          '<i class="bi ' + m[1] + '"></i> ' + t('p.dlg.' + m[0]) + '</button>';
+      }).join('') + '</div></section>';
+  };
+
   Player.prototype.toggleFullscreen = function () {
     var d = document;
     if (d.fullscreenElement) { d.exitFullscreen(); return; }
@@ -447,6 +578,7 @@
     this.index = i;
     var cur = this.slideEls[i];
     cur.scrollTop = 0;
+    this.stage.scrollLeft = 0; // un scrollIntoView dans une slide peut décaler la scène
     if (this.hooks[i]) this.hooks[i].enter.forEach(function (fn) { try { fn(); } catch (e) { console.error(e); } });
 
     var n = this.slideEls.length;
@@ -698,13 +830,14 @@
           self.chars().map(function (c) {
             var on = self.cast[r.role] === c.id;
             return '<button type="button" class="mls-char' + (on ? ' is-on' : '') + '" data-id="' + U.escapeHtml(c.id) + '" data-tags="' +
-              U.escapeHtml((c.tags || []).join(' ')) + '" aria-pressed="' + on + '" title="' + U.escapeHtml(MLS.i18n.local(c.description, self.lang) || c.name) + '">' +
+              U.escapeHtml((c.tags || []).join(' ')) + '" aria-pressed="' + on + '" title="' + U.escapeHtml(self.charDescription(c) || c.name) + '">' +
               '<img src="' + U.escapeHtml(c.images.neutral) + '" alt=""><span>' + U.escapeHtml(c.name) + '</span></button>';
           }).join('') +
           '</div>' + (self.audioOn ? self.voiceRow(r.role, self.t('a.voice')) : '') + '</section>';
       });
     }
     if (this.audioOn) html += this.audioSettingsHtml();
+    if (this.hasFormat('format-sms')) html += this.dialogueSettingsHtml();
     html += '<div class="mls-welcome-actions">';
     if (resume > 0) {
       html += '<button type="button" class="mls-btn mls-btn-ghost" data-w="start">' + this.t('p.restart') + '</button>' +
@@ -713,7 +846,7 @@
       html += '<button type="button" class="mls-btn" data-w="' + (fromMenu ? 'close' : 'start') + '">' +
         (fromMenu ? '<i class="bi bi-check-lg"></i> ' + this.t('p.validate') : '<i class="bi bi-play-fill"></i> ' + this.t('p.start')) + '</button>';
     }
-    html += '</div></div>';
+    html += '</div>' + (fromMenu ? '' : this.exitLinkHtml()) + '</div>';
     w.innerHTML = html;
     w.hidden = false;
     this.toggleToc(false);
@@ -742,6 +875,12 @@
         w.querySelectorAll('[data-mode]').forEach(function (c) { var on = c === mb; c.classList.toggle('is-on', on); c.setAttribute('aria-pressed', on); });
         w.querySelector('.mls-mode-hint').innerHTML = self.t('a.hint.' + self.tts.mode);
         if (self.tts.mode === 'off') MLS.speech.cancel();
+        return;
+      }
+      var dl = e.target.closest('[data-dlg]');
+      if (dl) {
+        MLS.store.set('dialogue.autoplay', dl.getAttribute('data-dlg'));
+        w.querySelectorAll('[data-dlg]').forEach(function (c) { var on = c === dl; c.classList.toggle('is-on', on); c.setAttribute('aria-pressed', on); });
         return;
       }
       var tv = e.target.closest('[data-test-voice]');
@@ -791,6 +930,7 @@
     var next = fm.next;
     if (typeof next === 'string') next = { title: next };
     if (next && typeof next === 'object' && !next.title && !next.url) next = null;
+    if (next) next = { title: next.title ? String(next.title) : '', url: next.url ? String(next.url) : '', label: next.label ? String(next.label) : '' };
     var n = parseInt(fm.module, 10) || 0, total = parseInt(fm.modules, 10) || 0;
     this.parcours = {
       name: fm.course ? String(fm.course) : '',
@@ -876,7 +1016,7 @@
       html += '<p class="mls-next-hint">' + U.escapeHtml(this.t('p.backToLms')) + '</p>';
     } else if (nx.url) {
       html += '<a class="mls-btn" href="' + U.escapeHtml(nx.url) + '"' + (this.mode === 'standalone' ? '' : ' target="_blank" rel="noopener"') + '>' +
-        U.escapeHtml(this.t('p.goNext')) + ' <i class="bi bi-arrow-right"></i></a>';
+        U.escapeHtml(nx.label || this.t('p.goNext')) + ' <i class="bi bi-arrow-right"></i></a>';
     } else {
       html += '<p class="mls-next-hint">' + U.escapeHtml(this.t('p.nextNoLink')) + '</p>';
     }
@@ -891,8 +1031,9 @@
     var total = Object.keys(this.gradable).length;
     var ok = Object.keys(this.scores).filter(function (k) { return self.scores[k]; }).length;
     var pct = total ? Math.round(ok / total * 100) : 100;
+    var showScore = total && !this.scoreOff; // score: off -> pas de note à l'écran (le LMS la reçoit toujours)
     var end = this.$('.mls-end');
-    var mentor = this.course.roles[0] ? this.character(this.course.roles[0].role, pct >= 50 ? 'happy' : 'encouraging') : null;
+    var mentor = this.course.roles[0] ? this.character(this.course.roles[0].role, !showScore || pct >= 50 ? 'happy' : 'encouraging') : null;
     var pc = this.parcours;
     this.markModuleDone();
     var lastModule = pc.total && pc.n === pc.total;
@@ -902,7 +1043,7 @@
       (mentor ? '<div class="mls-end-avatar">' + mentor.avatar + '</div>' : '<div class="mls-end-icon"><i class="bi bi-trophy"></i></div>') +
       '<h1 id="mls-et">' + U.escapeHtml(endTitle) + '</h1>' +
       (pc.name ? '<p class="mls-end-course">' + U.escapeHtml(pc.name) + '</p>' : '') +
-      (total ? '<div class="mls-score" style="--p:' + pct + '"><span>' + ok + '<small>/' + total + '</small></span></div>' +
+      (showScore ? '<div class="mls-score" style="--p:' + pct + '"><span>' + ok + '<small>/' + total + '</small></span></div>' +
         '<p>' + this.t(pct === 100 ? 'p.endPerfect' : pct >= 50 ? 'p.endGood' : 'p.endLow') + '</p>'
         : '<p>' + this.t('p.endThanks') + '</p>') +
       (pc.total > 1 ? this.pathHtml(true) : '') +

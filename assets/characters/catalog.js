@@ -1,5 +1,6 @@
 /* Répertoire des personnages — généré par tools/generate-avatars.js, éditable à la main.
- * Chaque personnage : id, name, description, tags (filtres de l'écran d'accueil), images par expression.
+ * Chaque personnage : id, name, description (texte complet), job (métier, remplaçable
+ * par le champ « jobs » de l'en-tête du cours), traits (ce qu'on voit : diversité), tags (filtres de l'écran d'accueil), images par expression.
  * Expressions utilisées par les formats : neutral, happy, encouraging, thinking, surprised, concerned (repli sur "neutral"). */
 window.MLS_CHARACTERS = {
   "expressions": [
@@ -17,6 +18,14 @@ window.MLS_CHARACTERS = {
       "description": {
         "fr": "Ingénieure, porte un hijab.",
         "en": "Engineer, wears a hijab."
+      },
+      "job": {
+        "fr": "Ingénieure",
+        "en": "Engineer"
+      },
+      "traits": {
+        "fr": "porte un hijab",
+        "en": "wears a hijab"
       },
       "tags": [
         "femme",
@@ -38,6 +47,14 @@ window.MLS_CHARACTERS = {
         "fr": "Chef de projet, porte des lunettes.",
         "en": "Project manager, wears glasses."
       },
+      "job": {
+        "fr": "Chef de projet",
+        "en": "Project manager"
+      },
+      "traits": {
+        "fr": "porte des lunettes",
+        "en": "wears glasses"
+      },
       "tags": [
         "homme",
         "adulte"
@@ -58,6 +75,14 @@ window.MLS_CHARACTERS = {
         "fr": "Étudiante en design.",
         "en": "Design student."
       },
+      "job": {
+        "fr": "Étudiante en design",
+        "en": "Design student"
+      },
+      "traits": {
+        "fr": "la vingtaine",
+        "en": "in her twenties"
+      },
       "tags": [
         "femme",
         "jeune"
@@ -77,6 +102,14 @@ window.MLS_CHARACTERS = {
       "description": {
         "fr": "Formateur expérimenté, porte un appareil auditif.",
         "en": "Experienced trainer, wears a hearing aid."
+      },
+      "job": {
+        "fr": "Formateur expérimenté",
+        "en": "Experienced trainer"
+      },
+      "traits": {
+        "fr": "porte un appareil auditif",
+        "en": "wears a hearing aid"
       },
       "tags": [
         "homme",
@@ -99,6 +132,14 @@ window.MLS_CHARACTERS = {
         "fr": "Développeuse, se déplace en fauteuil roulant.",
         "en": "Developer, uses a wheelchair."
       },
+      "job": {
+        "fr": "Développeuse",
+        "en": "Developer"
+      },
+      "traits": {
+        "fr": "se déplace en fauteuil roulant",
+        "en": "uses a wheelchair"
+      },
       "tags": [
         "femme",
         "adulte",
@@ -120,6 +161,14 @@ window.MLS_CHARACTERS = {
         "fr": "Alternant, curieux de tout.",
         "en": "Apprentice, curious about everything."
       },
+      "job": {
+        "fr": "Alternant",
+        "en": "Apprentice"
+      },
+      "traits": {
+        "fr": "curieux de tout",
+        "en": "curious about everything"
+      },
       "tags": [
         "homme",
         "jeune"
@@ -139,6 +188,14 @@ window.MLS_CHARACTERS = {
       "description": {
         "fr": "Directrice, bientôt à la retraite.",
         "en": "Director, about to retire."
+      },
+      "job": {
+        "fr": "Directrice",
+        "en": "Director"
+      },
+      "traits": {
+        "fr": "bientôt à la retraite, porte des lunettes rondes",
+        "en": "about to retire, wears round glasses"
       },
       "tags": [
         "femme",
@@ -160,6 +217,14 @@ window.MLS_CHARACTERS = {
         "fr": "Responsable qualité, porte un turban.",
         "en": "Quality manager, wears a turban."
       },
+      "job": {
+        "fr": "Responsable qualité",
+        "en": "Quality manager"
+      },
+      "traits": {
+        "fr": "porte un turban",
+        "en": "wears a turban"
+      },
       "tags": [
         "homme",
         "adulte"
@@ -180,6 +245,14 @@ window.MLS_CHARACTERS = {
         "fr": "UX designer, non-binaire.",
         "en": "UX designer, non-binary."
       },
+      "job": {
+        "fr": "UX designer",
+        "en": "UX designer"
+      },
+      "traits": {
+        "fr": "non-binaire",
+        "en": "non-binary"
+      },
       "tags": [
         "non-binaire",
         "jeune"
@@ -199,6 +272,14 @@ window.MLS_CHARACTERS = {
       "description": {
         "fr": "Expert accessibilité, non-voyant, utilise une canne blanche.",
         "en": "Accessibility expert, blind, uses a white cane."
+      },
+      "job": {
+        "fr": "Expert accessibilité",
+        "en": "Accessibility expert"
+      },
+      "traits": {
+        "fr": "non-voyant, utilise une canne blanche",
+        "en": "blind, uses a white cane"
       },
       "tags": [
         "homme",
@@ -221,6 +302,14 @@ window.MLS_CHARACTERS = {
         "fr": "Juriste, porte un implant cochléaire.",
         "en": "Lawyer, has a cochlear implant."
       },
+      "job": {
+        "fr": "Juriste",
+        "en": "Lawyer"
+      },
+      "traits": {
+        "fr": "porte un implant cochléaire",
+        "en": "has a cochlear implant"
+      },
       "tags": [
         "femme",
         "jeune",
@@ -241,6 +330,14 @@ window.MLS_CHARACTERS = {
       "description": {
         "fr": "Consultant, la soixantaine.",
         "en": "Consultant in his sixties."
+      },
+      "job": {
+        "fr": "Consultant",
+        "en": "Consultant"
+      },
+      "traits": {
+        "fr": "la soixantaine",
+        "en": "in his sixties"
       },
       "tags": [
         "homme",

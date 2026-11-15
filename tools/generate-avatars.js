@@ -163,6 +163,21 @@ function svg(c, e) {
 }
 
 const EN_DESC = {"amina":"Engineer, wears a hijab.","lucas":"Project manager, wears glasses.","mei":"Design student.","jose":"Experienced trainer, wears a hearing aid.","fatou":"Developer, uses a wheelchair.","tom":"Apprentice, curious about everything.","ines":"Director, about to retire.","karan":"Quality manager, wears a turban.","sam":"UX designer, non-binary.","noah":"Accessibility expert, blind, uses a white cane.","lea":"Lawyer, has a cochlear implant.","malik":"Consultant in his sixties."};
+// Métier (remplaçable par le champ « jobs » de l'en-tête du cours) et traits visibles (diversité), séparés
+const JOB_TRAITS = {
+  amina: { job: { fr: 'Ingénieure', en: 'Engineer' }, traits: { fr: 'porte un hijab', en: 'wears a hijab' } },
+  lucas: { job: { fr: 'Chef de projet', en: 'Project manager' }, traits: { fr: 'porte des lunettes', en: 'wears glasses' } },
+  mei: { job: { fr: 'Étudiante en design', en: 'Design student' }, traits: { fr: 'la vingtaine', en: 'in her twenties' } },
+  jose: { job: { fr: 'Formateur expérimenté', en: 'Experienced trainer' }, traits: { fr: 'porte un appareil auditif', en: 'wears a hearing aid' } },
+  fatou: { job: { fr: 'Développeuse', en: 'Developer' }, traits: { fr: 'se déplace en fauteuil roulant', en: 'uses a wheelchair' } },
+  tom: { job: { fr: 'Alternant', en: 'Apprentice' }, traits: { fr: 'curieux de tout', en: 'curious about everything' } },
+  ines: { job: { fr: 'Directrice', en: 'Director' }, traits: { fr: 'bientôt à la retraite, porte des lunettes rondes', en: 'about to retire, wears round glasses' } },
+  karan: { job: { fr: 'Responsable qualité', en: 'Quality manager' }, traits: { fr: 'porte un turban', en: 'wears a turban' } },
+  sam: { job: { fr: 'UX designer', en: 'UX designer' }, traits: { fr: 'non-binaire', en: 'non-binary' } },
+  noah: { job: { fr: 'Expert accessibilité', en: 'Accessibility expert' }, traits: { fr: 'non-voyant, utilise une canne blanche', en: 'blind, uses a white cane' } },
+  lea: { job: { fr: 'Juriste', en: 'Lawyer' }, traits: { fr: 'porte un implant cochléaire', en: 'has a cochlear implant' } },
+  malik: { job: { fr: 'Consultant', en: 'Consultant' }, traits: { fr: 'la soixantaine', en: 'in his sixties' } }
+};
 const catalog = { expressions: EXPRESSIONS, characters: [] };
 for (const c of CHARACTERS) {
   const dir = path.join(OUT, c.id);
@@ -172,11 +187,14 @@ for (const c of CHARACTERS) {
     fs.writeFileSync(path.join(dir, e + '.svg'), svg(c, e));
     images[e] = `assets/characters/${c.id}/${e}.svg`;
   }
-  catalog.characters.push({ id: c.id, name: c.name, description: { fr: c.description, en: EN_DESC[c.id] || c.description }, tags: c.tags, images });
+  const jt = JOB_TRAITS[c.id] || {};
+  catalog.characters.push({ id: c.id, name: c.name, description: { fr: c.description, en: EN_DESC[c.id] || c.description },
+    job: jt.job, traits: jt.traits, tags: c.tags, images });
 }
 fs.writeFileSync(path.join(OUT, 'catalog.js'),
   '/* Répertoire des personnages — généré par tools/generate-avatars.js, éditable à la main.\n' +
-  ' * Chaque personnage : id, name, description, tags (filtres de l\'écran d\'accueil), images par expression.\n' +
+  ' * Chaque personnage : id, name, description (texte complet), job (métier, remplaçable\n' +
+  ' * par le champ « jobs » de l\'en-tête du cours), traits (ce qu\'on voit : diversité), tags (filtres de l\'écran d\'accueil), images par expression.\n' +
   ' * Expressions utilisées par les formats : ' + EXPRESSIONS.join(', ') + ' (repli sur "neutral"). */\n' +
   'window.MLS_CHARACTERS = ' + JSON.stringify(catalog, null, 2) + ';\n');
 console.log('OK :', CHARACTERS.length, 'personnages x', EXPRESSIONS.length, 'expressions');

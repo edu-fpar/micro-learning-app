@@ -13,7 +13,7 @@
 2. **Découpe-le en slides courtes** : une idée par slide, 40 à 80 mots de texte au maximum. Un module fait en général 8 à 20 slides.
 3. **Pour chaque slide, choisis le format le plus engageant** (voir § 4). Alterne les formats : évite d'enchaîner plus de deux slides « Contenu » de suite.
 4. **Ajoute de l'interactivité** : au moins un quiz toutes les 4 à 6 slides, des cartes pour le vocabulaire, une frise pour les dates, un dialogue pour introduire une situation.
-5. **Fais parler des personnages** (rôles `mentor` et `peer` par défaut) dans les dialogues, conseils et quiz.
+5. **Fais parler des personnages** (rôles `mentor` et `peer` par défaut) dans les dialogues, conseils et quiz, et **propose une liste de métiers** (`jobs`, voir § 5) cohérente avec le cours.
 6. **Rends ta réponse** dans le format décrit au § 7.
 
 Rédige le cours dans la langue demandée (par défaut celle du contenu fourni) et indique-la dans `lang`. Les exemples de cette page sont en français (version anglaise : skill-en.md), mais la syntaxe est identique en anglais : seuls les textes changent ; les identifiants de formats, de rôles et d'expressions restent en anglais/minuscules.
@@ -37,6 +37,7 @@ duration: 10 min
 author: "Nom de l'enseignant·e"
 lang: fr
 theme: violet
+jobs: [enseignant/enseignante, conseiller/conseillère d'orientation, documentaliste]
 characters:
   mentor: "Le Guide Pédagogique"
   peer: "Le Collègue"
@@ -69,7 +70,14 @@ Texte…
 | `audio-min` | non | Longueur (en caractères) à partir de laquelle un texte reçoit une icône d'écoute. Défaut : `120`. |
 | `course` | non | Nom du **parcours** quand la formation compte plusieurs modules. |
 | `module` / `modules` | non | Position de ce module et nombre total de modules du parcours, ex. `module: 2` et `modules: 4`. |
-| `next` | non | Module suivant : `title` (et `url` facultative, pour une diffusion web ; ignorée en SCORM). |
+| `next` | non | Module suivant : `title` (et `url` facultative, pour une diffusion web ; ignorée en SCORM). `label` change le texte du bouton (défaut « Module suivant »). |
+| `jobs` | **conseillé** | Métiers attribués aux personnages, voir § 5. Ex. `jobs: [infirmier/infirmière, aide-soignant/aide-soignante, cadre de santé]`. |
+| `color` / `accent` | non | Couleur principale / secondaire, ex. `color: "#1f7a8c"` ; les fonds en dérivent. Seulement si l'enseignant·e donne une couleur (charte, outil). |
+| `address` | non | `tu` : l'interface du lecteur tutoie l'apprenant·e (français). À mettre si tu rédiges le cours au tutoiement. |
+| `score` | non | `off` : pas de note sur l'écran de fin (visite, découverte, module non évalué). |
+| `exit` / `exit-label` | non | Adresse et texte d'un bouton « Quitter » (seulement si l'enseignant·e donne l'adresse de retour). |
+| `labels` | non | Remplace des textes de l'interface, ex. `p.slide: "Étape {n}"`, `p.endTitle: "Visite terminée !"` (une ligne indentée par texte). Seulement sur demande. |
+| `dialogue-autoplay` | non | `off` : les dialogues façon messagerie (`format-sms`) avancent au clic au lieu de défiler seuls. |
 
 ### Règles impératives
 
@@ -133,6 +141,7 @@ L'écran de fin de chaque module affiche la progression dans le parcours (« Mod
 | `<!-- badge: Astuce -->` | Texte du badge (format Conseil). |
 | `<!-- audio: all -->` | Icône d'écoute sur tous les textes de la slide, même courts. |
 | `<!-- audio: off -->` | Aucune lecture à voix haute sur cette slide (ex. quand le texte lu gâcherait l'exercice). |
+| `<!-- autoplay: off -->` | Dialogue façon messagerie (`format-sms`) : répliques au clic plutôt qu'automatiques. |
 | `<!-- chapter: Nom du chapitre -->` | Ouvre un chapitre sur cette slide. Chaque slide `format-title` en ouvre déjà un automatiquement (`<!-- chapter: no -->` pour l'éviter). |
 
 **Expressions disponibles** : `neutral`, `happy`, `encouraging`, `thinking`, `surprised`, `concerned`.
@@ -182,6 +191,25 @@ Chaque citation `>` est une réplique, affichée une à une. Pour changer d'inte
 ```
 
 Idéal pour : introduire une situation, poser une problématique, conclure le module (une seule réplique suffit).
+
+Le premier rôle déclaré dans `characters` (en général `mentor`) parle toujours à gauche, les autres à droite : déclare d'abord le personnage qui guide.
+
+### `format-sms` — Dialogue façon messagerie
+Même syntaxe que `format-dialogue` (`> @role(expression): texte`), mais présenté comme une conversation sur téléphone : les répliques arrivent seules, une à une, précédées de « … ». Garde des répliques courtes (une ou deux phrases, 25 mots au plus) et 3 à 7 répliques. Ajoute `<!-- autoplay: off -->` si l'apprenant·e doit lire à son rythme (répliques longues ou importantes).
+
+```markdown
+<!-- slide: format-sms -->
+### Un message avant le TP
+> @peer(thinking): Salut ! On doit vraiment rendre le compte rendu ce soir ?
+
+> @mentor: Oui, avant 20 h sur la plateforme.
+
+> @peer(concerned): Et si je n'ai pas fini les mesures ?
+
+> @mentor(encouraging): Rends ce que tu as, en expliquant ce qui manque. C'est mieux que rien !
+```
+
+Idéal pour : un échange informel, une question pratique, une mise en situation du quotidien. Pas plus d'un ou deux par module.
 
 ### `format-conseil` — Conseil porté par un personnage
 Encadré « astuce » avec le personnage en grand. Une citation `>` à l'intérieur est mise en valeur.
@@ -311,7 +339,8 @@ Utilise-les quand la **structure de l'idée** correspond à la forme, au plus un
 - L'apprenant·e choisit lui-même ou elle-même l'apparence de chaque rôle au lancement, parmi un répertoire varié (âges, genres, origines, situations de handicap). **Ne décris donc jamais l'apparence physique** des personnages dans le texte.
 - Tout rôle utilisé dans une slide **doit être déclaré** dans l'en-tête.
 - Deux rôles suffisent en général : `mentor` (la personne qui guide) et `peer` (un·e collègue ou camarade qui pose les questions de l'apprenant·e). Tu peux en ajouter (ex. `client: "Le Client"`).
-- Les personnages s'adressent à l'apprenant·e avec un ton chaleureux et simple. Choisis le tutoiement ou le vouvoiement selon le public et garde-le dans tout le module.
+- Les personnages s'adressent à l'apprenant·e avec un ton chaleureux et simple. Choisis le tutoiement ou le vouvoiement selon le public et garde-le dans tout le module. Si tu tutoies, ajoute `address: tu` dans l'en-tête : les boutons et consignes du lecteur tutoieront aussi.
+- **Métiers (`jobs`)** : chaque personnage du répertoire a par défaut un métier sans rapport avec ton cours (ingénieure, juriste…). **Propose toujours** dans l'en-tête une liste `jobs` de 3 à 6 métiers **cohérents avec le cours et son public** (ceux qu'on croise dans le domaine), en écriture inclusive avec la forme masculine puis féminine séparées par `/` quand elles diffèrent : `jobs: [bibliothécaire, magasinier/magasinière, médiateur/médiatrice numérique]`. Ils sont répartis entre les personnages ; leurs traits visibles (âge, handicap, hijab…) restent affichés. Pour un public scolaire, des métiers de l'établissement ou des élèves (`élève de 4e`, `professeur/professeure de SVT`) conviennent. `jobs: off` n'affiche que les traits.
 
 ---
 
@@ -342,7 +371,8 @@ Utilise-les quand la **structure de l'idée** correspond à la forme, au plus un
 - [ ] Chaque slide a exactement un titre `###`.
 - [ ] Chaque quiz a au moins une réponse `[x]`.
 - [ ] Les cartes et les étapes de frise utilisent `**Terme** :: texte`.
-- [ ] Tous les rôles utilisés sont déclarés dans `characters`.
+- [ ] Tous les rôles utilisés sont déclarés dans `characters`, celui qui guide en premier.
+- [ ] L'en-tête contient une liste `jobs` de métiers cohérente avec le cours.
 - [ ] Aucune image inventée ; chaque image a un texte alternatif.
 - [ ] Plusieurs modules : même `course` (à l'identique) et même `modules` partout ; `module` numéroté de 1 à N sans trou ; `next.title` = `title` exact du module suivant ; pas de `next` dans le dernier ; `url` seulement si une diffusion web est demandée.
 

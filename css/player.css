@@ -38,6 +38,24 @@ body.mls-body { background: #f4f2ff; overflow: hidden; }
 .mls-theme-night  { --mls-primary: #8b7bff; --mls-secondary: #ff8fab; --mls-ink: #eceaff; --mls-muted: #b7b3dc; --mls-surface: #24213f;
                     --mls-soft: #2f2b52; --mls-bg1: #15132b; --mls-bg2: #221a3a; }
 
+/* Couleur propre au cours (color / accent dans l'en-tête) : fonds, texte et ombres en dérivent */
+.mls-player.mls-custom-color {
+  --mls-soft: color-mix(in srgb, var(--mls-primary) 11%, #fff);
+  --mls-bg1: color-mix(in srgb, var(--mls-primary) 6%, #fff);
+  --mls-bg2: color-mix(in srgb, var(--mls-secondary) 10%, #fff);
+  --mls-ink: color-mix(in srgb, var(--mls-primary) 14%, #17161f);
+  --mls-muted: color-mix(in srgb, var(--mls-primary) 18%, #55545f);
+  --mls-shadow: 0 18px 50px -18px color-mix(in srgb, color-mix(in srgb, var(--mls-primary) 45%, #000) 40%, transparent);
+}
+.mls-player.mls-theme-night.mls-custom-color {
+  --mls-ink: #eeedf5;
+  --mls-muted: color-mix(in srgb, var(--mls-primary) 25%, #b9b8c8);
+  --mls-surface: color-mix(in srgb, var(--mls-primary) 14%, #1e1d2b);
+  --mls-soft: color-mix(in srgb, var(--mls-primary) 22%, #1b1a2a);
+  --mls-bg1: color-mix(in srgb, var(--mls-primary) 10%, #111019);
+  --mls-bg2: color-mix(in srgb, var(--mls-secondary) 12%, #15141f);
+}
+
 /* Formes décoratives d'arrière-plan */
 .mls-bg { position: absolute; inset: 0; z-index: -1; overflow: hidden; pointer-events: none; }
 .mls-blob { position: absolute; border-radius: 50%; filter: blur(2px); opacity: .18; }
@@ -69,6 +87,18 @@ body.mls-body { background: #f4f2ff; overflow: hidden; }
   display: inline-grid; place-items: center; font-size: 1.15rem; cursor: pointer;
 }
 .mls-icon-btn:hover { background: var(--mls-soft); }
+/* Quitter le module (exit dans l'en-tête) : icône + libellé, icône seule sur téléphone */
+.mls-icon-btn.mls-exit { display: inline-flex; align-items: center; gap: .35rem; width: auto; padding: 0 .7rem; text-decoration: none; font-weight: 600; font-size: .9rem; }
+.mls-icon-btn.mls-exit i { font-size: 1.15em; }
+.mls-exit[hidden] { display: none !important; }
+.mls-exit-link { text-align: center; margin: .9rem 0 0; font-size: .9rem; }
+.mls-exit-link a { color: inherit; opacity: .75; }
+.mls-exit-link a:hover { opacity: 1; }
+@media (max-width: 640px) {
+  .mls-icon-btn.mls-exit { width: 40px; padding: 0; justify-content: center; }
+  .mls-icon-btn.mls-exit span { display: none; }
+  .mls-top [data-act="fullscreen"] { display: none; } /* peu utile sur téléphone : place pour les autres boutons */
+}
 
 /* Scène et slides */
 .mls-stage { position: relative; overflow: hidden; }
