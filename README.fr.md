@@ -134,3 +134,15 @@ JavaScript sans framework, [marked](https://marked.js.org/) pour le Markdown, [B
 ## État du projet
 
 Prototype jeune mais fonctionnel. Les schémas interactifs sont en **bêta** ; les illustrations de personnages fournies sont provisoires et seront remplacées par une bibliothèque libre professionnelle.
+
+## Licence et citation
+
+© 2026 François Parlant — [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.fr). L'usage en classe et en formation est libre, en citant l'auteur ; vos adaptations se partagent sous la même licence. Voir [LICENSE](LICENSE).
+
+**Usage commercial** (organisme de formation, éditeur, marque blanche, scénarios sur mesure, paquets SCORM personnalisés) : une licence commerciale est possible sur accord. [Me contacter](https://edu-fpar.github.io/about.html).
+
+**Citer cet outil** (bouton *Cite this repository* de GitHub, d'après [CITATION.cff](CITATION.cff)) :
+
+> Parlant, F. (2026). *MicroLearn Studio* [Logiciel pédagogique]. https://github.com/edu-fpar/micro-learning-app
+
+Vous l'utilisez en cours ? [Dites-le-moi](https://www.linkedin.com/in/francois-parlant/) : ces retours m'aident à faire connaître et améliorer l'outil.

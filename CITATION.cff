@@ -1,0 +1,20 @@
+cff-version: 1.2.0
+message: "If you use this tool in teaching or research, please cite it as below."
+type: software
+title: "MicroLearn Studio"
+abstract: "Turns a Markdown course into an interactive micro-learning slideshow (quizzes, flashcards, timelines, dialogues with characters), exportable as a SCORM package for any LMS."
+authors:
+  - family-names: Parlant
+    given-names: François
+    orcid: "https://orcid.org/0009-0002-8059-6408"
+version: "1.0.0"
+date-released: "2026-11-23"
+license: CC-BY-NC-SA-4.0
+repository-code: "https://github.com/edu-fpar/micro-learning-app"
+url: "https://edu-fpar.github.io/micro-learning-app/"
+keywords:
+  - micro-learning
+  - instructional design
+  - Markdown
+  - SCORM
+  - Moodle

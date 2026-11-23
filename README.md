@@ -134,3 +134,15 @@ Vanilla JavaScript, [marked](https://marked.js.org/) for Markdown, [Bootstrap 5]
 ## Status
 
 Early but functional prototype. The interactive diagrams are in **beta**; the bundled character illustrations are placeholders and will be replaced by a professional open library.
+
+## License and citation
+
+© 2026 François Parlant — [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/). Using it in class or in training is free, with credit to the author; adaptations must be shared under the same license. See [LICENSE](LICENSE).
+
+**Commercial use** (training company, publisher, white label, custom scenarios, tailored SCORM packages): a commercial license is available by agreement. [Get in touch](https://edu-fpar.github.io/about.html?lang=en).
+
+**How to cite** (GitHub's *Cite this repository* button, from [CITATION.cff](CITATION.cff)):
+
+> Parlant, F. (2026). *MicroLearn Studio* [Educational software]. https://github.com/edu-fpar/micro-learning-app
+
+Using it in class? [Let me know](https://www.linkedin.com/in/francois-parlant/): this feedback helps me improve the tool and spread the word.
