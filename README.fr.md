@@ -1,5 +1,7 @@
 # MicroLearn Studio
 
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.24464413.svg)](https://doi.org/10.5281/zenodo.24464413)
+
 [English](README.md) · **Français**
 
 Transformez un cours écrit en Markdown structuré en **slideshow interactif et responsive** (quiz, cartes à retourner, frises, images interactives, dialogues avec personnages, schémas interactifs…) et exportez-le en **paquet autonome** qui fonctionne hors-ligne, sur clé USB, sur un intranet ou dans un LMS (SCORM 1.2).
@@ -143,6 +145,6 @@ Prototype jeune mais fonctionnel. Les schémas interactifs sont en **bêta** ; l
 
 **Citer cet outil** (bouton *Cite this repository* de GitHub, d'après [CITATION.cff](CITATION.cff)) :
 
-> Parlant, F. (2026). *MicroLearn Studio* [Logiciel pédagogique]. https://github.com/edu-fpar/micro-learning-app
+> Parlant, F. (2026). *MicroLearn Studio* [Logiciel pédagogique]. Zenodo. https://doi.org/10.5281/zenodo.24464413
 
 Vous l'utilisez en cours ? [Dites-le-moi](https://www.linkedin.com/in/francois-parlant/) : ces retours m'aident à faire connaître et améliorer l'outil.

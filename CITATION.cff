@@ -9,6 +9,7 @@ authors:
     orcid: "https://orcid.org/0009-0002-8059-6408"
 version: "1.0.0"
 date-released: "2026-11-23"
+doi: 10.5281/zenodo.24464413
 license: CC-BY-NC-SA-4.0
 repository-code: "https://github.com/edu-fpar/micro-learning-app"
 url: "https://edu-fpar.github.io/micro-learning-app/"
