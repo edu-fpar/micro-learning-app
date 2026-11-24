@@ -4,7 +4,7 @@
 
 **English** · [Français](README.fr.md)
 
-Turn a structured Markdown course into an **interactive, responsive slideshow** (quizzes, flip cards, timelines, interactive images, character dialogues, interactive diagrams…) and export it as a **self-contained package** that works offline, on a USB stick, on an intranet or in an LMS (SCORM 1.2).
+Turn your course material into an **interactive, responsive slideshow** (quizzes, flip cards, timelines, interactive images, character dialogues, interactive diagrams…) and export it as a **self-contained package** that works offline, on a USB stick, on an intranet or in an LMS (SCORM 1.2). The course is written as plain structured text (Markdown), by hand or with any AI.
 
 100% client-side · no backend · no build step · no CDN at runtime · hostable on GitHub Pages.
 

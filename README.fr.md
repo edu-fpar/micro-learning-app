@@ -4,7 +4,7 @@
 
 [English](README.md) · **Français**
 
-Transformez un cours écrit en Markdown structuré en **slideshow interactif et responsive** (quiz, cartes à retourner, frises, images interactives, dialogues avec personnages, schémas interactifs…) et exportez-le en **paquet autonome** qui fonctionne hors-ligne, sur clé USB, sur un intranet ou dans un LMS (SCORM 1.2).
+Transformez un support de cours en **diaporama interactif et responsive** (quiz, cartes à retourner, frises, images interactives, dialogues avec personnages, schémas interactifs…) et exportez-le en **paquet autonome** qui fonctionne hors-ligne, sur clé USB, sur un intranet ou dans un LMS (SCORM 1.2). Le cours s'écrit en texte simple structuré (Markdown), à la main ou avec n'importe quelle IA.
 
 100 % navigateur · sans serveur · sans étape de compilation · sans CDN à l'exécution · hébergeable sur GitHub Pages.
 
