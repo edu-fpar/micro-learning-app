@@ -1,6 +1,7 @@
 # MicroLearn Studio
 
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.24464413.svg)](https://doi.org/10.5281/zenodo.24464413)
+Code source : [github.com/edu-fpar/micro-learning-app](https://github.com/edu-fpar/micro-learning-app)
 
 [English](README.md) · **Français**
 
