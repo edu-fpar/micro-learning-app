@@ -20,7 +20,7 @@ En 10 minutes, découvrez comment piloter des agents IA pour concevoir des appli
 
 ---
 
-<!-- slide: format-dialogue -->
+<!-- slide: format-sms -->
 <!-- character-role: peer -->
 <!-- character-expression: thinking -->
 ### Un peu de vertige...

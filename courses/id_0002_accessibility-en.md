@@ -20,7 +20,7 @@ An interactive journey to understand, test and apply the basics.
 
 ---
 
-<!-- slide: format-dialogue -->
+<!-- slide: format-sms -->
 <!-- character-role: mentor -->
 ### Welcome
 > "Hello! Together, we will discover the essential rules of web accessibility."

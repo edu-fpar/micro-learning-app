@@ -24,7 +24,7 @@ MLS.samples.en = [
 '',
 '---',
 '',
-'<!-- slide: format-dialogue -->',
+'<!-- slide: format-sms -->',
 '<!-- character-role: mentor -->',
 '### Welcome',
 '> "Hello! Together, we will discover the essential rules of web accessibility."',

@@ -6,7 +6,6 @@ duration: 15 min
 author: "François Parlant"
 lang: fr
 theme: ocean
-dialogue-autoplay: off
 jobs: [community manager, consultant/consultante, formateur/formatrice, artisan/artisane, graphiste]
 characters:
   mentor: "La Coach réseaux"
@@ -23,7 +22,7 @@ Vous avez connu le Minitel et ses codes à taper, vous découvrez aujourd'hui le
 
 ---
 
-<!-- slide: format-dialogue -->
+<!-- slide: format-sms -->
 <!-- character-role: peer -->
 <!-- character-expression: concerned -->
 ### Trois mois de posts, zéro réaction

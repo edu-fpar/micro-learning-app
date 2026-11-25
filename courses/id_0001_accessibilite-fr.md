@@ -20,7 +20,7 @@ Un parcours interactif pour comprendre, tester et appliquer les bases.
 
 ---
 
-<!-- slide: format-dialogue -->
+<!-- slide: format-sms -->
 <!-- character-role: mentor -->
 ### Mot de bienvenue
 > "Bonjour ! Ensemble, nous allons découvrir les règles essentielles de l'accessibilité web."
