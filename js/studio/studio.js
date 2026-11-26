@@ -14,7 +14,7 @@
   /** Couples d'exemples (même cours dans chaque langue) : utilisés quand on change la langue de l'interface. */
   function samplePairs() {
     var s = MLS.samples || {};
-    return [{ fr: s.fr, en: s.en }, { fr: s.diagrams, en: s.diagramsEn }];
+    return [{ fr: s.fr, en: s.en, es: s.es }, { fr: s.diagrams, en: s.diagramsEn }];
   }
 
   // Changer la langue de l'interface ne change pas le cours, sauf s'il s'agit d'un exemple et que l'utilisateur le souhaite.
@@ -57,10 +57,17 @@
       '<!-- slide: format-title -->', '<!-- character-role: mentor -->', '<!-- character-expression: happy -->',
       '### Welcome!', 'A catchy sentence to spark curiosity.', '', '---', '',
       '<!-- slide: format-content -->', '### First concept', 'Your content here…', ''
+    ].join('\n'),
+    es: [
+      '---', 'title: "Mi nuevo módulo"', 'description: "Describe en una frase lo que el alumnado va a descubrir."',
+      'duration: 5 min', 'lang: es', 'theme: violet', 'characters:', '  mentor: "La Guía"', '---', '',
+      '<!-- slide: format-title -->', '<!-- character-role: mentor -->', '<!-- character-expression: happy -->',
+      '### ¡Bienvenida!', 'Una frase gancho para despertar la curiosidad.', '', '---', '',
+      '<!-- slide: format-content -->', '### Primera noción', 'Tu contenido aquí…', ''
     ].join('\n')
   };
 
-  function sample() { return (MLS.samples && (MLS.samples[LANG] || MLS.samples.fr)) || MLS.sampleCourse; }
+  function sample() { return (MLS.samples && (MLS.samples[LANG] || MLS.samples.en || MLS.samples.fr)) || MLS.sampleCourse; }
   function courseLang() { return MLS.i18n.pick((state.course && state.course.meta.lang) || 'fr'); }
   function savedBadge(key) { return '<span class="ok"><i class="bi bi-cloud-check"></i> ' + T(key) + '</span>'; }
 

@@ -17,15 +17,18 @@ window.MLS_CHARACTERS = {
       "name": "Amina",
       "description": {
         "fr": "Ingénieure, porte un hijab.",
-        "en": "Engineer, wears a hijab."
+        "en": "Engineer, wears a hijab.",
+        "es": "Ingeniera, lleva hiyab."
       },
       "job": {
         "fr": "Ingénieure",
-        "en": "Engineer"
+        "en": "Engineer",
+        "es": "Ingeniera"
       },
       "traits": {
         "fr": "porte un hijab",
-        "en": "wears a hijab"
+        "en": "wears a hijab",
+        "es": "lleva hiyab"
       },
       "tags": [
         "femme",
@@ -45,15 +48,18 @@ window.MLS_CHARACTERS = {
       "name": "Lucas",
       "description": {
         "fr": "Chef de projet, porte des lunettes.",
-        "en": "Project manager, wears glasses."
+        "en": "Project manager, wears glasses.",
+        "es": "Jefe de proyecto, lleva gafas."
       },
       "job": {
         "fr": "Chef de projet",
-        "en": "Project manager"
+        "en": "Project manager",
+        "es": "Jefe de proyecto"
       },
       "traits": {
         "fr": "porte des lunettes",
-        "en": "wears glasses"
+        "en": "wears glasses",
+        "es": "lleva gafas"
       },
       "tags": [
         "homme",
@@ -73,15 +79,18 @@ window.MLS_CHARACTERS = {
       "name": "Mei",
       "description": {
         "fr": "Étudiante en design.",
-        "en": "Design student."
+        "en": "Design student.",
+        "es": "Estudiante de diseño."
       },
       "job": {
         "fr": "Étudiante en design",
-        "en": "Design student"
+        "en": "Design student",
+        "es": "Estudiante de diseño"
       },
       "traits": {
         "fr": "la vingtaine",
-        "en": "in her twenties"
+        "en": "in her twenties",
+        "es": "veinteañera"
       },
       "tags": [
         "femme",
@@ -101,15 +110,18 @@ window.MLS_CHARACTERS = {
       "name": "José",
       "description": {
         "fr": "Formateur expérimenté, porte un appareil auditif.",
-        "en": "Experienced trainer, wears a hearing aid."
+        "en": "Experienced trainer, wears a hearing aid.",
+        "es": "Formador experimentado, lleva audífono."
       },
       "job": {
         "fr": "Formateur expérimenté",
-        "en": "Experienced trainer"
+        "en": "Experienced trainer",
+        "es": "Formador experimentado"
       },
       "traits": {
         "fr": "porte un appareil auditif",
-        "en": "wears a hearing aid"
+        "en": "wears a hearing aid",
+        "es": "lleva audífono"
       },
       "tags": [
         "homme",
@@ -130,15 +142,18 @@ window.MLS_CHARACTERS = {
       "name": "Fatou",
       "description": {
         "fr": "Développeuse, se déplace en fauteuil roulant.",
-        "en": "Developer, uses a wheelchair."
+        "en": "Developer, uses a wheelchair.",
+        "es": "Desarrolladora, se desplaza en silla de ruedas."
       },
       "job": {
         "fr": "Développeuse",
-        "en": "Developer"
+        "en": "Developer",
+        "es": "Desarrolladora"
       },
       "traits": {
         "fr": "se déplace en fauteuil roulant",
-        "en": "uses a wheelchair"
+        "en": "uses a wheelchair",
+        "es": "se desplaza en silla de ruedas"
       },
       "tags": [
         "femme",
@@ -159,15 +174,18 @@ window.MLS_CHARACTERS = {
       "name": "Tom",
       "description": {
         "fr": "Alternant, curieux de tout.",
-        "en": "Apprentice, curious about everything."
+        "en": "Apprentice, curious about everything.",
+        "es": "Aprendiz, curioso por todo."
       },
       "job": {
         "fr": "Alternant",
-        "en": "Apprentice"
+        "en": "Apprentice",
+        "es": "Aprendiz"
       },
       "traits": {
         "fr": "curieux de tout",
-        "en": "curious about everything"
+        "en": "curious about everything",
+        "es": "curioso por todo"
       },
       "tags": [
         "homme",
@@ -187,15 +205,18 @@ window.MLS_CHARACTERS = {
       "name": "Inès",
       "description": {
         "fr": "Directrice, bientôt à la retraite.",
-        "en": "Director, about to retire."
+        "en": "Director, about to retire.",
+        "es": "Directora, a punto de jubilarse."
       },
       "job": {
         "fr": "Directrice",
-        "en": "Director"
+        "en": "Director",
+        "es": "Directora"
       },
       "traits": {
         "fr": "bientôt à la retraite, porte des lunettes rondes",
-        "en": "about to retire, wears round glasses"
+        "en": "about to retire, wears round glasses",
+        "es": "a punto de jubilarse, lleva gafas redondas"
       },
       "tags": [
         "femme",
@@ -215,15 +236,18 @@ window.MLS_CHARACTERS = {
       "name": "Karan",
       "description": {
         "fr": "Responsable qualité, porte un turban.",
-        "en": "Quality manager, wears a turban."
+        "en": "Quality manager, wears a turban.",
+        "es": "Responsable de calidad, lleva turbante."
       },
       "job": {
         "fr": "Responsable qualité",
-        "en": "Quality manager"
+        "en": "Quality manager",
+        "es": "Responsable de calidad"
       },
       "traits": {
         "fr": "porte un turban",
-        "en": "wears a turban"
+        "en": "wears a turban",
+        "es": "lleva turbante"
       },
       "tags": [
         "homme",
@@ -243,15 +267,18 @@ window.MLS_CHARACTERS = {
       "name": "Sam",
       "description": {
         "fr": "UX designer, non-binaire.",
-        "en": "UX designer, non-binary."
+        "en": "UX designer, non-binary.",
+        "es": "UX designer, persona no binaria."
       },
       "job": {
         "fr": "UX designer",
-        "en": "UX designer"
+        "en": "UX designer",
+        "es": "UX designer"
       },
       "traits": {
         "fr": "non-binaire",
-        "en": "non-binary"
+        "en": "non-binary",
+        "es": "persona no binaria"
       },
       "tags": [
         "non-binaire",
@@ -271,15 +298,18 @@ window.MLS_CHARACTERS = {
       "name": "Noah",
       "description": {
         "fr": "Expert accessibilité, non-voyant, utilise une canne blanche.",
-        "en": "Accessibility expert, blind, uses a white cane."
+        "en": "Accessibility expert, blind, uses a white cane.",
+        "es": "Experto en accesibilidad, ciego, usa bastón blanco."
       },
       "job": {
         "fr": "Expert accessibilité",
-        "en": "Accessibility expert"
+        "en": "Accessibility expert",
+        "es": "Experto en accesibilidad"
       },
       "traits": {
         "fr": "non-voyant, utilise une canne blanche",
-        "en": "blind, uses a white cane"
+        "en": "blind, uses a white cane",
+        "es": "ciego, usa bastón blanco"
       },
       "tags": [
         "homme",
@@ -300,15 +330,18 @@ window.MLS_CHARACTERS = {
       "name": "Léa",
       "description": {
         "fr": "Juriste, porte un implant cochléaire.",
-        "en": "Lawyer, has a cochlear implant."
+        "en": "Lawyer, has a cochlear implant.",
+        "es": "Jurista, lleva un implante coclear."
       },
       "job": {
         "fr": "Juriste",
-        "en": "Lawyer"
+        "en": "Lawyer",
+        "es": "Jurista"
       },
       "traits": {
         "fr": "porte un implant cochléaire",
-        "en": "has a cochlear implant"
+        "en": "has a cochlear implant",
+        "es": "lleva un implante coclear"
       },
       "tags": [
         "femme",
@@ -329,15 +362,18 @@ window.MLS_CHARACTERS = {
       "name": "Malik",
       "description": {
         "fr": "Consultant, la soixantaine.",
-        "en": "Consultant in his sixties."
+        "en": "Consultant in his sixties.",
+        "es": "Consultor, ronda los sesenta."
       },
       "job": {
         "fr": "Consultant",
-        "en": "Consultant"
+        "en": "Consultant",
+        "es": "Consultor"
       },
       "traits": {
         "fr": "la soixantaine",
-        "en": "in his sixties"
+        "en": "in his sixties",
+        "es": "ronda los sesenta"
       },
       "tags": [
         "homme",

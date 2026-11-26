@@ -24,7 +24,7 @@
     category: T('l.blankCategory'),
     description: T('l.blankDescription'),
     sample: T('l.blankSample'),
-    i18n: { fr: { open: 'Ouvrir' }, en: { open: 'Open' } },
+    i18n: { fr: { open: 'Ouvrir' }, en: { open: 'Open' }, es: { open: 'Abrir' } },
     template: [
       '<div class="mf mls-card mls-rise">',
       '  {{#title}}<h2 class="mls-title">{{{titleHtml}}}</h2>{{/title}}',
@@ -103,7 +103,7 @@
     state.i18nError = null;
     state.loadedSample = f.sample || '';
     FIELDS.forEach(function (k) { $('f-' + k).value = f[k] || ''; });
-    $('f-i18n').value = JSON.stringify(f.i18n || { fr: {}, en: {} }, null, 2);
+    $('f-i18n').value = JSON.stringify(f.i18n || { fr: {}, en: {}, es: {} }, null, 2);
     $('f-icon-preview').className = 'bi ' + (f.icon || 'bi-square');
     $('act-reset').hidden = !(f.builtin && f.modified);
     $('act-delete').hidden = !!f.builtin || !state.originalId;

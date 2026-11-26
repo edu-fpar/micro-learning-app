@@ -31,6 +31,17 @@ MLS.formats.register({
       "$category": "Characters",
       "$description": "The character asks a question (\"> \" quote) and the learner types their first name (optional, kept in their browser). It then replaces {name} in the text; {, name} adds \", Sam\" and disappears when there is no name.",
       "$sample": "<!-- slide: format-prenom -->\n<!-- character-role: mentor -->\n<!-- character-expression: happy -->\n### Let's get acquainted\n> Hello! Before we start, what's your name?"
+    },
+    "es": {
+      "label": "Tu nombre",
+      "ok": "¡Vamos!",
+      "hint": "Opcional. Se queda en tu navegador; no se envía nada.",
+      "skip": "Continuar sin nombre",
+      "hello": "¡Te damos la bienvenida, {name}!",
+      "$name": "Pregunta del nombre",
+      "$category": "Personajes",
+      "$description": "El personaje hace una pregunta (cita «> ») y quien aprende escribe su nombre (opcional, se guarda en su navegador). Después sustituye {name} en el texto; {, name} añade «, Sam» y desaparece si no hay nombre.",
+      "$sample": "<!-- slide: format-prenom -->\n<!-- character-role: mentor -->\n<!-- character-expression: happy -->\n### Vamos a conocernos\n> ¡Hola! Antes de empezar, ¿cómo te llamas?"
     }
   },
   template: `<div class="pn">

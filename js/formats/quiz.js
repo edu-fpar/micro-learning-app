@@ -37,6 +37,20 @@ MLS.formats.register({
       "$category": "Assessment",
       "$description": "Multiple choice: \"- [x]\" = correct, \"- [ ]\" = wrong. Several [x] => multiple answers with a Check button. Add \":: explanation\" to an answer, and a \"> \" quote for general feedback. The character reacts to the answer.",
       "$sample": "<!-- character-role: mentor -->\n<!-- character-expression: thinking -->\n### Which attribute describes an image for screen readers?\n- [ ] title :: The title is not read reliably.\n- [x] alt :: Exactly: the text alternative is read instead of the image.\n- [ ] src\n- [ ] aria-hidden :: On the contrary, it hides the element!\n\n> A decorative image must have an empty alt: alt=\"\"."
+    },
+    "es": {
+      "quiz": "Cuestionario",
+      "multiple": "varias respuestas posibles",
+      "choices": "Opciones de respuesta",
+      "validate": "Comprobar",
+      "retry": "Volver a intentarlo",
+      "correct": "¡Correcto!",
+      "wrong": "No del todo…",
+      "noCorrect": "Ninguna respuesta correcta: marca al menos una con «- [x]».",
+      "$name": "Cuestionario interactivo",
+      "$category": "Evaluación",
+      "$description": "Opción múltiple: «- [x]» = correcta, «- [ ]» = incorrecta. Varias [x] => respuesta múltiple con un botón Comprobar. Añade «:: explicación» a una respuesta y una cita «> » para la retroalimentación general. El personaje reacciona a la respuesta.",
+      "$sample": "<!-- character-role: mentor -->\n<!-- character-expression: thinking -->\n### ¿Qué atributo describe una imagen para los lectores de pantalla?\n- [ ] title :: El título no se lee de forma fiable.\n- [x] alt :: Exacto: la alternativa textual se lee en lugar de la imagen.\n- [ ] src\n- [ ] aria-hidden :: ¡Al contrario, oculta el elemento!\n\n> Una imagen decorativa debe tener un alt vacío: alt=\"\"."
     }
   },
   template: `<div class="quiz{{#multiple}} is-multiple{{/multiple}}">

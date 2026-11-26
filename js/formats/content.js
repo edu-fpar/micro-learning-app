@@ -17,6 +17,12 @@ L’accessibilité numérique permet à **toutes et tous** d’utiliser un servi
       "$category": "Structure",
       "$description": "Classic content slide: rich text, lists, tables. An image on its own line is shown next to the text (below on mobile).",
       "$sample": "### Why accessibility?\nDigital accessibility lets **everyone** use a service, whatever their abilities.\n\n- 1 person in 5 lives with a disability\n- Disability can be permanent, temporary or situational\n\n![Illustration](assets/images/accessibilite.svg)"
+    },
+    "es": {
+      "$name": "Contenido",
+      "$category": "Estructura",
+      "$description": "Diapositiva de contenido clásica: texto enriquecido, listas, tablas. Una imagen en su propia línea se muestra junto al texto (debajo en móvil).",
+      "$sample": "### ¿Por qué la accesibilidad?\nLa accesibilidad digital permite que **todas las personas** utilicen un servicio, sean cuales sean sus capacidades.\n\n- 1 de cada 5 personas vive con una discapacidad\n- La discapacidad puede ser permanente, temporal o situacional\n\n![Ilustración](assets/images/accessibilite.svg)"
     }
   },
   template: `<div class="content mls-card mls-rise{{#hasImage}} has-image{{/hasImage}}">

@@ -29,6 +29,16 @@ MLS.formats.register({
       "$category": "Characters",
       "$description": "Like the dialogue, but chat-style: \"> @role(expression): text\" lines arrive one by one, after a \"…\" typing indicator. Automatic playback (timed by length) or on click: <!-- autoplay: off --> on the slide, dialogue-autoplay: in the header; learners can also choose in their settings. Pause and Show all buttons.",
       "$sample": "<!-- slide: format-sms -->\n### A message from Lea\n> @mentor: Hi! Have you seen the new schedule?\n\n> @peer(surprised): Not yet… has anything changed?\n\n> @mentor(happy): Yes: the meeting moves to Thursday. Remember to tell the team!\n\n> @peer(happy): Great, thanks, I'll take care of it."
+    },
+    "es": {
+      "pause": "Pausa",
+      "resume": "Reanudar",
+      "all": "Mostrar todo",
+      "more": "Continuar",
+      "$name": "Diálogo tipo chat",
+      "$category": "Personajes",
+      "$description": "Como el diálogo, pero al estilo de una mensajería: las réplicas «> @role(expression): texto» llegan una a una, tras un indicador de escritura «…». Reproducción automática (según la longitud) o al hacer clic: <!-- autoplay: off --> en la diapositiva, dialogue-autoplay: en la cabecera; quien aprende también puede elegirlo en sus ajustes. Botones Pausa y Mostrar todo.",
+      "$sample": "<!-- slide: format-sms -->\n### Un mensaje de Lea\n> @mentor: ¡Hola! ¿Has visto el nuevo horario?\n\n> @peer(surprised): Todavía no… ¿ha cambiado algo?\n\n> @mentor(happy): Sí: la reunión pasa al jueves. ¡Acuérdate de avisar al equipo!\n\n> @peer(happy): Genial, gracias, me encargo yo."
     }
   },
   template: `<div class="sms">

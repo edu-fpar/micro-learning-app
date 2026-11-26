@@ -1,5 +1,5 @@
 /*!
- * Internationalisation (FR / EN pour commencer).
+ * Internationalisation (FR / EN / ES).
  *  - Player : langue donnée par le front-matter du cours (`lang: en`).
  *  - Studio / Lab : langue de l'interface choisie par l'utilisateur.
  * Ajouter une langue = ajouter un dictionnaire via MLS.i18n.add('es', {...}).
@@ -7,9 +7,9 @@
 (function (MLS) {
   'use strict';
 
-  var dict = { fr: {}, en: {} };
+  var dict = { fr: {}, en: {}, es: {} };
   var variants = {};
-  var NAMES = { fr: 'Français', en: 'English' };
+  var NAMES = { fr: 'Français', en: 'English', es: 'Español' };
   var FALLBACK = 'en';
 
   function pick(lang) {
@@ -57,7 +57,7 @@
     },
     /** Valeur localisée d'un champ pouvant être une chaîne ou un objet {fr, en}. */
     local: function (v, lang) {
-      if (v && typeof v === 'object') return v[pick(lang)] || v.fr || v.en || '';
+      if (v && typeof v === 'object') return v[pick(lang)] || v.en || v.fr || '';
       return v || '';
     },
 
@@ -65,7 +65,8 @@
     uiLang: function () {
       var saved = MLS.store.get('ui.lang', null);
       if (saved && dict[saved]) return saved;
-      return /^fr/i.test(navigator.language || '') ? 'fr' : 'en';
+      var nav = String(navigator.language || '').toLowerCase().split(/[-_]/)[0];
+      return dict[nav] ? nav : 'en';
     },
     setUiLang: function (l) { MLS.store.set('ui.lang', pick(l)); },
     /**
@@ -288,6 +289,107 @@
     'a.stop': 'Stop reading',
     'a.testNarrator': 'Hello! This is the voice that will read the texts of this module.',
     'a.testRole': 'Hello, I am {name}, {label}.'
+  });
+
+  MLS.i18n.add('es', {
+    'p.toc': 'Índice',
+    'p.closeToc': 'Cerrar el índice',
+    'p.castAudio': 'Personajes y lectura en voz alta',
+    'p.fullscreen': 'Pantalla completa',
+    'p.stopAudio': 'Detener la lectura en voz alta',
+    'p.progress': 'Progreso',
+    'p.navigation': 'Navegación entre diapositivas',
+    'p.prev': 'Anterior',
+    'p.next': 'Siguiente',
+    'p.finish': 'Terminar',
+    'p.backToMenu': 'Volver al menú',
+    'p.slide': 'Diapositiva {n}',
+    'p.slideOf': 'Diapositiva {n} de {total}',
+    'p.slideError': 'No se ha podido mostrar esta diapositiva.',
+    'p.devError': 'Error de {kind} ({format}, diapositiva {n}): {msg}',
+    'p.kind.template': 'plantilla',
+    'p.kind.script': 'script',
+    'p.moduleEyebrow': 'Módulo de aprendizaje',
+    'p.slidesCount': '{n} diapositivas',
+    'p.chooseCast': 'Elige tus personajes',
+    'p.chooseCastHint': 'Te acompañarán a lo largo del módulo. Puedes cambiarlos en cualquier momento con el botón <i class="bi bi-people"></i>.',
+    'p.filterAria': 'Filtrar personajes',
+    'p.castFor': 'Personaje para: {label}',
+    'p.castAnnounce': '{name} será: {label}',
+    'p.filter.all': 'Todos',
+    'p.filter.femme': 'Mujeres',
+    'p.filter.homme': 'Hombres',
+    'p.filter.non-binaire': 'No binarias',
+    'p.filter.senior': 'Personas mayores',
+    'p.filter.jeune': 'Jóvenes',
+    'p.filter.handicap': 'Discapacidad',
+    'p.restart': 'Empezar de nuevo',
+    'p.resume': 'Continuar (diapositiva {n})',
+    'p.validate': 'Listo',
+    'p.start': 'Empezar',
+    'p.close': 'Cerrar',
+    'p.endTitle': '¡Módulo terminado!',
+    'p.endPerfect': 'Perfecto, todas tus respuestas son correctas.',
+    'p.endGood': '¡Bien hecho! Puedes repasar los puntos que se te escaparon.',
+    'p.endLow': 'Repasa el módulo para afianzar lo aprendido.',
+    'p.endThanks': 'Gracias por seguir este módulo.',
+    'p.review': 'Repasar el módulo',
+    'dg.hint': 'Haz clic en cada parte para descubrirla.',
+    'dg.hintPuzzle': 'Reconstruye el puzle: haz clic en cada pieza para colocarla.',
+    'dg.explored': '{n} / {total} descubiertas',
+    'dg.prev': 'Parte anterior',
+    'dg.next': 'Parte siguiente',
+    'dg.play': 'Reproducir',
+    'dg.pause': 'Pausa',
+    'dg.synthesis': 'En resumen',
+    'dg.complete': '¡Bien hecho, el puzle está completo!',
+    'dg.empty': 'Añade elementos de lista «- **Parte** :: explicación».',
+    'p.moduleOf': 'Módulo {n} / {total}',
+    'p.chapterOf': 'Capítulo {n}/{total}',
+    'p.chaptersCount': '{n} capítulos',
+    'p.intro': 'Introducción',
+    'p.moduleDone': '¡Módulo {n} de {total} terminado!',
+    'p.courseDone': 'Curso terminado, ¡bien hecho!',
+    'p.courseProgress': 'Progreso del curso',
+    'p.path.done': 'Módulo {n}: completado',
+    'p.path.current': 'Módulo {n}: en curso',
+    'p.path.todo': 'Módulo {n}: pendiente',
+    'p.upNext': 'A continuación',
+    'p.goNext': 'Módulo siguiente',
+    'p.backToLms': 'Vuelve a tu plataforma de formación para abrir el módulo siguiente.',
+    'p.nextNoLink': 'Ábrelo desde tu espacio de formación.',
+    'p.exit': 'Salir',
+    'p.exitWelcome': 'Salir sin empezar',
+    'p.dlgTitle': 'Diálogos tipo chat',
+    'p.dlgHint': 'Las réplicas pueden aparecer solas, una tras otra, o solo cuando haces clic en «Continuar». Esta elección se recuerda.',
+    'p.dlgAria': 'Reproducción de los diálogos',
+    'p.dlg.auto': 'Automático',
+    'p.dlg.click': 'Al hacer clic',
+    'a.title': 'Lectura en voz alta',
+    'a.hint': 'Para escuchar los textos largos en lugar de leerlos. Esta herramienta de comodidad no sustituye a tu lector de pantalla ni interfiere con él.',
+    'a.modeAria': 'Modo de lectura en voz alta',
+    'a.mode.off': 'Desactivada',
+    'a.mode.click': 'Solo el icono',
+    'a.mode.interact': 'Al abrir un elemento',
+    'a.mode.auto': 'Automática',
+    'a.hint.off': 'Sin lectura en voz alta; los iconos están ocultos.',
+    'a.hint.click': 'Aparece un icono <i class="bi bi-volume-up-fill"></i> junto a los textos largos: tócalo para escucharlos.',
+    'a.hint.interact': 'Iconos, y lectura cuando abres un elemento: punto de una imagen, tarjeta, etapa, pestaña, réplica, corrección de cuestionario…',
+    'a.hint.auto': 'Los textos largos y los diálogos se leen en cuanto aparece cada diapositiva, así como los elementos que abres.',
+    'a.voice': 'Voz',
+    'a.narrator': 'Voz de la narración',
+    'a.speed': 'Velocidad',
+    'a.test': 'Probar',
+    'a.noVoice': 'No hay ninguna voz de síntesis disponible en este navegador.',
+    'a.noVoiceShort': 'Sin voz',
+    'a.groupMine': 'Idioma del módulo',
+    'a.defaultVoice': 'Voz predeterminada del navegador (ninguna voz instalada para este idioma)',
+    'a.groupOther': 'Otros idiomas',
+    'a.online': 'en línea',
+    'a.listen': 'Escuchar este texto',
+    'a.stop': 'Detener la lectura',
+    'a.testNarrator': '¡Hola! Esta es la voz que leerá los textos de este módulo.',
+    'a.testRole': 'Hola, soy {name}, {label}.'
   });
   /* Tutoiement (en-tête du cours : address: tu) — seuls les textes qui vouvoient sont repris. */
   MLS.i18n.addVariant('tu', {

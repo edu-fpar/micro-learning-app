@@ -66,7 +66,7 @@
       '  <meta name="generator" content="MicroLearn Studio ' + MLS.version + '">\n' +
       '  <title>' + U.escapeHtml(title) + '</title>\n' + cssLinks + '\n</head>\n<body class="mls-body">\n' +
       '  <div id="player"></div>\n' +
-      '  <noscript><p style="padding:2rem;font-family:sans-serif">' + (lang === 'fr' ? 'Ce module de formation nécessite JavaScript.' : 'This learning module requires JavaScript.') + '</p></noscript>\n' +
+      '  <noscript><p style="padding:2rem;font-family:sans-serif">' + (lang === 'fr' ? 'Ce module de formation nécessite JavaScript.' : lang === 'es' ? 'Este módulo de formación necesita JavaScript.' : 'This learning module requires JavaScript.') + '</p></noscript>\n' +
       jsLinks + '\n</body>\n</html>\n';
   }
 
@@ -88,6 +88,7 @@
   }
 
   function readme(title, type, lang) {
+    if (lang === 'es') return readmeEs(title, type);
     if (lang !== 'fr') return readmeEn(title, type);
     return 'MODULE : ' + title + '\r\n' +
       '======================================================\r\n\r\n' +
@@ -100,6 +101,17 @@
           '(vous pouvez le copier sur une clé USB, un intranet ou un partage réseau).\r\n') +
       '\r\nContenu :\r\n  index.html       point d\'entrée\r\n  course.js        contenu du cours (Markdown + formats)\r\n' +
       '  css/, js/, vendor/  moteur de lecture\r\n  assets/          personnages et images\r\n';
+  }
+
+  function readmeEs(title, type) {
+    return 'MÓDULO: ' + title + '\r\n' +
+      '======================================================\r\n\r\n' +
+      'Generado con MicroLearn Studio ' + MLS.version + ' el ' + new Date().toLocaleString('es-ES') + '.\r\n\r\n' +
+      (type === 'scorm'
+        ? 'Paquete SCORM 1.2: importa este archivo ZIP tal cual en tu LMS (Moodle, etc.).\r\nEl progreso (última diapositiva) y la puntuación de los cuestionarios se envían al LMS.\r\n'
+        : 'Basta con abrir «index.html» en un navegador reciente.\r\nNo se necesita conexión a Internet: todo está incluido en esta carpeta\r\n(puedes copiarla en una memoria USB, una intranet o una carpeta compartida en red).\r\n') +
+      '\r\nContenido:\r\n  index.html       punto de entrada\r\n  course.js        contenido del curso (Markdown + formatos)\r\n' +
+      '  css/, js/, vendor/  motor de lectura\r\n  assets/          personajes e imágenes\r\n';
   }
 
   function readmeEn(title, type) {
@@ -200,7 +212,7 @@
       var jsLinks = F.js.concat(['course.js']).map(function (p) { return '  <script src="' + p + '"></script>'; }).join('\n') +
         '\n  <script>\n' + bootScript() + '\n  </script>';
       zip.add(root + 'index.html', indexHtml(title, cssLinks, jsLinks, lang));
-      zip.add(root + (lang === 'fr' ? 'LISEZMOI.txt' : 'README.txt'), readme(title, type, lang));
+      zip.add(root + (lang === 'fr' ? 'LISEZMOI.txt' : lang === 'es' ? 'LEAME.txt' : 'README.txt'), readme(title, type, lang));
       if (type === 'scorm') {
         var list = zip.paths();
         zip.add('imsmanifest.xml', manifest('mls-' + slug, title, list));

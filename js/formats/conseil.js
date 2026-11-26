@@ -21,6 +21,13 @@ Débranchez votre souris et parcourez votre page avec **Tab**, **Maj+Tab** et **
       "$category": "Characters",
       "$description": "A \"tip\" box presented by a character. Customise the badge with <!-- badge: … -->.",
       "$sample": "<!-- character-role: mentor -->\n<!-- character-expression: encouraging -->\n<!-- badge: Pro tip -->\n### Test with the keyboard\nUnplug your mouse and browse your page with **Tab**, **Shift+Tab** and **Enter**.\n\n> If you cannot see where the focus is, that is a problem!"
+    },
+    "es": {
+      "badge": "Consejo",
+      "$name": "Consejo del personaje",
+      "$category": "Personajes",
+      "$description": "Recuadro de «consejo» presentado por un personaje. Personaliza la insignia con <!-- badge: … -->.",
+      "$sample": "<!-- character-role: mentor -->\n<!-- character-expression: encouraging -->\n<!-- badge: Consejo de pro -->\n### Prueba con el teclado\nDesconecta el ratón y recorre tu página con **Tab**, **Mayús+Tab** e **Intro**.\n\n> Si no ves dónde está el foco, ¡hay un problema!"
     }
   },
   template: `<div class="tip">

@@ -28,6 +28,15 @@ Retournez chaque carte pour découvrir sa définition.
       "$category": "Discovery",
       "$description": "Grid of two-sided cards. Syntax: \"- **Term** :: Definition\". A counter shows the cards discovered.",
       "$sample": "### Key vocabulary\nFlip each card to discover its definition.\n\n- **WCAG 2.1** :: International web accessibility guidelines from the W3C.\n- **ARIA** :: Attributes that add semantics for assistive technologies.\n- **Screen reader** :: Software that speaks the screen content aloud or shows it in braille."
+    },
+    "es": {
+      "hint": "Toca una tarjeta para darle la vuelta",
+      "found": "descubiertas",
+      "allFound": "Has descubierto todas las tarjetas.",
+      "$name": "Tarjetas giratorias",
+      "$category": "Descubrimiento",
+      "$description": "Cuadrícula de tarjetas de dos caras. Sintaxis: «- **Término** :: Definición». Un contador muestra las tarjetas descubiertas.",
+      "$sample": "### Vocabulario clave\nDale la vuelta a cada tarjeta para descubrir su definición.\n\n- **WCAG 2.1** :: Pautas internacionales de accesibilidad web del W3C.\n- **ARIA** :: Atributos que añaden semántica para las tecnologías de apoyo.\n- **Lector de pantalla** :: Programa que lee en voz alta el contenido de la pantalla o lo muestra en braille."
     }
   },
   template: `<div class="fc">

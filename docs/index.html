@@ -4,9 +4,9 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Documentation — MicroLearn</title>
-  <meta name="description" content="MicroLearn Studio documentation (FR/EN): Markdown syntax, slide formats, characters, read-aloud, courses, export, and an AI skill page to format any course.">
+  <meta name="description" content="MicroLearn Studio documentation (FR/EN/ES): Markdown syntax, slide formats, characters, read-aloud, courses, export, and an AI skill page to format any course.">
   <meta property="og:title" content="Documentation — MicroLearn">
-  <meta property="og:description" content="MicroLearn Studio documentation (FR/EN): Markdown syntax, slide formats, characters, read-aloud, courses, export, and an AI skill page to format any course.">
+  <meta property="og:description" content="MicroLearn Studio documentation (FR/EN/ES): Markdown syntax, slide formats, characters, read-aloud, courses, export, and an AI skill page to format any course.">
   <link rel="stylesheet" href="../vendor/bootstrap/css/bootstrap.min.css">
   <link rel="stylesheet" href="../vendor/bootstrap-icons/bootstrap-icons.min.css">
   <link rel="stylesheet" href="../css/studio.css">
@@ -50,9 +50,10 @@
       <a href="../lab.html"><i class="bi bi-palette"></i> <span class="st-hide-sm">Format Lab</span></a>
       <a href="index.html" class="active"><i class="bi bi-book"></i> <span class="st-hide-sm">Docs</span></a>
     </div>
-    <div class="doc-lang" role="group" aria-label="Langue / Language">
+    <div class="doc-lang" role="group" aria-label="Langue / Language / Idioma">
       <button type="button" data-doc-lang="fr" lang="fr" aria-pressed="true" title="Français">FR</button>
       <button type="button" data-doc-lang="en" lang="en" aria-pressed="false" title="English">EN</button>
+      <button type="button" data-doc-lang="es" lang="es" aria-pressed="false" title="Español">ES</button>
     </div>
   </nav>
 
@@ -141,7 +142,7 @@ Une phrase d'accroche.
 ### Lexique
 - **Mot** :: Sa définition.
 - **Autre mot** :: Une autre définition.</pre>
-      <p>Langue du module : <code>lang: fr</code> ou <code>lang: en</code>. Elle traduit les boutons et consignes vus par les apprenant·es (Suivant, Valider, Réessayer…) et sélectionne les voix de lecture. L'interface du Studio et du Format Lab se change, elle, avec le bouton <i class="bi bi-translate"></i> FR/EN en haut à droite.</p>
+      <p>Langue du module : <code>lang: fr</code>, <code>lang: en</code> ou <code>lang: es</code>. Elle traduit les boutons et consignes vus par les apprenant·es (Suivant, Valider, Réessayer…) et sélectionne les voix de lecture. L'interface du Studio et du Format Lab se change, elle, avec le bouton <i class="bi bi-translate"></i> FR/EN/ES en haut à droite.</p>
       <p class="mb-0">Thèmes de couleurs : <code>violet</code>, <code>ocean</code>, <code>sunset</code>, <code>forest</code>, <code>night</code>. La référence complète de la syntaxe est la <a href="skill.md">page pour les IA</a>.</p>
     </div>
 
@@ -297,7 +298,7 @@ next:
 
     <h2 id="lab"><i class="bi bi-palette"></i> 11. Créer ses propres formats</h2>
     <div class="docs-card">
-      <p class="mb-0">Le <a href="../lab.html">Format Lab</a> permet de modifier les formats existants ou d'en créer de nouveaux (gabarit HTML, CSS, script, textes FR/EN), avec un test en direct sur bureau et mobile et dans chaque langue. Les formats enregistrés apparaissent aussitôt dans le Studio et sont inclus dans les exports. L'onglet <em>Aide</em> du Lab détaille tout ce qui est disponible.</p>
+      <p class="mb-0">Le <a href="../lab.html">Format Lab</a> permet de modifier les formats existants ou d'en créer de nouveaux (gabarit HTML, CSS, script, textes par langue), avec un test en direct sur bureau et mobile et dans chaque langue. Les formats enregistrés apparaissent aussitôt dans le Studio et sont inclus dans les exports. L'onglet <em>Aide</em> du Lab détaille tout ce qui est disponible.</p>
       <figure class="docs-shot"><img src="images/lab-fr.webp" alt="Le Format Lab : liste des formats, code du gabarit et test en direct" loading="lazy" width="1440" height="900"><figcaption>Le Format Lab : la liste des formats, le gabarit HTML du format « Couverture » et son test en direct.</figcaption></figure>
     </div>
   </main>
@@ -387,7 +388,7 @@ A catchy sentence.
 ### Glossary
 - **Word** :: Its definition.
 - **Another word** :: Another definition.</pre>
-      <p>Module language: <code>lang: en</code> or <code>lang: fr</code>. It translates the buttons and instructions learners see (Next, Check, Try again…) and selects the read-aloud voices. The Studio and Format Lab interface language is changed separately with the <i class="bi bi-translate"></i> FR/EN button at the top right.</p>
+      <p>Module language: <code>lang: en</code>, <code>lang: fr</code> or <code>lang: es</code>. It translates the buttons and instructions learners see (Next, Check, Try again…) and selects the read-aloud voices. The Studio and Format Lab interface language is changed separately with the <i class="bi bi-translate"></i> FR/EN/ES button at the top right.</p>
       <p class="mb-0">Colour themes: <code>violet</code>, <code>ocean</code>, <code>sunset</code>, <code>forest</code>, <code>night</code>. The full syntax reference is the <a href="skill-en.md">page for AI</a>.</p>
     </div>
 
@@ -542,15 +543,261 @@ next:
 
     <h2 id="lab-en"><i class="bi bi-palette"></i> 11. Create your own formats</h2>
     <div class="docs-card">
-      <p class="mb-0">The <a href="../lab.html">Format Lab</a> lets you edit the existing formats or create new ones (HTML template, CSS, script, FR/EN texts), with a live test on desktop and mobile and in each language. Saved formats appear straight away in the Studio and are included in exports. The Lab <em>Help</em> tab describes everything available.</p>
+      <p class="mb-0">The <a href="../lab.html">Format Lab</a> lets you edit the existing formats or create new ones (HTML template, CSS, script, texts per language), with a live test on desktop and mobile and in each language. Saved formats appear straight away in the Studio and are included in exports. The Lab <em>Help</em> tab describes everything available.</p>
       <figure class="docs-shot"><img src="images/lab-en.webp" alt="The Format Lab: format list, template code and live test" loading="lazy" width="1440" height="900"><figcaption>The Format Lab: the format list, the HTML template of the “Cover” format and its live test.</figcaption></figure>
+    </div>
+  </main>
+
+  <!-- =================================================================== ESPAÑOL -->
+  <main class="docs-main" data-lang="es" lang="es" data-skill="skill-es.md" hidden>
+    <h1 class="fw-bold">Documentación</h1>
+    <p class="lead text-secondary">MicroLearn convierte un curso escrito en Markdown en un módulo interactivo que funciona en ordenadores y móviles, incluso sin conexión.</p>
+
+    <div class="docs-card docs-toc">
+      <strong>Índice</strong>
+      <ol class="mb-0 mt-2">
+        <li><a href="#ai-es">Prepara tu curso con una IA</a></li>
+        <li><a href="#start-es">Empieza en 3 pasos</a></li>
+        <li><a href="#syntax-es">La sintaxis de un vistazo</a> y los <a href="#settings-es">ajustes del encabezado</a></li>
+        <li><a href="#formats-es">Formatos de diapositiva</a></li>
+        <li><a href="#characters-es">Personajes</a></li>
+        <li><a href="#audio-es">Lectura en voz alta</a></li>
+        <li><a href="#course-es">Cursos y capítulos</a></li>
+        <li><a href="#versions-es">Versiones y copia de seguridad</a></li>
+        <li><a href="#export-es">Exportar el módulo</a></li>
+        <li><a href="#view-es">Vista del alumnado y compartir</a></li>
+        <li><a href="#lab-es">Crea tus propios formatos</a></li>
+      </ol>
+    </div>
+
+    <h2 id="ai-es"><i class="bi bi-robot"></i> 1. Prepara tu curso con una IA</h2>
+    <div class="ai-box">
+      <p>No hace falta aprender la sintaxis: cualquier IA (ChatGPT, Claude, Gemini, Mistral, Copilot…) puede dar a tu curso el formato adecuado siguiendo la <strong>página de instrucciones para IA</strong>.</p>
+      <ol class="ai-steps">
+        <li><strong>Copia la instrucción.</strong> Ya contiene el enlace a las instrucciones para la IA. El texto se puede editar: ajusta el público, la duración o el tono antes de copiarlo.
+          <div class="ai-prompt js-prompt" contenteditable="true" spellcheck="false" title="Texto editable">Lee las instrucciones en <span class="js-url">docs/skill-es.md</span> y da formato para MicroLearn al curso de abajo (o al archivo adjunto). Público: alumnado de 13 años, 10 minutos, tono cercano.</div>
+          <button class="btn btn-light fw-semibold mt-2" data-copy=".js-prompt"><i class="bi bi-clipboard"></i> Copiar la instrucción</button></li>
+        <li><strong>Pégala en tu IA</strong> y añade tu curso: texto pegado a continuación o un archivo adjunto.</li>
+        <li><strong>Copia la respuesta de la IA</strong> (un bloque Markdown), pégala en el <a class="link-light" href="../index.html">Studio</a>, revisa la vista previa y ajusta lo que haga falta.</li>
+      </ol>
+      <details class="ai-more">
+        <summary>¿Tu IA no puede abrir enlaces?</summary>
+        <p>Copia en su lugar la versión completa: las instrucciones y la petición juntas en un solo texto. Pégala en tu IA y añade tu curso.</p>
+        <button class="btn btn-sm btn-warning" data-copy-full><i class="bi bi-file-earmark-text"></i> Copiar la versión completa</button>
+        <a class="link-light small ms-2" href="skill-es.md" target="_blank">ver las instrucciones</a>
+      </details>
+      <p class="small mt-3 mb-0 opacity-75">Para un curso en francés, usa la <a class="link-light" href="skill.md" target="_blank">versión francesa de las instrucciones</a>; para un curso en inglés, la <a class="link-light" href="skill-en.md" target="_blank">versión inglesa</a>.</p>
+      <p class="small mt-2 mb-0 opacity-75 js-local" hidden>
+        <i class="bi bi-info-circle"></i> Esta aplicación se ejecuta en tu ordenador: una IA en línea no podrá leer el enlace de la instrucción.
+        Publica la aplicación (en GitHub Pages, por ejemplo) o usa la versión completa de arriba.
+      </p>
+    </div>
+
+    <h2 id="start-es"><i class="bi bi-rocket-takeoff"></i> 2. Empieza en 3 pasos</h2>
+    <div class="docs-card">
+      <ol class="mb-0">
+        <li class="mb-2"><strong>Escribe</strong> (o pega) tu curso en el editor de la izquierda del <a href="../index.html">Studio</a>. También puedes arrastrar y soltar un archivo <code>.md</code> encima del editor. La primera vez se carga un curso de ejemplo.</li>
+        <li class="mb-2"><strong>Comprueba</strong> el resultado en la vista previa de la derecha. Cambia entre las vistas <i class="bi bi-display"></i> ordenador, <i class="bi bi-tablet"></i> tableta y <i class="bi bi-phone"></i> móvil. La vista previa sigue la diapositiva donde está tu cursor. El botón <i class="bi bi-plus-square"></i> <em>Insertar una diapositiva</em> añade una plantilla lista para rellenar.</li>
+        <li><strong>Exporta</strong> con el botón <i class="bi bi-box-arrow-down"></i> <em>Exportar</em> y comparte el módulo.</li>
+      </ol>
+      <figure class="docs-shot"><img src="images/studio-en.webp" alt="El Studio: editor Markdown a la izquierda, vista previa de la diapositiva a la derecha" loading="lazy" width="1440" height="900"><figcaption>El Studio: el cursor está en la diapositiva de diálogo y la vista previa la muestra al instante.</figcaption></figure>
+    </div>
+
+    <h2 id="syntax-es"><i class="bi bi-markdown"></i> 3. La sintaxis de un vistazo</h2>
+    <div class="docs-card">
+      <ul>
+        <li>El archivo empieza con un <strong>encabezado</strong> entre dos líneas <code>---</code> (título, idioma, descripción, personajes…).</li>
+        <li>Las diapositivas se <strong>separan con una línea <code>---</code></strong>.</li>
+        <li>Cada diapositiva empieza con <code>&lt;!-- slide: format-… --&gt;</code> y contiene un título <code>###</code>.</li>
+        <li>Todo lo demás es Markdown normal: <code>**negrita**</code>, <code>*cursiva*</code>, listas con <code>- </code>, enlaces, imágenes.</li>
+      </ul>
+<pre>---
+title: "Mi módulo"
+description: "Lo que va a descubrir el alumnado."
+duration: 10 min
+lang: es
+theme: violet
+characters:
+  mentor: "La Guía"
+  peer: "El Colega"
+---
+
+&lt;!-- slide: format-title --&gt;
+&lt;!-- character-role: mentor --&gt;
+### ¡Bienvenida, bienvenido!
+Una frase que enganche.
+
+---
+
+&lt;!-- slide: format-flashcards --&gt;
+### Glosario
+- **Palabra** :: Su definición.
+- **Otra palabra** :: Otra definición.</pre>
+      <p>Idioma del módulo: <code>lang: es</code>, <code>lang: fr</code> o <code>lang: en</code>. Traduce los botones y las indicaciones que ve el alumnado (Siguiente, Comprobar, Reintentar…) y selecciona las voces de lectura. El idioma de la interfaz del Studio y del Format Lab se cambia aparte, con el botón <i class="bi bi-translate"></i> FR/EN/ES arriba a la derecha.</p>
+      <p class="mb-0">Temas de color: <code>violet</code>, <code>ocean</code>, <code>sunset</code>, <code>forest</code>, <code>night</code>. La referencia completa de la sintaxis es la <a href="skill-es.md">página para IA</a>.</p>
+    </div>
+
+    <h3 id="settings-es" class="h4 mt-4">Ajustes opcionales del encabezado</h3>
+    <div class="docs-card">
+      <p>Adaptan el reproductor a tu público: una visita guiada entre colegas no debería parecer un módulo evaluado.</p>
+<pre>color: "#1f7a8c"               # color principal (los fondos se derivan de él)
+accent: "#e9b44c"              # color secundario
+score: off                     # sin puntuación en la pantalla final
+exit: "../index.html"          # botón "Salir" en la barra superior
+exit-label: "Volver a la herramienta"
+labels:                        # sustituye cualquier texto del reproductor
+  p.slide: "Paso {n}"
+  p.endTitle: "¡Recorrido terminado!"
+next:
+  title: "Lo que sigue"
+  label: "Abrir la siguiente parte"  # texto del botón (por defecto "Módulo siguiente")</pre>
+      <div class="table-responsive">
+        <table class="table align-middle">
+          <thead><tr><th>Campo</th><th>Efecto</th></tr></thead>
+          <tbody>
+            <tr><td><code>color</code>, <code>accent</code></td><td>Colores principal y secundario (p. ej. <code>"#1f7a8c"</code>). Los fondos, el texto y las sombras se derivan de ellos: no queda ni rastro de violeta.</td></tr>
+            <tr><td><code>address: tu</code></td><td>Solo en francés: tuteo («tu») en las indicaciones, la bienvenida y la pantalla final del reproductor. Por defecto: «vous».</td></tr>
+            <tr><td><code>labels</code></td><td>Sustituye un texto de la interfaz: una línea <code>clave: "texto"</code> por texto (consulta las claves más abajo). Las marcas <code>{n}</code> y <code>{total}</code> se sustituyen por números.</td></tr>
+            <tr><td><code>score: off</code></td><td>Sin puntuación en la pantalla final: los cuestionarios se siguen corrigiendo y, en SCORM, la puntuación se sigue enviando a la plataforma.</td></tr>
+            <tr><td><code>next</code> → <code>label</code></td><td>Texto del botón que abre el módulo siguiente (con <code>url</code>).</td></tr>
+            <tr><td><code>exit</code>, <code>exit-label</code></td><td>Dirección y texto de un botón «Salir» en la barra superior (solo el icono en móviles) y de un enlace bajo la pantalla de bienvenida. La dirección es relativa a la página del módulo; en la vista previa del Studio, el enlace se abre en una pestaña nueva.</td></tr>
+            <tr><td><code>jobs</code></td><td>Profesiones de los personajes (consulta el <a href="#characters-es">§ 5</a>).</td></tr>
+            <tr><td><code>dialogue-autoplay</code></td><td><code>on</code> (por defecto) u <code>off</code>: reproducción de los diálogos tipo chat (<code>format-sms</code>, consulta el <a href="#formats-es">§ 4</a>).</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p><strong>Claves útiles de <code>labels</code></strong>: <code>p.slide</code> («Diapositiva {n}»), <code>p.slideOf</code> («Diapositiva {n} de {total}»), <code>p.slidesCount</code> («{n} diapositivas»), <code>p.resume</code> («Continuar (diapositiva {n})»), <code>p.moduleEyebrow</code> («Módulo de aprendizaje»), <code>p.chooseCast</code>, <code>p.chooseCastHint</code>, <code>p.start</code> («Empezar»), <code>p.endTitle</code> («¡Módulo terminado!»), <code>p.endThanks</code>, <code>p.review</code> («Repasar el módulo»), <code>p.upNext</code> («A continuación»), <code>p.goNext</code> («Módulo siguiente»), <code>p.exit</code> («Salir»), <code>p.exitWelcome</code> («Salir sin empezar»), <code>p.prev</code>, <code>p.next</code>, <code>p.finish</code>. También los textos de los formatos: <code>more</code> (el botón «Continuar» de los diálogos) o, para un único formato, <code>format-quiz.validate</code>. Lista completa: <code>js/core/i18n.js</code>, y los textos de cada formato en el Format Lab.</p>
+      <p class="mb-0 small text-secondary">En móviles (menos de 640 px de ancho), el botón de pantalla completa se oculta para dejar sitio a los demás.</p>
+    </div>
+
+    <h2 id="formats-es"><i class="bi bi-grid-1x2"></i> 4. Formatos de diapositiva</h2>
+    <div class="docs-card">
+      <div class="table-responsive">
+        <table class="table align-middle mb-0">
+          <thead><tr><th>Formato</th><th>Para…</th><th>Sintaxis clave</th></tr></thead>
+          <tbody>
+            <tr><td><i class="bi bi-easel2"></i> <code>format-title</code></td><td>abrir el módulo o un capítulo</td><td>título + gancho</td></tr>
+            <tr><td><i class="bi bi-file-earmark-text"></i> <code>format-content</code></td><td>presentar una noción</td><td>texto, listas, imagen</td></tr>
+            <tr><td><i class="bi bi-chat-quote"></i> <code>format-dialogue</code></td><td>poner en situación</td><td><code>&gt; réplica</code>, <code>&gt; @peer: …</code></td></tr>
+            <tr><td><i class="bi bi-chat-dots"></i> <code>format-sms</code></td><td>un intercambio tipo chat</td><td>como el diálogo: <code>&gt; @peer(happy): …</code></td></tr>
+            <tr><td><i class="bi bi-person-vcard"></i> <code>format-prenom</code></td><td>pedir el nombre</td><td><code>&gt; pregunta</code>, y luego <code>{name}</code> en el texto</td></tr>
+            <tr><td><i class="bi bi-signpost-split"></i> <code>format-menu</code></td><td>un recorrido a la carta</td><td><code>- [📌 Parte](#id) :: descripción</code></td></tr>
+            <tr><td><i class="bi bi-lightbulb"></i> <code>format-conseil</code></td><td>dar un consejo</td><td>personaje + texto</td></tr>
+            <tr><td><i class="bi bi-patch-question"></i> <code>format-quiz</code></td><td>evaluar</td><td><code>- [x] correcta</code>, <code>- [ ] incorrecta :: explicación</code></td></tr>
+            <tr><td><i class="bi bi-front"></i> <code>format-flashcards</code></td><td>vocabulario</td><td><code>- **Término** :: definición</code></td></tr>
+            <tr><td><i class="bi bi-clock-history"></i> <code>format-timeline</code></td><td>fechas, etapas</td><td><code>- **1999** :: acontecimiento</code></td></tr>
+            <tr><td><i class="bi bi-segmented-nav"></i> <code>format-tabs</code></td><td>varias facetas</td><td>subtítulos <code>####</code></td></tr>
+            <tr><td><i class="bi bi-bullseye"></i> <code>format-hotspots</code></td><td>explorar una imagen</td><td><code>- X,Y :: **Título** :: texto</code></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="mt-3 mb-0"><span class="badge text-bg-warning">beta</span> <strong>Novedad:</strong> 7 esquemas interactivos (puzle, pirámide, embudo, ciclo, proceso, matriz, concepto central). <a href="beta.html?lang=es">Descubre los formatos beta <i class="bi bi-arrow-right"></i></a></p>
+      <p class="mt-3"><strong>Diálogo tipo chat (<code>format-sms</code>)</strong>: las réplicas llegan una a una, tras un indicador «…» con el avatar de quien escribe. Cada réplica permanece en pantalla según su longitud (0,7 s + 0,26 s por palabra, entre 1,4 y 8 s; una vez y media más cuando la voz lee las réplicas). Botones <em>Pausa</em> / <em>Reanudar</em> y <em>Mostrar todo</em>. La reproducción empieza tras la pantalla de bienvenida y se detiene al salir de la diapositiva.</p>
+      <ul class="mb-0">
+        <li>Reproducción automática por defecto; <code>&lt;!-- autoplay: off --&gt;</code> en una diapositiva, o <code>dialogue-autoplay: off</code> en el encabezado, cambia a «al hacer clic»: un botón <em>Continuar</em> muestra la réplica siguiente.</li>
+        <li>El alumnado puede elegir <em>Automático</em> o <em>Al hacer clic</em> en sus ajustes (botón <i class="bi bi-people"></i>): esta elección se recuerda y prevalece sobre la del curso (accesibilidad).</li>
+      </ul>
+      <p class="mt-3"><strong>Nombre (<code>format-prenom</code>)</strong>: el personaje hace la pregunta (cita <code>&gt;</code>) y la persona que aprende escribe su nombre o continúa sin él. Se queda en su navegador (no se envía nada) y lo usan todos los cursos. Después sustituye a <code>{name}</code> (o <code>{prenom}</code>) en todo el texto de las diapositivas; mejor usa <code>{, name}</code>: «Te damos la bienvenida{, name}» da «Te damos la bienvenida, Sam», o «Te damos la bienvenida» sin nombre.</p>
+      <p><strong>Recorrido a la carta (<code>format-menu</code>)</strong>: cada elemento <code>- [📌 Etiqueta](#id) :: descripción</code> se convierte en un botón que lleva a la <strong>parte</strong> que empieza con la diapositiva <code>&lt;!-- branch: id --&gt;</code>.</p>
+<pre>&lt;!-- slide: format-menu --&gt;
+&lt;!-- id: menu --&gt;
+&lt;!-- character-role: mentor --&gt;
+### ¿Por dónde empezamos?
+&gt; Elige una parte, yo te llevo.                 (primera visita)
+&gt; ¿Seguimos? Las partes vistas están marcadas. (al volver)
+&gt; Lo has visto todo, ¡bien hecho!              (todo visto)
+
+- [🛎️ La recepción](#recepcion) :: Donde empieza todo
+- [🚐 Las reservas](#reservas "featured") :: Destacada</pre>
+      <ul class="mb-0">
+        <li>Una parte termina en la diapositiva que abre otra parte, en un menú o en una diapositiva <code>&lt;!-- id: … --&gt;</code>. Al final, el botón pasa a ser <em>Volver al menú</em>; «Anterior» al principio de una parte también lleva de vuelta.</li>
+        <li>Las partes ya vistas se marcan (se recuerdan en el navegador); en el menú, «Siguiente» va a la primera parte aún no vista.</li>
+        <li><em>He terminado</em> (o «Siguiente» cuando todo está visto) va a la diapositiva <code>&lt;!-- id: end --&gt;</code> (o <code>fin</code>); si no existe, a la pantalla final.</li>
+        <li>Submenú: un <code>format-menu</code> que a su vez lleva <code>&lt;!-- branch: … --&gt;</code> y <code>&lt;!-- parent: menu --&gt;</code> (botón <em>Volver al menú</em>). Por defecto, una parte vuelve al último menú anterior; <code>&lt;!-- parent: id --&gt;</code> elige otro.</li>
+        <li>En cualquier punto de un curso, un enlace <code>[texto](#id)</code> lleva a la diapositiva <code>&lt;!-- id: … --&gt;</code> o <code>&lt;!-- branch: … --&gt;</code>.</li>
+      </ul>
+      <figure class="docs-shot"><div class="docs-shots"><img class="wide" src="images/quiz-en.webp" alt="Un cuestionario en un ordenador, con la respuesta y su explicación" loading="lazy" width="1280" height="800"><img class="phone" src="images/mobile-cards-en.webp" alt="Tarjetas giratorias en un móvil" loading="lazy" width="780" height="1410"></div><figcaption>El mismo módulo en un ordenador (cuestionario) y en un móvil (tarjetas giratorias).</figcaption></figure>
+    </div>
+
+    <h2 id="characters-es"><i class="bi bi-people"></i> 5. Personajes</h2>
+    <div class="docs-card">
+      <p>En tu curso no eliges un personaje concreto, sino un <strong>rol</strong> (<code>mentor</code>, <code>peer</code>…), declarado en el encabezado. Al empezar el módulo, <strong>cada persona elige</strong> el aspecto de sus personajes entre un conjunto diverso (género, edad, origen, discapacidad).</p>
+      <p class="mb-0">En una diapositiva: <code>&lt;!-- character-role: mentor --&gt;</code> y <code>&lt;!-- character-expression: happy --&gt;</code>. Expresiones: <code>neutral</code>, <code>happy</code>, <code>encouraging</code>, <code>thinking</code>, <code>surprised</code>, <code>concerned</code>. En la vista previa del Studio, el botón <i class="bi bi-people"></i> permite probar otros personajes.</p>
+      <p><strong>Lados del diálogo</strong>: el primer rol declarado en <code>characters</code> habla siempre a la izquierda y los demás a la derecha, de una diapositiva a otra (en <code>format-dialogue</code> y <code>format-sms</code>).</p>
+      <p class="mb-0"><strong>Profesiones</strong>: cada personaje del conjunto tiene una profesión («Ingeniera») y rasgos visibles («lleva hiyab»). Para ajustarte a tu curso, enumera las profesiones del ámbito: se reparten entre los personajes, siempre de la misma manera, y los rasgos siguen visibles. Ejemplo: <code>jobs: [bibliotecario, almacenero, dinamizadora digital]</code> (en francés, la forma femenina va después de «/»). Con <code>jobs: off</code>, solo se muestran los rasgos.</p>
+    </div>
+
+    <h2 id="audio-es"><i class="bi bi-volume-up"></i> 6. Lectura en voz alta</h2>
+    <div class="docs-card">
+      <p>Para quienes prefieren escuchar antes que leer, los textos largos pueden leerse con la <strong>síntesis de voz del navegador</strong> (sin conexión con las voces instaladas en el dispositivo). Es una herramienta de comodidad: no sustituye a los lectores de pantalla ni interfiere con ellos.</p>
+      <ul>
+        <li>En la pantalla de bienvenida (botón <i class="bi bi-people"></i>), cada persona elige una <strong>voz para cada personaje</strong> y para la narración, con un botón <em>Probar</em>, y ajusta la velocidad.</li>
+        <li>Cuatro modos: <em>Desactivada</em>, <em>Solo el icono</em> <i class="bi bi-volume-up-fill"></i> (por defecto), <em>Al abrir un elemento</em> (zona de imagen, tarjeta, etapa, pestaña, réplica de diálogo, respuesta de cuestionario), <em>Automática</em> (lectura en cuanto aparece la diapositiva).</li>
+        <li>El icono aparece en los textos de más de 120 caracteres y en cada réplica de diálogo. El botón <i class="bi bi-stop-circle-fill"></i> de arriba detiene la lectura.</li>
+      </ul>
+      <p class="mb-0">Ajustes para docentes: en el encabezado, <code>lang: es</code>, <code>audio-min: 80</code> (umbral) o <code>audio: off</code>; en una diapositiva, <code>&lt;!-- audio: all --&gt;</code> o <code>&lt;!-- audio: off --&gt;</code>.</p>
+    </div>
+
+    <h2 id="course-es"><i class="bi bi-signpost-split"></i> 7. Cursos y capítulos</h2>
+    <div class="docs-card">
+      <p><strong>Capítulos</strong> (un archivo): cada diapositiva <code>format-title</code> empieza un capítulo; también puedes escribir <code>&lt;!-- chapter: Nombre --&gt;</code> en cualquier diapositiva. El alumnado ve «Capítulo 2/3» bajo el título, marcas en la barra de progreso y un índice agrupado por capítulos.</p>
+      <p><strong>Curso</strong> (varios módulos, un archivo por módulo): añade al encabezado de cada módulo:</p>
+<pre>course: "Accesibilidad digital"    # nombre del curso, idéntico en todos
+module: 2                           # posición de este módulo
+modules: 4                          # número total de módulos
+next:
+  title: "Contraste"
+  url: "../contraste/index.html"    # opcional, para la web</pre>
+      <ul class="mb-0">
+        <li>La pantalla de bienvenida y la barra superior muestran «Módulo 2 / 4»; la pantalla final muestra los módulos completados y el siguiente.</li>
+        <li><strong>Web, memoria USB, intranet</strong>: exporta cada módulo en ZIP y coloca las carpetas una al lado de otra; el nombre de la carpeta corresponde al título del módulo (p. ej. <code>contraste</code>), de ahí <code>url: "../contraste/index.html"</code>.</li>
+        <li><strong>SCORM</strong>: el enlace se ignora; la pantalla final invita a volver a la plataforma, que gestiona el orden de los módulos.</li>
+        <li>Los módulos completados se recuerdan en el navegador de cada persona.</li>
+      </ul>
+    </div>
+
+    <h2 id="versions-es"><i class="bi bi-clock-history"></i> 8. Versiones y copia de seguridad</h2>
+    <div class="docs-card">
+      <ul class="mb-0">
+        <li>El borrador se <strong>guarda automáticamente</strong> en tu navegador.</li>
+        <li><i class="bi bi-camera"></i> <em>Versión</em> (o <kbd>Ctrl</kbd>+<kbd>S</kbd>) toma una instantánea de tu curso. <i class="bi bi-clock-history"></i> <em>Historial</em> te permite volver atrás.</li>
+        <li>Estos datos se quedan en <strong>este navegador, en este ordenador</strong>. Para una copia de seguridad de verdad, usa <em>Archivo → Descargar el Markdown</em>.</li>
+      </ul>
+    </div>
+
+    <h2 id="export-es"><i class="bi bi-box-arrow-down"></i> 9. Exportar el módulo</h2>
+    <div class="docs-card">
+      <ul class="mb-0">
+        <li><strong>Paquete ZIP</strong>: una carpeta para descomprimir; abre <code>index.html</code>. Ideal para una memoria USB, una intranet o un sitio web.</li>
+        <li><strong>Archivo HTML único</strong>: todo en un solo archivo, fácil de enviar.</li>
+        <li><strong>SCORM 1.2</strong>: para importar en un LMS (Moodle…). Se registran el progreso y la puntuación.</li>
+      </ul>
+      <p class="mt-2 mb-0 small text-secondary">Los módulos exportados funcionan sin Internet. Para exportar, en cambio, el Studio debe abrirse desde una dirección web (http/https), no con doble clic en el archivo.</p>
+    </div>
+
+    <h2 id="view-es"><i class="bi bi-mortarboard"></i> 10. Vista del alumnado y compartir</h2>
+    <div class="docs-card">
+      <p>La página de <a href="../view.html?lang=es">vista del alumnado</a> (<code>view.html</code>) abre un curso <strong>directamente como presentación</strong>, sin el Studio. Tres maneras de dar acceso:</p>
+      <ul>
+        <li><strong>Enlace completo</strong>: en el Studio, <em>Archivo → Enlace a la vista del alumnado</em>. Todo el curso se comprime en el enlace y no se envía nada a ningún servidor. Ideal para un curso corto; a partir de unos 8000 caracteres, algunas aplicaciones de mensajería pueden cortar el enlace.</li>
+        <li><strong>Dirección de archivo</strong>: <code>view.html?src=https://…/mi-curso.md</code>. El archivo debe estar en el mismo sitio o en un sitio que permita leerlo (GitHub, por ejemplo, a través de <code>raw.githubusercontent.com</code>).</li>
+        <li><strong>Código corto</strong>: coloca el archivo en la carpeta <code>courses/</code> con el nombre <code>id_1234_accesibilidad-es.md</code> y comparte <code>view.html?c=1234</code>. No hay que hacer nada más: en GitHub, la lista de cursos (<code>courses/index.json</code>) se actualiza sola tras cada commit, y el curso se encuentra incluso antes. En el Studio, <em>Archivo → Enlace corto (código del curso)</em> da este enlace para el curso abierto (reconocido por el nombre del archivo abierto o por su título); si aún no está en la carpeta, propone el siguiente código libre y un botón para descargar el archivo con el nombre correcto.</li>
+      </ul>
+      <p class="mb-0">Sin parámetro, la página muestra un campo para introducir un código o una dirección, una zona para soltar un archivo <code>.md</code> y la lista de cursos de la carpeta. Por seguridad, todo el HTML escrito en el curso se limpia allí (sin scripts).</p>
+    </div>
+
+    <h2 id="lab-es"><i class="bi bi-palette"></i> 11. Crea tus propios formatos</h2>
+    <div class="docs-card">
+      <p class="mb-0">El <a href="../lab.html">Format Lab</a> te permite modificar los formatos existentes o crear otros nuevos (plantilla HTML, CSS, script, textos por idioma), con una prueba en directo en ordenador y móvil y en cada idioma. Los formatos guardados aparecen al instante en el Studio y se incluyen en las exportaciones. La pestaña <em>Ayuda</em> del Lab describe todo lo disponible.</p>
+      <figure class="docs-shot"><img src="images/lab-en.webp" alt="El Format Lab: lista de formatos, código de la plantilla y prueba en directo" loading="lazy" width="1440" height="900"><figcaption>El Format Lab: la lista de formatos, la plantilla HTML del formato «Portada» y su prueba en directo.</figcaption></figure>
     </div>
   </main>
 
   <script>
     (function () {
       var COPY = { fr: ['Copié !', 'Copie impossible : sélectionnez le texte manuellement.', 'Lecture impossible en file:// : ouvrez la page des instructions (lien « voir les instructions ») et copiez son contenu.', 'Ma demande'],
-                   en: ['Copied!', 'Copy failed: select the text manually.', 'Cannot read the file over file://: open the instructions page (“view the instructions” link) and copy its content.', 'My request'] };
+                   en: ['Copied!', 'Copy failed: select the text manually.', 'Cannot read the file over file://: open the instructions page (“view the instructions” link) and copy its content.', 'My request'],
+                   es: ['¡Copiado!', 'No se ha podido copiar: selecciona el texto manualmente.', 'No se puede leer el archivo en file://: abre la página de instrucciones (enlace «ver las instrucciones») y copia su contenido.', 'Mi petición'] };
       var isLocal = /^(localhost|127\.|\[::1\])/.test(location.hostname) || location.protocol === 'file:';
 
       function copy(text, btn, lang) {
@@ -576,6 +823,8 @@ next:
           var consigne = main.querySelector('.js-prompt').innerText.trim();
           var suite = lang === 'fr'
             ? consigne.replace(/^Lis les instructions sur \S+ et mets en forme/, 'En suivant les instructions ci-dessus, mets en forme')
+            : lang === 'es'
+            ? consigne.replace(/^Lee las instrucciones en \S+ y da formato/, 'Siguiendo las instrucciones anteriores, da formato')
             : consigne.replace(/^Read the instructions at \S+ and format/, 'Following the instructions above, format');
           fetch(file).then(function (r) { if (!r.ok) throw 0; return r.text(); })
             .then(function (t) { copy(t.trim() + '\n\n---\n\n# ' + COPY[lang][3] + '\n\n' + suite + '\n', b, lang); })
@@ -583,7 +832,7 @@ next:
         });
       });
 
-      // Langue : ?lang=en, sinon celle choisie dans le Studio, sinon celle du navigateur.
+      // Langue : ?lang=en|es, sinon celle choisie dans le Studio, sinon celle du navigateur.
       function stored() { try { return JSON.parse(localStorage.getItem('mls.ui.lang')); } catch (e) { return null; } }
       function show(lang, save) {
         document.documentElement.lang = lang;
@@ -595,8 +844,9 @@ next:
         b.addEventListener('click', function () { show(b.getAttribute('data-doc-lang'), true); });
       });
       var q = new URLSearchParams(location.search).get('lang');
-      var lang = q || stored() || (/^fr/i.test(navigator.language || '') ? 'fr' : 'en');
-      show(lang === 'en' ? 'en' : 'fr', false);
+      var nav = navigator.language || '';
+      var lang = q || stored() || (/^fr/i.test(nav) ? 'fr' : /^es/i.test(nav) ? 'es' : 'en');
+      show(lang === 'en' || lang === 'es' ? lang : 'fr', false);
     })();
   </script>
 </body>

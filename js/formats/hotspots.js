@@ -28,6 +28,15 @@ Cliquez sur les points pour découvrir les bonnes pratiques.
       "$category": "Discovery",
       "$description": "Clickable hotspots on an image with tooltips. Syntax: \"- X,Y :: **Title** :: Text\" where X and Y are percentages (0-100) from the top-left corner.",
       "$sample": "### Anatomy of an accessible page\nClick the points to discover good practices.\n\n![Mock-up of a web page with header, menu, content and form](assets/images/page-web.svg)\n\n- 9,9 :: **Logo** :: A text alternative giving the site name.\n- 72,9 :: **Menu** :: A nav element with explicit, keyboard-friendly links.\n- 30,33 :: **Heading** :: A logical heading hierarchy (h1, h2…).\n- 80,52 :: **Form** :: Every field has a visible label."
+    },
+    "es": {
+      "explored": "Puntos explorados:",
+      "closePop": "Cerrar la información emergente",
+      "point": "Punto {n}",
+      "$name": "Imagen interactiva",
+      "$category": "Descubrimiento",
+      "$description": "Puntos clicables sobre una imagen, con información emergente. Sintaxis: «- X,Y :: **Título** :: Texto», donde X e Y son porcentajes (0-100) desde la esquina superior izquierda.",
+      "$sample": "### Anatomía de una página accesible\nHaz clic en los puntos para descubrir las buenas prácticas.\n\n![Maqueta de una página web con cabecera, menú, contenido y formulario](assets/images/page-web.svg)\n\n- 9,9 :: **Logotipo** :: Una alternativa textual con el nombre del sitio.\n- 72,9 :: **Menú** :: Un elemento nav con enlaces explícitos y utilizables con el teclado.\n- 30,33 :: **Título** :: Una jerarquía lógica de títulos (h1, h2…).\n- 80,52 :: **Formulario** :: Cada campo tiene una etiqueta visible."
     }
   },
   template: `<div class="hs">

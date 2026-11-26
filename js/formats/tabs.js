@@ -28,6 +28,13 @@ Le contenu doit être compatible avec les technologies d’assistance, actuelles
       "$category": "Structure",
       "$description": "Content split into sections by \"####\" subheadings. Tabs on large screens, accordion on mobile.",
       "$sample": "### The 4 POUR principles\nWCAG rests on four main principles.\n\n#### Perceivable\nInformation must be perceivable: text alternatives, captions, sufficient contrast.\n\n#### Operable\nComponents must be operable: keyboard navigation, enough time, no harmful animations.\n\n#### Understandable\nContent must be understandable: plain language, predictable behaviour, input help.\n\n#### Robust\nContent must work with current and future assistive technologies."
+    },
+    "es": {
+      "empty": "Añade subtítulos «#### Título» para crear pestañas.",
+      "$name": "Pestañas / acordeón",
+      "$category": "Estructura",
+      "$description": "Contenido dividido en secciones mediante subtítulos «####». Pestañas en pantallas grandes, acordeón en móvil.",
+      "$sample": "### Los 4 principios POUR\nLas WCAG se basan en cuatro grandes principios.\n\n#### Perceptible\nLa información debe ser perceptible: alternativas textuales, subtítulos, contraste suficiente.\n\n#### Operable\nLos componentes deben ser operables: navegación con teclado, tiempo suficiente, sin animaciones perjudiciales.\n\n#### Comprensible\nEl contenido debe ser comprensible: lenguaje claro, comportamiento predecible, ayuda para introducir datos.\n\n#### Robusto\nEl contenido debe funcionar con las tecnologías de apoyo actuales y futuras."
     }
   },
   template: `<div class="tabs-f mls-card mls-rise">

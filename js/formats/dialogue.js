@@ -23,6 +23,13 @@ MLS.formats.register({
       "$category": "Characters",
       "$description": "Speech bubbles between characters. Each \"> \" quote is a line; switch speaker with <!-- character-role: … --> or \"> @peer: …\". Lines appear one by one.",
       "$sample": "<!-- character-role: mentor -->\n### An everyday situation\n> Hi! Have you ever tried browsing a website with the keyboard only?\n\n<!-- character-role: peer -->\n<!-- character-expression: surprised -->\n> Hmm… no, never. Is it really useful?\n\n> @mentor(happy): Essential! Many people cannot use a mouse."
+    },
+    "es": {
+      "more": "Continuar",
+      "$name": "Diálogo de personajes",
+      "$category": "Personajes",
+      "$description": "Bocadillos de diálogo entre personajes. Cada cita «> » es una réplica; cambia de interlocutor con <!-- character-role: … --> o «> @peer: …». Las réplicas aparecen una a una.",
+      "$sample": "<!-- character-role: mentor -->\n### Una situación cotidiana\n> ¡Hola! ¿Alguna vez has intentado navegar por una web solo con el teclado?\n\n<!-- character-role: peer -->\n<!-- character-expression: surprised -->\n> Eh… no, nunca. ¿De verdad es útil?\n\n> @mentor(happy): ¡Imprescindible! Muchas personas no pueden usar un ratón."
     }
   },
   template: `<div class="dlg">

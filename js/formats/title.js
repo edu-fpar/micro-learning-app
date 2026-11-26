@@ -19,6 +19,13 @@ Une introduction rapide, ludique et interactive.`,
       "$category": "Structure",
       "$description": "Opening or chapter slide: large title, hook, visual (image or character) and a button to start.",
       "$sample": "<!-- character-role: mentor -->\n<!-- character-expression: happy -->\n<!-- eyebrow: Chapter 1 -->\n### Welcome to the module\nA quick, playful and interactive introduction."
+    },
+    "es": {
+      "go": "¡Vamos!",
+      "$name": "Portada",
+      "$category": "Estructura",
+      "$description": "Diapositiva de apertura o de capítulo: título grande, frase gancho, elemento visual (imagen o personaje) y un botón para empezar.",
+      "$sample": "<!-- character-role: mentor -->\n<!-- character-expression: happy -->\n<!-- eyebrow: Capítulo 1 -->\n### Te damos la bienvenida al módulo\nUna introducción rápida, lúdica e interactiva."
     }
   },
   template: `<div class="cover">

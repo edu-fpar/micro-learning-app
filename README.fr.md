@@ -3,7 +3,7 @@
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.24464413.svg)](https://doi.org/10.5281/zenodo.24464413)
 Code source : [github.com/edu-fpar/micro-learning-app](https://github.com/edu-fpar/micro-learning-app)
 
-[English](README.md) · **Français**
+[English](README.md) · **Français** · [Español](README.es.md)
 
 Transformez un support de cours en **diaporama interactif et responsive** (quiz, cartes à retourner, frises, images interactives, dialogues avec personnages, schémas interactifs…) et exportez-le en **paquet autonome** qui fonctionne hors-ligne, sur clé USB, sur un intranet ou dans un LMS (SCORM 1.2). Le cours s'écrit en texte simple structuré (Markdown), à la main ou avec n'importe quelle IA.
 
@@ -31,7 +31,7 @@ Transformez un support de cours en **diaporama interactif et responsive** (quiz,
 - Sans paramètre : saisir un code ou une adresse, déposer un fichier `.md` ou choisir un cours dans la liste
 
 **Format Lab** (`lab.html`) : créez vos propres formats de slides
-- Un format = gabarit HTML + CSS + script + Markdown d'exemple + textes FR/EN
+- Un format = gabarit HTML + CSS + script + Markdown d'exemple + textes FR/EN/ES
 - Test en direct sur bureau et mobile, dans chaque langue
 - Import / export des formats en JSON ; les formats personnalisés sont inclus dans les exports
 
@@ -41,7 +41,7 @@ Transformez un support de cours en **diaporama interactif et responsive** (quiz,
 - **Personnages choisis par l'apprenant** dans un répertoire varié (genre, âge, origine, handicap), avec 6 expressions qui réagissent aux réponses des quiz
 - **Lecture à voix haute** par la synthèse vocale du navigateur : une voix par personnage, réglage de la vitesse, 4 modes (désactivée, sur l'icône, à l'ouverture, automatique). C'est un outil de confort, qui ne remplace pas les lecteurs d'écran
 - Parcours en plusieurs modules (progression, module suivant) et chapitres
-- Interface en **français et en anglais** (selon le champ `lang` du cours)
+- Interface en **français, en anglais et en espagnol** (selon le champ `lang` du cours)
 - Pensé pour l'accessibilité : navigation au clavier, ARIA, gestion du focus, `prefers-reduced-motion`
 
 <p align="center">
@@ -95,7 +95,7 @@ Pas besoin d'apprendre la syntaxe. Donnez à n'importe quelle IA (ChatGPT, Claud
 
 > Lis les instructions sur https://edu-fpar.github.io/micro-learning-app/docs/skill.md et mets en forme le cours suivant pour MicroLearn : …
 
-Version anglaise : [docs/skill-en.md](docs/skill-en.md). Le fichier [`llms.txt`](llms.txt) à la racine indique ces pages aux IA.
+Version anglaise : [docs/skill-en.md](docs/skill-en.md) ; version espagnole : [docs/skill-es.md](docs/skill-es.md). Le fichier [`llms.txt`](llms.txt) à la racine indique ces pages aux IA.
 
 ## Démarrer
 
@@ -120,7 +120,7 @@ lab.html            Format Lab
 player.html         Coque d'aperçu (pilotée par le Studio/Lab via postMessage)
 courses/            Cours publiés (id_<code>_<nom>.md) ; index.json est régénéré par une action GitHub
 .github/workflows/  courses-index.yml (index automatique des cours)
-docs/               Documentation (FR/EN), pages pour les IA, formats bêta
+docs/               Documentation (FR/EN/ES), pages pour les IA, formats bêta
 css/                player.css (slideshow), studio.css (Studio/Lab)
 js/core/            Moteur partagé avec les exports : parseur, gabarits, player, i18n, voix, schémas, SCORM
 js/formats/         Formats de slides intégrés

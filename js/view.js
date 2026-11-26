@@ -43,9 +43,22 @@
       errLink: 'This link is incomplete or damaged. Ask your trainer to copy it again.',
       errUnsupported: 'This browser cannot read this compressed link. Try a recent version of Chrome, Edge, Firefox or Safari.',
       errEmpty: 'This file contains no slides.', errBad: 'This file is not a Markdown file (.md).', badCode: 'This code contains characters that are not allowed.'
+    },
+    es: {
+      title: 'Vista del alumnado', intro: 'Abre un módulo MicroLearn con su código, la dirección de su archivo Markdown o soltando el archivo aquí.',
+      field: 'Código del curso o dirección del archivo .md', placeholder: 'p. ej. 0001 o https://…/curso.md', open: 'Abrir',
+      drop: 'Arrastra y suelta un archivo <strong>.md</strong> o <u>examina</u>', available: 'Cursos disponibles',
+      studio: 'Crear un curso en el Studio', docs: 'Documentación',
+      errTitle: 'No se puede abrir este curso', errCode: 'Ningún curso tiene el código «{code}».',
+      errList: 'No se encuentra la lista de cursos: usa el nombre completo del archivo (p. ej. ?c=1234_accesibilidad-es) o añade courses/index.json.',
+      errFetch: 'No se ha podido cargar el archivo ({detail}).', errCors: 'Puede que el sitio que aloja este archivo no permita que otras páginas lo lean (CORS).',
+      errFile: 'Esta página debe abrirse desde un servidor web (http://…), no directamente desde el disco.',
+      errLink: 'Este enlace está incompleto o dañado. Pide a tu formador o formadora que lo vuelva a copiar.',
+      errUnsupported: 'Este navegador no puede leer este enlace comprimido. Prueba con una versión reciente de Chrome, Edge, Firefox o Safari.',
+      errEmpty: 'Este archivo no contiene ninguna diapositiva.', errBad: 'Este archivo no es un archivo Markdown (.md).', badCode: 'Este código contiene caracteres no permitidos.'
     }
   };
-  var lang = /^(fr|en)$/.test(query.get('lang') || '') ? query.get('lang') : MLS.i18n.uiLang();
+  var lang = /^(fr|en|es)$/.test(query.get('lang') || '') ? query.get('lang') : MLS.i18n.uiLang();
   if (!STR[lang]) lang = 'en';
   function t(k, vars) { return String(STR[lang][k] || STR.en[k] || k).replace(/\{(\w+)\}/g, function (m, n) { return vars && vars[n] != null ? vars[n] : m; }); }
   function fail(key, vars) { var e = new Error(t(key, vars)); e.friendly = true; return e; }
@@ -246,8 +259,8 @@
     var h = $('vw-home');
     h.innerHTML = '<div class="vw-card">' +
       '<div class="vw-brand"><span class="logo"><i class="bi bi-stars"></i></span> MicroLearn' +
-      '<nav class="vw-lang" aria-label="Langue / Language">' +
-        ['fr', 'en'].map(function (l) { return '<a href="' + esc(langUrl(l)) + '" lang="' + l + '"' + (l === lang ? ' aria-current="true"' : '') + '>' + l.toUpperCase() + '</a>'; }).join('') +
+      '<nav class="vw-lang" aria-label="Langue / Language / Idioma">' +
+        ['fr', 'en', 'es'].map(function (l) { return '<a href="' + esc(langUrl(l)) + '" lang="' + l + '"' + (l === lang ? ' aria-current="true"' : '') + '>' + l.toUpperCase() + '</a>'; }).join('') +
       '</nav></div>' +
       (err ? '<div class="alert alert-danger" role="alert"><strong><i class="bi bi-exclamation-triangle"></i> ' + esc(t('errTitle')) + '</strong><br>' + esc(err.message) +
         (err.hint ? '<br><small>' + esc(err.hint) + '</small>' : '') + '</div>' : '') +

@@ -22,6 +22,14 @@ MLS.formats.register({
       "$category": "Discovery",
       "$description": "Interactive timeline: horizontal on large screens, vertical on mobile. Syntax: \"- **Date** :: Description\". Arrow keys navigate.",
       "$sample": "### A short history of web accessibility\n- **1999** :: **WCAG 1.0** published by the W3C.\n- **2008** :: **WCAG 2.0** becomes the international reference.\n- **2018** :: **WCAG 2.1** covers mobile and cognitive disabilities.\n- **2025** :: The **European Accessibility Act** applies to private services."
+    },
+    "es": {
+      "prevStep": "Paso anterior",
+      "nextStep": "Paso siguiente",
+      "$name": "Cronología",
+      "$category": "Descubrimiento",
+      "$description": "Cronología interactiva: horizontal en pantallas grandes, vertical en móvil. Sintaxis: «- **Fecha** :: Descripción». Las flechas del teclado permiten navegar.",
+      "$sample": "### Breve historia de la accesibilidad web\n- **1999** :: El W3C publica las **WCAG 1.0**.\n- **2008** :: Las **WCAG 2.0** se convierten en la referencia internacional.\n- **2018** :: Las **WCAG 2.1** abarcan el móvil y las discapacidades cognitivas.\n- **2025** :: La **Ley Europea de Accesibilidad** se aplica a los servicios privados."
     }
   },
   template: `<div class="tl">

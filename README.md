@@ -3,7 +3,7 @@
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.24464413.svg)](https://doi.org/10.5281/zenodo.24464413)
 Source code: [github.com/edu-fpar/micro-learning-app](https://github.com/edu-fpar/micro-learning-app)
 
-**English** · [Français](README.fr.md)
+**English** · [Français](README.fr.md) · [Español](README.es.md)
 
 Turn your course material into an **interactive, responsive slideshow** (quizzes, flip cards, timelines, interactive images, character dialogues, interactive diagrams…) and export it as a **self-contained package** that works offline, on a USB stick, on an intranet or in an LMS (SCORM 1.2). The course is written as plain structured text (Markdown), by hand or with any AI.
 
@@ -31,7 +31,7 @@ Turn your course material into an **interactive, responsive slideshow** (quizzes
 - Without a parameter: enter a code or an address, drop a `.md` file, or pick a course from the list
 
 **Format Lab** (`lab.html`): design your own slide formats
-- Each format = HTML template + CSS + script + sample Markdown + FR/EN texts
+- Each format = HTML template + CSS + script + sample Markdown + FR/EN/ES texts
 - Live test on desktop and mobile, in each language
 - Import / export formats as JSON; custom formats are embedded in exports
 
@@ -41,7 +41,7 @@ Turn your course material into an **interactive, responsive slideshow** (quizzes
 - **Characters chosen by the learner** from a diverse set (gender, age, origin, disability), with 6 expressions that react to quiz answers
 - **Read-aloud** with the browser's speech synthesis: a voice per character, speed control, 4 modes (off, icon, on open, automatic). It is a convenience tool and does not replace screen readers
 - Courses in several modules (course progress, next module) and chapters
-- Interface in **French and English** (driven by the course `lang`)
+- Interface in **French, English and Spanish** (driven by the course `lang`)
 - Accessibility-minded: keyboard navigation, ARIA, focus management, `prefers-reduced-motion`
 
 <p align="center">
@@ -95,7 +95,7 @@ Teachers don't need to learn the syntax. Give any AI (ChatGPT, Claude, Gemini, M
 
 > Read the instructions at https://edu-fpar.github.io/micro-learning-app/docs/skill-en.md and format the following course for MicroLearn: …
 
-French version: [docs/skill.md](docs/skill.md). The [`llms.txt`](llms.txt) file at the root points AIs to these pages.
+French version: [docs/skill.md](docs/skill.md); Spanish version: [docs/skill-es.md](docs/skill-es.md). The [`llms.txt`](llms.txt) file at the root points AIs to these pages.
 
 ## Getting started
 
@@ -120,7 +120,7 @@ lab.html            Format Lab
 player.html         Preview shell (driven by the Studio/Lab through postMessage)
 courses/            Published courses (id_<code>_<name>.md); index.json is rebuilt by a GitHub Action
 .github/workflows/  courses-index.yml (automatic course index)
-docs/               Documentation (FR/EN), AI skill pages, beta formats
+docs/               Documentation (FR/EN/ES), AI skill pages, beta formats
 css/                player.css (slideshow), studio.css (Studio/Lab)
 js/core/            Engine shared with exports: parser, templates, player, i18n, speech, diagrams, SCORM
 js/formats/         Built-in slide formats

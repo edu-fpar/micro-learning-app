@@ -33,6 +33,16 @@ MLS.formats.register({
       "$category": "Navigation",
       "$description": "Buttons that each lead to a part: \"- [📌 Label](#id) :: description\", the part starting with a <!-- branch: id --> slide. Parts already seen are ticked and the end of each part leads back to the menu. \"> \" quotes are the guide's lines: 1st on the first visit, 2nd on return, 3rd when everything has been seen. [Label](#id \"featured\") highlights an item.",
       "$sample": "<!-- slide: format-menu -->\n<!-- id: menu -->\n<!-- character-role: mentor -->\n### Where shall we start?\n> @mentor(happy): Pick a part and I'll take you there. You'll come back here at the end of each one.\n\n> @mentor(encouraging): Shall we go on? Parts you have seen are ticked.\n\n> @mentor(happy): You've seen everything, well done!\n\n- [📖 The basics](#basics) :: The words you need\n- [🛠️ In practice](#practice) :: Everyday actions\n- [🚀 Going further](#further \"featured\") :: Tips from the pros"
+    },
+    "es": {
+      "seen": "visto",
+      "done": "He terminado",
+      "back": "Volver al menú",
+      "missing": "Parte no encontrada: añade una diapositiva <!-- branch: {id} -->.",
+      "$name": "Menú de ramificación",
+      "$category": "Navegación",
+      "$description": "Botones que llevan cada uno a una parte: «- [📌 Etiqueta](#id) :: descripción»; la parte empieza con una diapositiva <!-- branch: id -->. Las partes ya vistas se marcan y el final de cada parte vuelve al menú. Las citas «> » son las réplicas del guía: la 1.ª en la primera visita, la 2.ª al volver, la 3.ª cuando se ha visto todo. [Etiqueta](#id \"featured\") destaca un elemento.",
+      "$sample": "<!-- slide: format-menu -->\n<!-- id: menu -->\n<!-- character-role: mentor -->\n### ¿Por dónde empezamos?\n> @mentor(happy): Elige una parte y te llevo allí. Volverás aquí al final de cada una.\n\n> @mentor(encouraging): ¿Seguimos? Las partes que has visto están marcadas.\n\n> @mentor(happy): ¡Lo has visto todo, enhorabuena!\n\n- [📖 Lo básico](#basics) :: Las palabras que necesitas\n- [🛠️ En la práctica](#practice) :: Gestos del día a día\n- [🚀 Para ir más lejos](#further \"featured\") :: Trucos de profesionales"
     }
   },
   template: `<div class="mn">

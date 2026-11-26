@@ -44,9 +44,10 @@
       <a href="../lab.html"><i class="bi bi-palette"></i> <span class="st-hide-sm">Format Lab</span></a>
       <a href="index.html" class="active"><i class="bi bi-book"></i> <span class="st-hide-sm">Docs</span></a>
     </div>
-    <div class="doc-lang" role="group" aria-label="Langue / Language">
+    <div class="doc-lang" role="group" aria-label="Langue / Language / Idioma">
       <button type="button" data-doc-lang="fr" lang="fr" aria-pressed="true">FR</button>
       <button type="button" data-doc-lang="en" lang="en" aria-pressed="false">EN</button>
+      <button type="button" data-doc-lang="es" lang="es" aria-pressed="false" title="Español">ES</button>
     </div>
   </nav>
 
@@ -150,6 +151,56 @@ An optional introduction sentence.
     </div>
   </main>
 
+  <!-- ======================================================== ESPAÑOL -->
+  <main class="docs-main" data-lang="es" lang="es" hidden>
+    <p><a href="index.html?lang=es"><i class="bi bi-arrow-left"></i> Volver a la documentación</a></p>
+    <h1 class="fw-bold">Esquemas interactivos <span class="beta">beta</span></h1>
+    <p class="lead text-secondary">Siete formatos que convierten una lista en un esquema para explorar: cada parte se descubre al hacer clic, y una síntesis solo aparece cuando se ha explorado todo.</p>
+    <div class="alert alert-warning small"><i class="bi bi-cone-striped"></i> <strong>Versión beta</strong>: estos formatos están en pruebas. Su sintaxis aún puede cambiar y la visualización en móviles se está mejorando (sobre todo la síntesis, que aparece debajo del esquema).</div>
+    <p>Para verlos en acción: en el Studio, <em>Archivo → Prueba: esquemas interactivos (FR)</em> (o EN).</p>
+    <figure class="docs-shot"><div class="docs-shots"><img class="wide" src="images/diagram-en.webp" alt="El ciclo de aprendizaje de Kolb: 3 de 4 etapas exploradas, el detalle de la etapa elegida a la derecha" loading="lazy" width="1280" height="800"><img class="phone" src="images/mobile-diagram-en.webp" alt="La pirámide de Bloom en un móvil" loading="lazy" width="780" height="1410"></div><figcaption>El ciclo de Kolb en un ordenador y la pirámide de Bloom en un móvil.</figcaption></figure>
+
+    <h2><i class="bi bi-markdown"></i> Una sintaxis común</h2>
+    <div class="docs-card">
+<pre>&lt;!-- slide: format-puzzle --&gt;
+### Los 4 pilares del aprendizaje
+Una frase de introducción (opcional).
+
+- **Atención** :: El cerebro solo retiene lo que ha seleccionado.
+- **Implicación activa** :: Buscar, predecir, probar.
+- **Retroalimentación** :: Saber en qué te has equivocado.
+- **Consolidación** :: Dormir, repetir, espaciar.
+
+&gt; Síntesis: se revela cuando se han explorado todas las partes.</pre>
+      <ul class="mb-0">
+        <li>Cada elemento de lista <code>- **Parte** :: explicación</code> se convierte en una parte del esquema. La etiqueta debe ser corta (de 1 a 3 palabras).</li>
+        <li>La cita <code>&gt;</code> (opcional) es la <strong>síntesis</strong>: solo se desvela tras la exploración completa.</li>
+        <li>El alumnado hace clic en cada parte (o usa las flechas); un contador indica su progreso.</li>
+      </ul>
+    </div>
+
+    <h2><i class="bi bi-grid-3x3-gap"></i> Los 7 formatos</h2>
+    <div class="docs-card">
+      <div class="fmt"><i class="bi bi-puzzle"></i><h3><code>format-puzzle</code> — Puzle para montar (de 2 a 6 piezas)</h3><p>Las piezas están dispersas; el alumnado las vuelve a colocar una a una. Ideal para «los componentes de un todo».</p></div>
+      <div class="fmt"><i class="bi bi-triangle"></i><h3><code>format-pyramid</code> — Pirámide (de 2 a 7 niveles)</h3><p>El 1.<sup>er</sup> elemento está en la cima. Para una jerarquía o niveles de prioridad o de exigencia.</p></div>
+      <div class="fmt"><i class="bi bi-funnel"></i><h3><code>format-funnel</code> — Embudo (de 2 a 7 etapas)</h3><p>Del más ancho al más estrecho: filtrado, selección, conversión.</p></div>
+      <div class="fmt"><i class="bi bi-arrow-repeat"></i><h3><code>format-cycle</code> — Ciclo (de 2 a 8 etapas)</h3><p>Etapas que se repiten en bucle, con un botón <em>Reproducir</em>. Etiqueta central opcional: <code>&lt;!-- center: … --&gt;</code>.</p></div>
+      <div class="fmt"><i class="bi bi-chevron-double-right"></i><h3><code>format-process</code> — Proceso (de 2 a 7 etapas)</h3><p>Flechas horizontales (verticales en móviles), con un botón <em>Reproducir</em>. Para un método o un procedimiento.</p></div>
+      <div class="fmt"><i class="bi bi-grid"></i><h3><code>format-matrix</code> — Matriz 2 × 2 (4 elementos)</h3><p>Orden: arriba a la izquierda, arriba a la derecha, abajo a la izquierda, abajo a la derecha. Ejes: <code>&lt;!-- axis-x: … --&gt;</code> y <code>&lt;!-- axis-y: … --&gt;</code>.</p></div>
+      <div class="fmt"><i class="bi bi-diagram-3"></i><h3><code>format-hub</code> — Concepto central (de 2 a 8 elementos)</h3><p>Un concepto en el centro (el título, o <code>&lt;!-- center: … --&gt;</code>) y sus componentes alrededor.</p></div>
+    </div>
+
+    <h2><i class="bi bi-lightbulb"></i> Consejos pedagógicos</h2>
+    <div class="docs-card">
+      <ul class="mb-0">
+        <li>Elige la forma según la <strong>estructura de la idea</strong>: un todo (puzle, concepto central), un orden (proceso), un bucle (ciclo), una jerarquía (pirámide), una selección (embudo), dos criterios cruzados (matriz).</li>
+        <li>Pide que <strong>predigan antes de hacer clic</strong>: «Antes de abrir las piezas, ¿cuáles crees que son los pilares?».</li>
+        <li>Reserva la <strong>síntesis</strong> para la idea clave: es la recompensa por explorar.</li>
+        <li>Con uno o dos esquemas por módulo basta: altérnalos con cuestionarios, tarjetas y diálogos.</li>
+      </ul>
+    </div>
+  </main>
+
   <script>
     (function () {
       function stored() { try { return JSON.parse(localStorage.getItem('mls.ui.lang')); } catch (e) { return null; } }
@@ -163,8 +214,9 @@ An optional introduction sentence.
         b.addEventListener('click', function () { show(b.getAttribute('data-doc-lang'), true); });
       });
       var q = new URLSearchParams(location.search).get('lang');
-      var lang = q || stored() || (/^fr/i.test(navigator.language || '') ? 'fr' : 'en');
-      show(lang === 'en' ? 'en' : 'fr', false);
+      var nav = navigator.language || '';
+      var lang = q || stored() || (/^fr/i.test(nav) ? 'fr' : /^es/i.test(nav) ? 'es' : 'en');
+      show(lang === 'en' || lang === 'es' ? lang : 'fr', false);
     })();
   </script>
 </body>
