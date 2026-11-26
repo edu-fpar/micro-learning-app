@@ -11,7 +11,7 @@ Convierte el material de tu curso en una **presentación interactiva y adaptable
 
 **▶ Pruébalo:** https://edu-fpar.github.io/micro-learning-app/ &nbsp;·&nbsp; [Documentación](https://edu-fpar.github.io/micro-learning-app/docs/?lang=es) &nbsp;·&nbsp; [Página para las IA](docs/skill-es.md)
 
-![El Studio: el Markdown a la izquierda y, a la derecha, la vista previa en directo de la diapositiva bajo el cursor](docs/images/studio-en.webp)
+![El Studio: el Markdown a la izquierda y, a la derecha, la vista previa en directo de la diapositiva bajo el cursor](docs/images/studio-es.webp)
 
 ---
 
@@ -45,12 +45,12 @@ Convierte el material de tu curso en una **presentación interactiva y adaptable
 - Pensado para la accesibilidad: navegación con teclado, ARIA, gestión del foco, `prefers-reduced-motion`
 
 <p align="center">
-  <img src="docs/images/welcome-en.webp" alt="Pantalla de bienvenida: cada persona elige un personaje para cada rol y una voz" width="68%">
+  <img src="docs/images/welcome-es.webp" alt="Pantalla de bienvenida: cada persona elige un personaje para cada rol y una voz" width="68%">
   &nbsp;
-  <img src="docs/images/mobile-cards-en.webp" alt="Tarjetas giratorias en un móvil" width="24%">
+  <img src="docs/images/mobile-cards-es.webp" alt="Tarjetas giratorias en un móvil" width="24%">
 </p>
 <p align="center">
-  <img src="docs/images/diagram-en.webp" alt="Esquema interactivo (beta): el ciclo de aprendizaje de Kolb, 3 de 4 etapas exploradas" width="68%">
+  <img src="docs/images/diagram-es.webp" alt="Esquema interactivo (beta): el ciclo de aprendizaje de Kolb, 3 de 4 etapas exploradas" width="68%">
   &nbsp;
   <img src="docs/images/mobile-diagram-en.webp" alt="Esquema interactivo (beta) en un móvil: la pirámide de la taxonomía de Bloom" width="24%">
 </p>

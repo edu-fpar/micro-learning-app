@@ -102,7 +102,7 @@
     state.originalId = f.isNew ? null : f.id;
     state.i18nError = null;
     state.loadedSample = f.sample || '';
-    FIELDS.forEach(function (k) { $('f-' + k).value = f[k] || ''; });
+    FIELDS.forEach(function (k) { $('f-' + k).value = (isLocalized(f, k) ? f.i18n[LANG]['$' + k] : f[k]) || ''; });
     $('f-i18n').value = JSON.stringify(f.i18n || { fr: {}, en: {}, es: {} }, null, 2);
     $('f-icon-preview').className = 'bi ' + (f.icon || 'bi-square');
     $('act-reset').hidden = !(f.builtin && f.modified);
@@ -121,8 +121,17 @@
 
   /* ---------------------------------------------------------- Édition */
 
-  function readFields() {
-    FIELDS.forEach(function (k) { state.draft[k] = $('f-' + k).value; });
+  /**
+   * Nom, catégorie, description et exemple : si le format a une traduction ($name…) dans la langue
+   * de l'interface, le champ affiche et modifie cette traduction ; sinon le champ de base.
+   */
+  var LOCALIZED = ['name', 'category', 'description', 'sample'];
+  function isLocalized(f, k) {
+    return LOCALIZED.indexOf(k) !== -1 && !!(f.i18n && f.i18n[LANG] && f.i18n[LANG]['$' + k] != null);
+  }
+
+  /** @param {string} [from] champ modifié : seul le JSON des textes est réécrit, jamais pendant qu'on le tape. */
+  function readFields(from) {
     try {
       var v = $('f-i18n').value.trim();
       state.draft.i18n = v ? JSON.parse(v) : {};
@@ -130,13 +139,25 @@
     } catch (e) {
       state.i18nError = e.message;
     }
+    var synced = false;
+    FIELDS.forEach(function (k) {
+      var loc = isLocalized(state.draft, k);
+      if (from === 'i18n') { // le JSON fait foi : on met à jour les champs qui en dépendent
+        if (LOCALIZED.indexOf(k) !== -1) $('f-' + k).value = (loc ? state.draft.i18n[LANG]['$' + k] : state.draft[k]) || '';
+        return;
+      }
+      var val = $('f-' + k).value;
+      if (!loc) { state.draft[k] = val; return; }
+      if (state.draft.i18n[LANG]['$' + k] !== val) { state.draft.i18n[LANG]['$' + k] = val; synced = true; }
+    });
+    if (synced && from !== 'i18n' && !state.i18nError) $('f-i18n').value = JSON.stringify(state.draft.i18n, null, 2);
     $('f-i18n').classList.toggle('is-invalid', !!state.i18nError);
   }
 
   FIELDS.concat(['i18n']).forEach(function (k) {
     var el = $('f-' + k);
     el.addEventListener('input', function () {
-      readFields();
+      readFields(k);
       setDirty(true);
       if (k === 'icon') $('f-icon-preview').className = 'bi ' + el.value;
       if (['template', 'css', 'js', 'sample', 'id', 'i18n'].indexOf(k) !== -1) { sendPreviewSoon(); updateDataSoon(); }
